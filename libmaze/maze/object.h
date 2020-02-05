@@ -7,61 +7,61 @@
 
 namespace maze {
 
-class object {
+class Object {
  private:
-  std::vector<std::pair<std::string, element>> mazes_;
+  std::vector<std::pair<std::string, Element>> mazes_;
  public:
-  object();
-  object(std::string index);
-  object(std::string index, element maze);
-  object(std::string index, std::string value);
-  object(std::string index, const char* value);
-  object(std::string index, int value);
-  object(std::string index, double value);
-  object(std::string index, bool value);
-  object(std::string index, array value);
-  object(std::string index, array* value);
-  object(std::string index, object value);
-  object(std::string index, object* value);
+  Object();
+  Object(std::string index);
+  Object(std::string index, Element maze);
+  Object(std::string index, std::string value);
+  Object(std::string index, const char* value);
+  Object(std::string index, int value);
+  Object(std::string index, double value);
+  Object(std::string index, bool value);
+  Object(std::string index, Array value);
+  Object(std::string index, Array* value);
+  Object(std::string index, Object value);
+  Object(std::string index, Object* value);
 
-  object* set(std::string index, element &maze);
-  object* set_maze(std::string index, element maze);
-  object* set(std::string index, std::string value);
-  object* set(std::string index, const char* value);
-  object* set(std::string index, int value);
-  object* set(std::string index, double value);
-  object* set(std::string index, bool value);
-  object* set(std::string index, array value);
-  object* set(std::string index, array* value);
-  object* set(std::string index, object value);
-  object* set(std::string index, object* value);
-  object* set_null(std::string index);
+  Object* set(std::string index, Element &maze);
+  Object* set_maze(std::string index, Element maze);
+  Object* set(std::string index, std::string value);
+  Object* set(std::string index, const char* value);
+  Object* set(std::string index, int value);
+  Object* set(std::string index, double value);
+  Object* set(std::string index, bool value);
+  Object* set(std::string index, Array value);
+  Object* set(std::string index, Array* value);
+  Object* set(std::string index, Object value);
+  Object* set(std::string index, Object* value);
+  Object* set_null(std::string index);
 
-  object* insert(std::string index, element &maze);
-  object* insert_maze(std::string index, element maze);
-  object* insert(std::string index, std::string value);
-  object* insert(std::string index, const char* value);
-  object* insert(std::string index, int value);
-  object* insert(std::string index, double value);
-  object* insert(std::string index, bool value);
-  object* insert(std::string index, array value);
-  object* insert(std::string index, array* value);
-  object* insert(std::string index, object value);
-  object* insert(std::string index, object* value);
-  object* insert_null(std::string index);
+  Object* insert(std::string index, Element &maze);
+  Object* insert_maze(std::string index, Element maze);
+  Object* insert(std::string index, std::string value);
+  Object* insert(std::string index, const char* value);
+  Object* insert(std::string index, int value);
+  Object* insert(std::string index, double value);
+  Object* insert(std::string index, bool value);
+  Object* insert(std::string index, Array value);
+  Object* insert(std::string index, Array* value);
+  Object* insert(std::string index, Object value);
+  Object* insert(std::string index, Object* value);
+  Object* insert_null(std::string index);
 
-  element get(std::string index, type type);
-  element get(std::string index);
-  element operator[](std::string index);
-  element operator[](int index);
+  Element get(std::string index, Type type);
+  Element get(std::string index);
+  Element operator[](std::string index);
+  Element operator[](int index);
 
   int remove(std::string index);
   void clear();
 
-  std::vector<std::pair<std::string, element>>::iterator begin();
-  std::vector<std::pair<std::string, element>>::iterator end();
+  std::vector<std::pair<std::string, Element>>::iterator begin();
+  std::vector<std::pair<std::string, Element>>::iterator end();
 
-  std::vector<std::pair<std::string, element>> get_mazes();
+  std::vector<std::pair<std::string, Element>> get_mazes();
 
   int index_of(std::string index);
   int first_index_of(std::string index);
@@ -76,11 +76,11 @@ class object {
   bool is_array(std::string index);
   bool is_object(std::string index);
 
-  void apply(object new_obj);
+  void apply(Object new_obj);
 
   std::string to_json(int indentation_spacing = 2);
 
-  static object from_json(const std::string& json_string);
+  static Object from_json(const std::string& json_string);
 };
 
 }  // namespace maze

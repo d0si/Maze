@@ -6,292 +6,292 @@
 
 namespace maze {
 
-element::element() {
+Element::Element() {
 
 }
 
-element::element(bool val) {
+Element::Element(bool val) {
   set_bool(val);
 }
 
-element::element(int val) {
+Element::Element(int val) {
   set_int(val);
 }
 
-element::element(double val) {
+Element::Element(double val) {
   set_double(val);
 }
 
-element::element(std::string& val) {
+Element::Element(std::string& val) {
   set_string(val);
 }
 
-element::element(const char* val) {
+Element::Element(const char* val) {
   set_string(val);
 }
 
-element::element(array val) {
+Element::Element(Array val) {
   set_array(val);
 }
 
-element::element(object val) {
+Element::Element(Object val) {
   set_object(val);
 }
 
-element::element(type type) {
+Element::Element(Type type) {
   set_type(type);
 }
 
-element::~element() {
+Element::~Element() {
 }
 
-void element::set_type(type type) {
+void Element::set_type(Type type) {
   switch (type) {
-    case type::Null:
+    case Type::Null:
       set_null();
       break;
-    case type::Bool:
+    case Type::Bool:
       set_bool(false);
       break;
-    case type::Int:
+    case Type::Int:
       set_int(0);
       break;
-    case type::Double:
+    case Type::Double:
       set_double(0);
       break;
-    case type::String:
+    case Type::String:
       set_string("");
       break;
-    case type::Array:
-      set_array(array());
+    case Type::Array:
+      set_array(Array());
       break;
-    case type::Object:
-      set_object(object());
+    case Type::Object:
+      set_object(Object());
       break;
     default:
       set_null();
   }
 }
 
-type element::get_type() {
+Type Element::get_type() {
   return type_;
 }
 
-void element::set_key(std::string key) {
+void Element::set_key(std::string key) {
   ptr_key_ = std::make_shared<std::string>(key);
 }
 
-std::string element::get_key() {
+std::string Element::get_key() {
   return *ptr_key_;
 }
 
-void element::set_null() {
-  if (type_ != type::Null) {
+void Element::set_null() {
+  if (type_ != Type::Null) {
     val_bool_ = false;
     val_int_ = 0;
-    type_ = type::Null;
+    type_ = Type::Null;
   }
 }
 
-void element::set_bool(bool val) {
+void Element::set_bool(bool val) {
   val_bool_ = val;
-  type_ = type::Bool;
+  type_ = Type::Bool;
 }
 
-void element::operator=(bool val) {
+void Element::operator=(bool val) {
   set_bool(val);
 }
 
-bool element::get_bool() {
-  if (type_ == type::Bool) {
+bool Element::get_bool() {
+  if (type_ == Type::Bool) {
     return val_bool_;
   }
   return false;
 }
 
-element::operator bool() {
+Element::operator bool() {
   return get_bool();
 }
 
-void element::set_int(int val) {
+void Element::set_int(int val) {
   val_int_ = val;
-  type_ = type::Int;
+  type_ = Type::Int;
 }
 
-void element::operator=(int val) {
+void Element::operator=(int val) {
   set_int(val);
 }
 
-int element::get_int() {
-  if (type_ == type::Int) {
+int Element::get_int() {
+  if (type_ == Type::Int) {
     return val_int_;
   }
 
   return 0;
 }
 
-element::operator int() {
+Element::operator int() {
   return get_int();
 }
 
-void element::set_double(double val) {
+void Element::set_double(double val) {
   ptr_double_ = std::make_shared<double>(val);
-  type_ = type::Double;
+  type_ = Type::Double;
 }
 
-void element::operator=(double val) {
+void Element::operator=(double val) {
   set_double(val);
 }
 
-double element::get_double() {
-  if (type_ == type::Double) {
+double Element::get_double() {
+  if (type_ == Type::Double) {
     return *ptr_double_;
   }
 
   return 0;
 }
 
-element::operator double() {
+Element::operator double() {
   return get_double();
 }
 
-void element::set_string(std::string val) {
+void Element::set_string(std::string val) {
   ptr_string_ = std::make_shared<std::string>(val);
-  type_ = type::String;
+  type_ = Type::String;
 }
 
-void element::operator=(std::string val) {
+void Element::operator=(std::string val) {
   set_string(val);
 }
 
-void element::operator=(const char* val) {
+void Element::operator=(const char* val) {
   set_string(val);
 }
 
-std::string element::get_string() {
-  if (type_ == type::String) {
+std::string Element::get_string() {
+  if (type_ == Type::String) {
     return *ptr_string_;
   }
 
   return "";
 }
 
-element::operator std::string() {
+Element::operator std::string() {
   return get_string();
 }
 
-void element::set_array(array val) {
-  ptr_array_ = std::make_shared<array>(val);
-  type_ = type::Array;
+void Element::set_array(Array val) {
+  ptr_array_ = std::make_shared<Array>(val);
+  type_ = Type::Array;
 }
 
-void element::operator=(array val) {
+void Element::operator=(Array val) {
   set_array(val);
 }
 
-array element::get_array() {
-  if (type_ == type::Array) {
+Array Element::get_array() {
+  if (type_ == Type::Array) {
     return *ptr_array_;
   }
-  return array();
+  return Array();
 }
 
-element::operator array() {
+Element::operator Array() {
   return get_array();
 }
 
-void element::set_object(object val) {
-  ptr_object_ = std::make_shared<object>(val);
-  type_ = type::Object;
+void Element::set_object(Object val) {
+  ptr_object_ = std::make_shared<Object>(val);
+  type_ = Type::Object;
 }
 
-void element::operator=(object val) {
+void Element::operator=(Object val) {
   set_object(val);
 }
 
-object element::get_object() {
-  if (type_ == type::Object) {
+Object Element::get_object() {
+  if (type_ == Type::Object) {
     return *ptr_object_;
   }
-  return object();
+  return Object();
 }
 
-element::operator object() {
+Element::operator Object() {
   return get_object();
 }
 
-bool element::is_null() {
-  return is(type::Null);
+bool Element::is_null() {
+  return is(Type::Null);
 }
 
-bool element::is_bool() {
-  return is(type::Bool);
+bool Element::is_bool() {
+  return is(Type::Bool);
 }
 
-bool element::is_int() {
-  return is(type::Int);
+bool Element::is_int() {
+  return is(Type::Int);
 }
 
-bool element::is_double() {
-  return is(type::Double);
+bool Element::is_double() {
+  return is(Type::Double);
 }
 
-bool element::is_string() {
-  return is(type::String);
+bool Element::is_string() {
+  return is(Type::String);
 }
 
-bool element::is_array() {
-  return is(type::Array);
+bool Element::is_array() {
+  return is(Type::Array);
 }
 
-bool element::is_object() {
-  return is(type::Object);
+bool Element::is_object() {
+  return is(Type::Object);
 }
 
-bool element::is(type type) {
+bool Element::is(Type type) {
   return (type_ == type);
 }
 
-void element::apply(element new_element) {
+void Element::apply(Element new_element) {
   switch (new_element.get_type()) {
-    case type::Null:
+    case Type::Null:
       set_null();
       break;
-    case type::Bool:
+    case Type::Bool:
       set_bool(new_element.get_bool());
       break;
-    case type::Int:
+    case Type::Int:
       set_int(new_element.get_int());
       break;
-    case type::Double:
+    case Type::Double:
       set_double(new_element.get_double());
       break;
-    case type::String:
+    case Type::String:
       set_string(new_element.get_string());
       break;
-    case type::Array:
+    case Type::Array:
       set_array(new_element.get_array());
       break;
-    case type::Object:
+    case Type::Object:
       get_object().apply(new_element.get_object());
       break;
   }
 }
 
-std::string element::to_json(int spacing) {
+std::string Element::to_json(int spacing) {
   return helpers::element::to_json_element(this).dump(spacing);
 }
 
-void element::apply_json(std::string json_string) {
+void Element::apply_json(std::string json_string) {
   helpers::element::apply_json(this, nlohmann::json::parse(json_string));
 }
 
-element element::from_json(std::string json_string) {
+Element Element::from_json(std::string json_string) {
   return helpers::element::from_json(nlohmann::json::parse(json_string));
 }
 
-element element::get_null() {
-  element el;
+Element Element::get_null() {
+  Element el;
   el.set_null();
   return el;
 }

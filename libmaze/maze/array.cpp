@@ -6,164 +6,164 @@
 
 namespace maze {
 
-array* array::push(element &maze) {
+Array* Array::push(Element &maze) {
   mazes_.push_back(maze);
 
   return this;
 }
 
-array* array::push_maze(element maze) {
+Array* Array::push_maze(Element maze) {
   mazes_.push_back(maze);
 
   return this;
 }
 
-array array::operator<<(element maze) {
+Array Array::operator<<(Element maze) {
   push_maze(maze);
 
   return *this;
 }
 
-array* array::push(std::string value) {
-  return push_maze(std::move(element(value)));
+Array* Array::push(std::string value) {
+  return push_maze(std::move(Element(value)));
 }
 
-array array::operator<<(std::string value) {
+Array Array::operator<<(std::string value) {
   push(value);
 
   return *this;
 }
 
-array* array::push(const char* value) {
-  return push_maze(std::move(element(value)));
+Array* Array::push(const char* value) {
+  return push_maze(std::move(Element(value)));
 }
 
-array array::operator<<(const char* value) {
+Array Array::operator<<(const char* value) {
   push(value);
 
   return *this;
 }
 
-array* array::push(int value) {
-  return push_maze(std::move(element(value)));
+Array* Array::push(int value) {
+  return push_maze(std::move(Element(value)));
 }
 
-array array::operator<<(int value) {
+Array Array::operator<<(int value) {
   push(value);
 
   return *this;
 }
 
-array* array::push(double value) {
-  return push_maze(std::move(element(value)));
+Array* Array::push(double value) {
+  return push_maze(std::move(Element(value)));
 }
 
-array array::operator<<(double value) {
+Array Array::operator<<(double value) {
   push(value);
 
   return *this;
 }
 
-array* array::push(bool value) {
-  return push_maze(std::move(element(value)));
+Array* Array::push(bool value) {
+  return push_maze(std::move(Element(value)));
 }
 
-array array::operator<<(bool value) {
+Array Array::operator<<(bool value) {
   push(value);
 
   return *this;
 }
 
-array* array::push(array value) {
-  return push_maze(std::move(element(value)));
+Array* Array::push(Array value) {
+  return push_maze(std::move(Element(value)));
 }
 
-array array::operator<<(array value) {
+Array Array::operator<<(Array value) {
   push(value);
 
   return *this;
 }
 
-array* array::push(array* value) {
-  return push_maze(std::move(element(value)));
+Array* Array::push(Array* value) {
+  return push_maze(std::move(Element(value)));
 }
 
-array array::operator<<(array* value) {
+Array Array::operator<<(Array* value) {
   push(value);
 
   return *this;
 }
 
-array* array::push(object value) {
-  return push_maze(std::move(element(value)));
+Array* Array::push(Object value) {
+  return push_maze(std::move(Element(value)));
 }
 
-array array::operator<<(object value) {
+Array Array::operator<<(Object value) {
   push(value);
 
   return *this;
 }
 
-array* array::push(object* value) {
-  return push_maze(std::move(element(value)));
+Array* Array::push(Object* value) {
+  return push_maze(std::move(Element(value)));
 }
 
-array array::operator<<(object* value) {
+Array Array::operator<<(Object* value) {
   push(value);
 
   return *this;
 }
 
-element array::get(int index, type type) {
+Element Array::get(int index, Type type) {
   if ((unsigned int) index >= size()) {
-    return element();
+    return Element();
   }
 
   return mazes_[index];
 }
 
-element array::get(int index) {
-  return get(index, type::Bool);
+Element Array::get(int index) {
+  return get(index, Type::Bool);
 }
 
-element array::operator[](int index) {
+Element Array::operator[](int index) {
   return get(index);
 }
 
-std::vector<element>::iterator array::begin() {
+std::vector<Element>::iterator Array::begin() {
   return mazes_.begin();
 }
 
-std::vector<element>::iterator array::end() {
+std::vector<Element>::iterator Array::end() {
   return mazes_.end();
 }
 
-std::vector<element> array::get_mazes() {
+std::vector<Element> Array::get_mazes() {
   return mazes_;
 }
 
-int array::remove(int index) {
+int Array::remove(int index) {
   mazes_.erase(mazes_.begin() + index);
   return 0;
 }
 
-void array::clear() {
+void Array::clear() {
   mazes_.clear();
 }
 
-unsigned int array::size() {
+unsigned int Array::size() {
   return (unsigned int) mazes_.size();
 }
 
-bool array::is_empty() {
+bool Array::is_empty() {
   return mazes_.empty();
 }
 
-std::string array::to_json(int indentation_spacing) {
+std::string Array::to_json(int indentation_spacing) {
   return helpers::array::to_json_array(this).dump(indentation_spacing);
 }
 
-array array::from_json(std::string json_string) {
+Array Array::from_json(std::string json_string) {
   return helpers::array::from_json(nlohmann::json::parse(json_string));
 }
 

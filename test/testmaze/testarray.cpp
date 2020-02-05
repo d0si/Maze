@@ -12,7 +12,7 @@ void ArrayTest::SetUp() {};
 void ArrayTest::TearDown() {};
 
 TEST_F(ArrayTest, ConstructIsEmpty) {
-  maze::array array;
+  maze::Array array;
 
   EXPECT_TRUE(array.is_empty());
 }

@@ -7,40 +7,40 @@
 
 namespace maze {
 
-class array {
+class Array {
  private:
-  std::vector<element> mazes_;
+  std::vector<Element> mazes_;
  public:
-  array* push(element &maze);
-  array* push_maze(element maze);
-  array operator<<(element maze);
-  array* push(std::string value);
-  array operator<<(std::string value);
-  array* push(const char* value);
-  array operator<<(const char* value);
-  array* push(int value);
-  array operator<<(int value);
-  array* push(double value);
-  array operator<<(double value);
-  array* push(bool value);
-  array operator<<(bool value);
-  array* push(array value);
-  array operator<<(array value);
-  array* push(array* value);
-  array operator<<(array* value);
-  array* push(object value);
-  array operator<<(object value);
-  array* push(object* value);
-  array operator<<(object* value);
+  Array* push(Element &maze);
+  Array* push_maze(Element maze);
+  Array operator<<(Element maze);
+  Array* push(std::string value);
+  Array operator<<(std::string value);
+  Array* push(const char* value);
+  Array operator<<(const char* value);
+  Array* push(int value);
+  Array operator<<(int value);
+  Array* push(double value);
+  Array operator<<(double value);
+  Array* push(bool value);
+  Array operator<<(bool value);
+  Array* push(Array value);
+  Array operator<<(Array value);
+  Array* push(Array* value);
+  Array operator<<(Array* value);
+  Array* push(Object value);
+  Array operator<<(Object value);
+  Array* push(Object* value);
+  Array operator<<(Object* value);
 
-  element get(int index, type type);
-  element get(int index);
-  element operator[](int index);
+  Element get(int index, Type type);
+  Element get(int index);
+  Element operator[](int index);
 
-  std::vector<element>::iterator begin();
-  std::vector<element>::iterator end();
+  std::vector<Element>::iterator begin();
+  std::vector<Element>::iterator end();
 
-  std::vector<element> get_mazes();
+  std::vector<Element> get_mazes();
 
   int remove(int index);
   void clear();
@@ -50,7 +50,7 @@ class array {
 
   std::string to_json(int indentation_spacing = 2);
 
-  static array from_json(std::string json_string);
+  static Array from_json(std::string json_string);
 };
 
 }  // namespace maze

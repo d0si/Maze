@@ -7,35 +7,35 @@
 
 namespace maze {
 
-class array;
-class object;
+class Array;
+class Object;
 
-class element {
+class Element {
  private:
-  type type_ = type::Null;
+  Type type_ = Type::Null;
 
   bool val_bool_;
   int val_int_;
   std::shared_ptr<double> ptr_double_;
   std::shared_ptr<std::string> ptr_string_;
-  std::shared_ptr<array> ptr_array_;
-  std::shared_ptr<object> ptr_object_;
+  std::shared_ptr<Array> ptr_array_;
+  std::shared_ptr<Object> ptr_object_;
 
   std::shared_ptr<std::string> ptr_key_;
  public:
-  element();
-  element(bool val);
-  element(int val);
-  element(double val);
-  element(std::string& val);
-  element(const char* val);
-  element(array val);
-  element(object val);
-  element(type val);
-  ~element();
+  Element();
+  Element(bool val);
+  Element(int val);
+  Element(double val);
+  Element(std::string& val);
+  Element(const char* val);
+  Element(Array val);
+  Element(Object val);
+  Element(Type val);
+  ~Element();
 
-  void set_type(type type);
-  type get_type();
+  void set_type(Type type);
+  Type get_type();
 
   void set_key(std::string key);
   std::string get_key();
@@ -63,15 +63,15 @@ class element {
   std::string get_string();
   operator std::string();
 
-  void set_array(array value);
-  void operator=(array value);
-  array get_array();
-  operator array();
+  void set_array(Array value);
+  void operator=(Array value);
+  Array get_array();
+  operator Array();
 
-  void set_object(object value);
-  void operator=(object value);
-  object get_object();
-  operator object();
+  void set_object(Object value);
+  void operator=(Object value);
+  Object get_object();
+  operator Object();
 
   bool is_null();
   bool is_bool();
@@ -80,17 +80,17 @@ class element {
   bool is_string();
   bool is_array();
   bool is_object();
-  bool is(type type);
+  bool is(Type type);
 
-  void apply(element new_element);
+  void apply(Element new_element);
 
   std::string to_json(int indentation_spacing = 2);
 
   void apply_json(std::string json_string);
 
-  static element from_json(std::string json_string);
+  static Element from_json(std::string json_string);
 
-  static element get_null();
+  static Element get_null();
 };
 
 }  // namespace maze

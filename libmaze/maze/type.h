@@ -5,7 +5,7 @@
 
 namespace maze {
 
-enum class type {
+enum class Type {
   Null = 0,
   Bool = 1,
   Int = 2,
@@ -15,7 +15,7 @@ enum class type {
   Object = 6
 };
 
-std::string to_string(type type);
+std::string to_string(Type type);
 
 }  // namespace maze
 
