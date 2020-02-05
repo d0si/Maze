@@ -8,5 +8,5 @@ endif()
 
 enable_testing()
 
-add_subdirectory(libmaze)
+add_subdirectory(src)
 add_subdirectory(test)
