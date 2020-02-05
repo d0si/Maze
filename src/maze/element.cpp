@@ -1,7 +1,7 @@
-#include <maze/element.h>
-#include <maze/array.h>
-#include <maze/object.h>
-#include <maze/helpers.h>
+#include <maze/element.hpp>
+#include <maze/array.hpp>
+#include <maze/object.hpp>
+#include <maze/helpers.hpp>
 #include <nlohmann/json.hpp>
 
 namespace maze {

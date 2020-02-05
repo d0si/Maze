@@ -1,5 +1,5 @@
-#include "arraytest.h"
-#include <maze/array.h>
+#include "arraytest.hpp"
+#include <maze/array.hpp>
 
 using maze::Array;
 using maze::Element;
