@@ -15,7 +15,7 @@ enum class Type {
   Object = 6
 };
 
-std::string to_string(Type type);
+const std::string to_string(const Type& type);
 
 }  // namespace maze
 

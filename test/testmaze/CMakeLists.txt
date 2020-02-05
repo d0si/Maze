@@ -7,7 +7,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:msvcrtd")
 endif()
 
 add_executable(testmaze
-    testarray.cpp
+    arraytest.cpp
     main.cpp
 )
 

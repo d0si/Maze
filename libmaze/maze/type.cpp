@@ -2,7 +2,7 @@
 
 namespace maze {
 
-std::string to_string(Type type) {
+const std::string to_string(const Type& type) {
   switch (type) {
     case Type::Null:
       return "null";

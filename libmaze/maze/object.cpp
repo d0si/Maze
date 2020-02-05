@@ -218,7 +218,7 @@ void Object::clear() {
   mazes_.clear();
 }
 
-unsigned int Object::size() {
+size_t Object::size() {
   return (unsigned int) mazes_.size();
 }
 

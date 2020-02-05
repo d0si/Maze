@@ -44,7 +44,7 @@ class Array {
 
   int remove(int index);
   void clear();
-  unsigned int size();
+  size_t size();
 
   bool is_empty();
 

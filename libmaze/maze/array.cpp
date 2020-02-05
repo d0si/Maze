@@ -151,8 +151,8 @@ void Array::clear() {
   mazes_.clear();
 }
 
-unsigned int Array::size() {
-  return (unsigned int) mazes_.size();
+size_t Array::size() {
+  return mazes_.size();
 }
 
 bool Array::is_empty() {

@@ -66,7 +66,7 @@ class Object {
   int index_of(std::string index);
   int first_index_of(std::string index);
   bool exists(std::string index);
-  unsigned int size();
+  size_t size();
   bool is_empty();
 
   bool is_string(std::string index);
