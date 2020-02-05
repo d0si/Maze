@@ -2,21 +2,21 @@
 
 namespace maze {
 
-std::string to_string(type type) {
+const std::string to_string(const Type& type) {
   switch (type) {
-    case type::Null:
+    case Type::Null:
       return "null";
-    case type::Bool:
+    case Type::Bool:
       return "bool";
-    case type::Int:
+    case Type::Int:
       return "int";
-    case type::Double:
+    case Type::Double:
       return "double";
-    case type::String:
+    case Type::String:
       return "string";
-    case type::Array:
+    case Type::Array:
       return "array";
-    case type::Object:
+    case Type::Object:
       return "object";
     default:
       return "unknown";

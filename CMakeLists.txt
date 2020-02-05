@@ -1,14 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
-project(maze)
+project(maze CXX)
 
-add_library(${PROJECT_NAME}
-    src/maze/element.cpp
-    src/maze/array.cpp
-    src/maze/object.cpp
-    src/maze/type.cpp
-    src/maze/helpers.cpp
-)
+# Calculate CodeCoverage on GNU based compilers
+if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
 
-target_include_directories(${PROJECT_NAME}
-    PUBLIC ${PROJECT_SOURCE_DIR}/include
-)
+enable_testing()
+
+add_subdirectory(libmaze)
+add_subdirectory(test)

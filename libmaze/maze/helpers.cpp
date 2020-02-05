@@ -7,31 +7,31 @@ namespace maze {
 namespace helpers {
 namespace element {
 
-json to_json_element(maze::element* el) {
-  json json_el;
+Json to_json_element(Element* el) {
+  Json json_el;
 
   switch (el->get_type()) {
-    case type::Null:
+    case Type::Null:
       break;
-    case type::Bool:
+    case Type::Bool:
       json_el = el->get_bool();
       break;
-    case type::Int:
+    case Type::Int:
       json_el = el->get_int();
       break;
-    case type::Double:
+    case Type::Double:
       json_el = el->get_double();
       break;
-    case type::String:
+    case Type::String:
       json_el = el->get_string();
       break;
-    case type::Array: {
-      maze::array arr = el->get_array();
+    case Type::Array: {
+      Array arr = el->get_array();
       json_el = helpers::array::to_json_array(&arr);
       break;
     }
-    case type::Object: {
-      maze::object obj = el->get_object();
+    case Type::Object: {
+      Object obj = el->get_object();
       json_el = helpers::object::to_json_object(&obj);
       break;
     }
@@ -40,12 +40,12 @@ json to_json_element(maze::element* el) {
   return json_el;
 }
 
-void apply_json(maze::element* el, json json) {
+void apply_json(Element* el, Json json) {
   el->apply(from_json(json));
 }
 
-maze::element from_json(json json) {
-  maze::element el;
+Element from_json(Json json) {
+  Element el;
 
   if (json.is_boolean()) {
     el = json.get<bool>();
@@ -69,35 +69,35 @@ maze::element from_json(json json) {
 }  // namespace element
 namespace array {
 
-json to_json_array(maze::array* array) {
-  json json_arr = json::array();
+Json to_json_array(Array* array) {
+  Json json_arr = Json::array();
 
   auto mazes = array->get_mazes();
   for (unsigned int i = 0; i < mazes.size(); i++) {
-    maze::element maze = mazes[i];
+    Element maze = mazes[i];
     switch (maze.get_type()) {
-      case type::String:
+      case Type::String:
         json_arr.push_back(maze.get_string());
         break;
-      case type::Int:
+      case Type::Int:
         json_arr.push_back(maze.get_int());
         break;
-      case type::Double:
+      case Type::Double:
         json_arr.push_back(maze.get_double());
         break;
-      case type::Bool:
+      case Type::Bool:
         json_arr.push_back(maze.get_bool());
         break;
-      case type::Null:
+      case Type::Null:
         json_arr.push_back(nullptr);
         break;
-      case type::Array: {
-        maze::array arr = maze.get_array();
+      case Type::Array: {
+        Array arr = maze.get_array();
         json_arr.push_back(helpers::array::to_json_array(&arr));
         break;
       }
-      case type::Object: {
-        maze::object obj = maze.get_object();
+      case Type::Object: {
+        Object obj = maze.get_object();
         json_arr.push_back(helpers::object::to_json_object(&obj));
         break;
       }
@@ -107,8 +107,8 @@ json to_json_array(maze::array* array) {
   return json_arr;
 }
 
-maze::array from_json(json json_array) {
-  maze::array arr;
+Array from_json(Json json_array) {
+  Array arr;
 
   for (auto it = json_array.begin(); it != json_array.end(); it++) {
     if (it->is_string()) {
@@ -124,7 +124,7 @@ maze::array from_json(json json_array) {
     } else if (it->is_object()) {
       arr.push(helpers::object::from_json(*it));
     } else if (it->is_null()) {
-      arr.push_maze(maze::element(type::Null));
+      arr.push_maze(Element(Type::Null));
     }
   }
 
@@ -134,8 +134,8 @@ maze::array from_json(json json_array) {
 }  // namespace array
 namespace object {
 
-json to_json_object(maze::object* object) {
-  json json_obj = json::object();
+Json to_json_object(Object* object) {
+  Json json_obj = Json::object();
   auto mazes = object->get_mazes();
 
   for (auto m : mazes) {
@@ -143,28 +143,28 @@ json to_json_object(maze::object* object) {
     auto maze = m.second;
 
     switch (maze.get_type()) {
-      case type::String:
+      case Type::String:
         json_obj[index] = maze.get_string();
         break;
-      case type::Int:
+      case Type::Int:
         json_obj[index] = maze.get_int();
         break;
-      case type::Double:
+      case Type::Double:
         json_obj[index] = maze.get_double();
         break;
-      case type::Bool:
+      case Type::Bool:
         json_obj[index] = maze.get_bool();
         break;
-      case type::Null:
+      case Type::Null:
         json_obj[index] = nullptr;
         break;
-      case type::Array: {
-        maze::array arr = maze.get_array();
+      case Type::Array: {
+        Array arr = maze.get_array();
         json_obj[index] = helpers::array::to_json_array(&arr);
         break;
       }
-      case type::Object: {
-        maze::object obj = maze.get_object();
+      case Type::Object: {
+        Object obj = maze.get_object();
         json_obj[index] = helpers::object::to_json_object(&obj);
         break;
       }
@@ -174,8 +174,8 @@ json to_json_object(maze::object* object) {
   return json_obj;
 }
 
-maze::object from_json(json json_object) {
-  maze::object obj;
+Object from_json(Json json_object) {
+  Object obj;
 
   for (auto it = json_object.begin(); it != json_object.end(); it++) {
     if (it->is_string()) {
@@ -191,7 +191,7 @@ maze::object from_json(json json_object) {
     } else if (it->is_object()) {
       obj.set(it.key(), helpers::object::from_json(*it));
     } else if (it->is_null()) {
-      obj.set_maze(it.key(), maze::element(type::Null));
+      obj.set_maze(it.key(), Element(Type::Null));
     }
   }
 
