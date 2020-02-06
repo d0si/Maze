@@ -21,9 +21,35 @@ target_include_directories(maze
 
 install(TARGETS maze
     DESTINATION lib
+    EXPORT mazeTargets
 )
 install(
     DIRECTORY
         ${CMAKE_CURRENT_SOURCE_DIR}/include/maze
     DESTINATION include
+)
+install(
+    EXPORT mazeTargets
+    FILE mazeTargets.cmake
+    DESTINATION lib/cmake/maze
+)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/mazeConfig.cmake"
+    INSTALL_DESTINATION "lib/cmake/maze"
+    NO_SET_AND_CHECK_MACRO
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/mazeConfigVersion.cmake"
+    VERSION "${maze_VERSION_MAJOR}.${maze_VERSION_MINOR}.${maze_VERSION_PATCH}"
+    COMPATIBILITY AnyNewerVersion
+)
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/mazeConfig.cmake
+    DESTINATION lib/cmake/maze
+)
+export(EXPORT mazeTargets
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/mazeTargets.cmake"
 )

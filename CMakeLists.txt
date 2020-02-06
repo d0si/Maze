@@ -7,7 +7,6 @@ project(maze
 option(MAZE_BUILD_TESTS "Build tests when enabled" ON)
 option(MAZE_INSTALL "Install targets during install step" ON)
 
-
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
