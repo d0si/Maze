@@ -1,5 +1,5 @@
-#ifndef MAZE_ARRAY_H
-#define MAZE_ARRAY_H
+#ifndef MAZE_ARRAY_HPP
+#define MAZE_ARRAY_HPP
 
 #include <string>
 #include <vector>
@@ -55,4 +55,4 @@ class Array {
 
 }  // namespace maze
 
-#endif  // MAZE_ARRAY_H
+#endif  // MAZE_ARRAY_HPP

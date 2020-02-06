@@ -1,5 +1,6 @@
 #include "arraytest.hpp"
 #include <maze/array.hpp>
+#include <maze/maze.hpp>
 
 using maze::Array;
 using maze::Element;
@@ -51,4 +52,8 @@ TEST_F(ArrayTest, ConstructIsEmpty) {
 
   EXPECT_TRUE(array.is_empty());
   EXPECT_EQ(array.size(), 0);
+}
+
+TEST_F(ArrayTest, Version) {
+  EXPECT_EQ(maze::get_version(), "0.0.1");
 }

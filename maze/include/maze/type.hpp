@@ -1,5 +1,5 @@
-#ifndef MAZE_TYPE_H
-#define MAZE_TYPE_H
+#ifndef MAZE_TYPE_HPP
+#define MAZE_TYPE_HPP
 
 #include <string>
 
@@ -19,4 +19,4 @@ const std::string to_string(const Type& type);
 
 }  // namespace maze
 
-#endif  // MAZE_TYPE_H
+#endif  // MAZE_TYPE_HPP

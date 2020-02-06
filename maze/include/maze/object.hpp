@@ -1,5 +1,5 @@
-#ifndef MAZE_OBJECT_H
-#define MAZE_OBJECT_H
+#ifndef MAZE_OBJECT_HPP
+#define MAZE_OBJECT_HPP
 
 #include <string>
 #include <vector>
@@ -85,4 +85,4 @@ class Object {
 
 }  // namespace maze
 
-#endif  // MAZE_OBJECT_H
+#endif  // MAZE_OBJECT_HPP

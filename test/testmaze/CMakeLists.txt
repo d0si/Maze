@@ -12,7 +12,7 @@ add_executable(testmaze
 )
 
 target_link_libraries(testmaze
-    libmaze
+    maze
     libgtest
     libgmock
 )
