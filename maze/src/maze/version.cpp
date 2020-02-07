@@ -1,4 +1,4 @@
-#include <maze/config.hpp>
+#include <maze/version.hpp>
 #include <string>
 
 namespace maze {

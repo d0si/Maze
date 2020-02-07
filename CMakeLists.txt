@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
-project(maze
+project(Maze
     LANGUAGES CXX
     VERSION 0.0.1
 )
 
+option(MAZE_BUILD_SHARED_LIBS "Build shared libs when enabled otherwise static" OFF)
 option(MAZE_BUILD_TESTS "Build tests when enabled" ON)
-option(MAZE_INSTALL "Install targets during install step" ON)
 option(MAZE_CODE_COVERAGE "Adds code coverage symbols" OFF)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -23,9 +23,4 @@ enable_testing()
 add_subdirectory(test)
 endif()
 
-include(InstallRequiredSystemLibraries)
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-set(CPACK_PACKAGE_VERSION_MAJOR "${maze_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${maze_VERSION_MINOR}")
-set(CPACK_PACKAGE_VERSION_PATCH "${maze_VERSION_PATCH}")
-include(CPack)
+include(${CMAKE_SOURCE_DIR}/cmake/InstallConfig.cmake)

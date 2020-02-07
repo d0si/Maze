@@ -17,6 +17,11 @@ target_link_libraries(testmaze
     libgmock
 )
 
+target_include_directories(testmaze
+    PRIVATE
+        "${CMAKE_SOURCE_DIR}/maze/include"
+)
+
 add_test(NAME testmaze
     COMMAND testmaze
 )

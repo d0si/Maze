@@ -1,55 +1,77 @@
-add_library(maze STATIC
-    src/maze/element.cpp
+# Set cpp sources
+set(MAZE_SOURCES
     src/maze/array.cpp
+    src/maze/version.cpp
+    src/maze/element.cpp
     src/maze/object.cpp
     src/maze/type.cpp
     src/maze/helpers.cpp
-    src/maze/config.cpp
 )
 
-configure_file(src/maze/config.hpp.in src/maze/config.hpp)
+# Set headers
+set(MAZE_HEADERS
+    include/maze/array.hpp
+    include/maze/element.hpp
+    include/maze/helpers.hpp
+    include/maze/maze.hpp
+    include/maze/object.hpp
+    include/maze/type.hpp
+)
 
+# Fallback to Release build if nothing else was chosen
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Build type will be 'Release'.")
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+
+  # Add possible build types
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+# Select library output type
+if(MAZE_BUILD_SHARED_LIBS)
+    set(MAZE_LIBRARY_TYPE SHARED)
+else()
+    set(MAZE_LIBRARY_TYPE STATIC)
+endif()
+
+# Add target library
+add_library(maze ${MAZE_LIBRARY_TYPE}
+    ${MAZE_SOURCES}
+    ${MAZE_HEADERS}
+)
+
+# Add include directories
 target_include_directories(maze
-    PUBLIC
-        $<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    INTERFACE
+         $<INSTALL_INTERFACE:include>
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${PROJECT_BINARY_DIR}/maze/src
+        ${PROJECT_BINARY_DIR}/maze
         ${PROJECT_SOURCE_DIR}/thirdparty/nlohmann/json/include
 )
 
+# Install library
 install(TARGETS maze
-    DESTINATION lib
-    EXPORT mazeTargets
-)
-install(
-    DIRECTORY
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/maze
-    DESTINATION include
-)
-install(
-    EXPORT mazeTargets
-    FILE mazeTargets.cmake
-    DESTINATION lib/cmake/maze
+    EXPORT MazeExport
+    RUNTIME DESTINATION "bin" COMPONENT bin
+    LIBRARY DESTINATION "lib" COMPONENT shlib
+    ARCHIVE DESTINATION "lib" COMPONENT stlib
+    COMPONENT dev
 )
 
-include(CMakePackageConfigHelpers)
-configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Config.cmake.in
-    "${CMAKE_CURRENT_BINARY_DIR}/mazeConfig.cmake"
-    INSTALL_DESTINATION "lib/cmake/maze"
-    NO_SET_AND_CHECK_MACRO
-    NO_CHECK_REQUIRED_COMPONENTS_MACRO
+# Create maze/version.hpp
+configure_file(src/maze/version.hpp.in
+    "${CMAKE_CURRENT_BINARY_DIR}/maze/version.hpp" @ONLY
 )
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/mazeConfigVersion.cmake"
-    VERSION "${maze_VERSION_MAJOR}.${maze_VERSION_MINOR}.${maze_VERSION_PATCH}"
-    COMPATIBILITY AnyNewerVersion
+set(MAZE_HEADERS
+    ${MAZE_HEADERS}
+    "${CMAKE_CURRENT_BINARY_DIR}/maze/version.hpp"
 )
-install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/mazeConfig.cmake
-    DESTINATION lib/cmake/maze
-)
-export(EXPORT mazeTargets
-    FILE "${CMAKE_CURRENT_BINARY_DIR}/mazeTargets.cmake"
+
+# Install header files
+install(FILES ${MAZE_HEADERS}
+    DESTINATION "include/maze"
 )
