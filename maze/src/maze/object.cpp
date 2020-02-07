@@ -240,7 +240,7 @@ std::vector<std::pair<std::string, Element>> Object::get_mazes() {
 
 int Object::index_of(std::string index) {
   if (mazes_.size() > 0) {
-    for (int i = mazes_.size() - 1; i >= 0; --i) {
+    for (size_t i = mazes_.size() - 1; i >= 0; --i) {
       if (mazes_[i].first == index) {
         return i;
       }

@@ -18,7 +18,7 @@ endif()
 
 add_subdirectory(maze)
 
-if(MAZE_BUILD_TESTS)
+if(MAZE_BUILD_TESTS AND NOT WIN32)
 enable_testing()
 add_subdirectory(test)
 endif()
