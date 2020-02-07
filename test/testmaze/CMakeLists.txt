@@ -12,9 +12,14 @@ add_executable(testmaze
 )
 
 target_link_libraries(testmaze
-    libmaze
+    maze
     libgtest
     libgmock
+)
+
+target_include_directories(testmaze
+    PRIVATE
+        "${CMAKE_SOURCE_DIR}/maze/include"
 )
 
 add_test(NAME testmaze

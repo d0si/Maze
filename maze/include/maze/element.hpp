@@ -1,9 +1,9 @@
-#ifndef MAZE_ELEMENT_H
-#define MAZE_ELEMENT_H
+#ifndef MAZE_ELEMENT_HPP
+#define MAZE_ELEMENT_HPP
 
 #include <string>
 #include <memory>
-#include <maze/type.h>
+#include <maze/type.hpp>
 
 namespace maze {
 
@@ -95,4 +95,4 @@ class Element {
 
 }  // namespace maze
 
-#endif  // MAZE_ELEMENT_H
+#endif  // MAZE_ELEMENT_HPP

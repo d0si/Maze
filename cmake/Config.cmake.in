@@ -1,0 +1,13 @@
+# Config file for 'Maze'
+# Theese variables are defined:
+#  MAZE_INCLUDE_DIRS - include directories
+#  MAZE_LIBRARIES - libraries that need to be linked
+
+# Include directory
+set(MAZE_INCLUDE_DIRS include)
+
+# Import the exported targets
+include("${CMAKE_CURRENT_LIST_DIR}/MazeTargets.cmake")
+
+# Set libraries
+set(MAZE_LIBRARIES maze)

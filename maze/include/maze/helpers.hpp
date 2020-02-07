@@ -1,5 +1,5 @@
-#ifndef MAZE_HELPERS_H
-#define MAZE_HELPERS_H
+#ifndef MAZE_HELPERS_HPP
+#define MAZE_HELPERS_HPP
 
 #include <nlohmann/json.hpp>
 
@@ -33,4 +33,4 @@ Object from_json(Json json_object);
 }  // namespace helpers
 }  // namespace maze
 
-#endif  // MAZE_HELPERS_H
+#endif  // MAZE_HELPERS_HPP

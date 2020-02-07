@@ -1,9 +1,9 @@
-#ifndef MAZE_ARRAY_H
-#define MAZE_ARRAY_H
+#ifndef MAZE_ARRAY_HPP
+#define MAZE_ARRAY_HPP
 
 #include <string>
 #include <vector>
-#include <maze/element.h>
+#include <maze/element.hpp>
 
 namespace maze {
 
@@ -55,4 +55,4 @@ class Array {
 
 }  // namespace maze
 
-#endif  // MAZE_ARRAY_H
+#endif  // MAZE_ARRAY_HPP
