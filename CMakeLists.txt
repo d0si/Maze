@@ -6,12 +6,13 @@ project(maze
 
 option(MAZE_BUILD_TESTS "Build tests when enabled" ON)
 option(MAZE_INSTALL "Install targets during install step" ON)
+option(MAZE_CODE_COVERAGE "Adds code coverage symbols" OFF)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Calculate CodeCoverage on GNU based compilers
-if(MAZE_BUILD_TESTS AND CMAKE_CXX_COMPILER_ID MATCHES GNU)
+if(MAZE_BUILD_TESTS AND MAZE_CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES GNU)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
