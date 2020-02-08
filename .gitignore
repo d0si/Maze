@@ -1,6 +1,7 @@
 # Editor specific files
 .vscode
 .idea
+.vs
 cmake-build-debug
 
 # CMake files
