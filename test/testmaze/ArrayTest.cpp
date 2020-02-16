@@ -1,4 +1,4 @@
-#include "arraytest.hpp"
+#include "ArrayTest.hpp"
 #include <Maze/Array.hpp>
 #include <Maze/Maze.hpp>
 

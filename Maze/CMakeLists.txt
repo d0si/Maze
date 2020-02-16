@@ -49,7 +49,7 @@ target_include_directories(maze
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${PROJECT_BINARY_DIR}/maze
+        ${PROJECT_BINARY_DIR}/Maze
         ${PROJECT_SOURCE_DIR}/thirdparty/nlohmann/json/include
 )
 
