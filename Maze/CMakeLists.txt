@@ -1,21 +1,21 @@
 # Set cpp sources
 set(MAZE_SOURCES
-    src/maze/array.cpp
-    src/maze/version.cpp
-    src/maze/element.cpp
-    src/maze/object.cpp
-    src/maze/type.cpp
-    src/maze/helpers.cpp
+    src/Maze/Array.cpp
+    src/Maze/Version.cpp
+    src/Maze/Element.cpp
+    src/Maze/Object.cpp
+    src/Maze/Type.cpp
+    src/Maze/Helpers.cpp
 )
 
 # Set headers
 set(MAZE_HEADERS
-    include/maze/array.hpp
-    include/maze/element.hpp
-    include/maze/helpers.hpp
-    include/maze/maze.hpp
-    include/maze/object.hpp
-    include/maze/type.hpp
+    include/Maze/Array.hpp
+    include/Maze/Element.hpp
+    include/Maze/Helpers.hpp
+    include/Maze/Maze.hpp
+    include/Maze/Object.hpp
+    include/Maze/Type.hpp
 )
 
 # Fallback to Release build if nothing else was chosen
@@ -62,16 +62,16 @@ install(TARGETS maze
     COMPONENT dev
 )
 
-# Create maze/version.hpp
-configure_file(src/maze/version.hpp.in
-    "${CMAKE_CURRENT_BINARY_DIR}/maze/version.hpp" @ONLY
+# Create Maze/Version.hpp
+configure_file(src/Maze/Version.hpp.in
+    "${CMAKE_CURRENT_BINARY_DIR}/Maze/Version.hpp" @ONLY
 )
 set(MAZE_HEADERS
     ${MAZE_HEADERS}
-    "${CMAKE_CURRENT_BINARY_DIR}/maze/version.hpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/Maze/Version.hpp"
 )
 
 # Install header files
 install(FILES ${MAZE_HEADERS}
-    DESTINATION "include/maze"
+    DESTINATION "include/Maze"
 )
