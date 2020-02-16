@@ -1,4 +1,4 @@
-#include <maze/maze.hpp>
+#include <Maze/Maze.hpp>
 #include <iostream>
 
 int main() {

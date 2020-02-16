@@ -3,7 +3,7 @@
 
 #include <string>
 #include <memory>
-#include <maze/type.hpp>
+#include <Maze/Type.hpp>
 
 namespace maze {
 

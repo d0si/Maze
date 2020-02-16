@@ -1,7 +1,7 @@
-#include <maze/helpers.hpp>
-#include <maze/element.hpp>
-#include <maze/array.hpp>
-#include <maze/object.hpp>
+#include <Maze/Helpers.hpp>
+#include <Maze/Element.hpp>
+#include <Maze/Array.hpp>
+#include <Maze/Object.hpp>
 
 namespace maze {
 namespace helpers {
