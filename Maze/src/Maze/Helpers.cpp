@@ -6,7 +6,7 @@
 namespace Maze {
 	namespace Helpers {
 		namespace Element {
-			Json to_json_element(Maze::Element* el) {
+			Json to_json_element(const Maze::Element* el) {
 				Json json_el;
 
 				switch (el->get_type()) {
@@ -39,11 +39,11 @@ namespace Maze {
 				return json_el;
 			}
 
-			void apply_json(Maze::Element* el, Json json) {
+			void apply_json(Maze::Element* el, const Json json) {
 				el->apply(from_json(json));
 			}
 
-			Maze::Element from_json(Json json) {
+			Maze::Element from_json(const Json json) {
 				Maze::Element el;
 
 				if (json.is_boolean()) {
@@ -73,7 +73,7 @@ namespace Maze {
 		}  // namespace Element
 
 		namespace Array {
-			Json to_json_array(Maze::Array* array) {
+			Json to_json_array(const Maze::Array* array) {
 				Json json_arr = Json::array();
 
 				auto mazes = array->get_mazes();
@@ -111,7 +111,7 @@ namespace Maze {
 				return json_arr;
 			}
 
-			Maze::Array from_json(Json json_array) {
+			Maze::Array from_json(const Json json_array) {
 				Maze::Array arr;
 
 				for (auto it = json_array.begin(); it != json_array.end(); it++) {
@@ -143,7 +143,7 @@ namespace Maze {
 		}  // namespace Array
 
 		namespace Object {
-			Json to_json_object(Maze::Object* object) {
+			Json to_json_object(const Maze::Object* object) {
 				Json json_obj = Json::object();
 				auto mazes = object->get_mazes();
 
@@ -183,7 +183,7 @@ namespace Maze {
 				return json_obj;
 			}
 
-			Maze::Object from_json(Json json_object) {
+			Maze::Object from_json(const Json json_object) {
 				Maze::Object obj;
 
 				for (auto it = json_object.begin(); it != json_object.end(); it++) {

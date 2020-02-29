@@ -72,7 +72,7 @@ namespace Maze {
 		}
 	}
 
-	Type Element::get_type() {
+	Type Element::get_type() const {
 		return type_;
 	}
 
@@ -80,7 +80,7 @@ namespace Maze {
 		ptr_key_ = std::make_shared<std::string>(key);
 	}
 
-	std::string Element::get_key() {
+	std::string Element::get_key() const {
 		return *ptr_key_;
 	}
 
@@ -101,14 +101,14 @@ namespace Maze {
 		set_bool(val);
 	}
 
-	bool Element::get_bool() {
+	bool Element::get_bool() const {
 		if (type_ == Type::Bool) {
 			return val_bool_;
 		}
 		return false;
 	}
 
-	Element::operator bool() {
+	Element::operator bool() const {
 		return get_bool();
 	}
 
@@ -121,7 +121,7 @@ namespace Maze {
 		set_int(val);
 	}
 
-	int Element::get_int() {
+	int Element::get_int() const {
 		if (type_ == Type::Int) {
 			return val_int_;
 		}
@@ -129,7 +129,7 @@ namespace Maze {
 		return 0;
 	}
 
-	Element::operator int() {
+	Element::operator int() const {
 		return get_int();
 	}
 
@@ -142,7 +142,7 @@ namespace Maze {
 		set_double(val);
 	}
 
-	double Element::get_double() {
+	double Element::get_double() const {
 		if (type_ == Type::Double) {
 			return *ptr_double_;
 		}
@@ -150,7 +150,7 @@ namespace Maze {
 		return 0;
 	}
 
-	Element::operator double() {
+	Element::operator double() const {
 		return get_double();
 	}
 
@@ -167,7 +167,7 @@ namespace Maze {
 		set_string(val);
 	}
 
-	std::string Element::get_string() {
+	std::string Element::get_string() const {
 		if (type_ == Type::String) {
 			return *ptr_string_;
 		}
@@ -175,7 +175,7 @@ namespace Maze {
 		return "";
 	}
 
-	Element::operator std::string() {
+	Element::operator std::string() const {
 		return get_string();
 	}
 
@@ -188,14 +188,14 @@ namespace Maze {
 		set_array(val);
 	}
 
-	Array Element::get_array() {
+	Array Element::get_array() const {
 		if (type_ == Type::Array) {
 			return *ptr_array_;
 		}
 		return Array();
 	}
 
-	Element::operator Array() {
+	Element::operator Array() const {
 		return get_array();
 	}
 
@@ -208,46 +208,46 @@ namespace Maze {
 		set_object(val);
 	}
 
-	Object Element::get_object() {
+	Object Element::get_object() const {
 		if (type_ == Type::Object) {
 			return *ptr_object_;
 		}
 		return Object();
 	}
 
-	Element::operator Object() {
+	Element::operator Object() const {
 		return get_object();
 	}
 
-	bool Element::is_null() {
+	bool Element::is_null() const {
 		return is(Type::Null);
 	}
 
-	bool Element::is_bool() {
+	bool Element::is_bool() const {
 		return is(Type::Bool);
 	}
 
-	bool Element::is_int() {
+	bool Element::is_int() const {
 		return is(Type::Int);
 	}
 
-	bool Element::is_double() {
+	bool Element::is_double() const {
 		return is(Type::Double);
 	}
 
-	bool Element::is_string() {
+	bool Element::is_string() const {
 		return is(Type::String);
 	}
 
-	bool Element::is_array() {
+	bool Element::is_array() const {
 		return is(Type::Array);
 	}
 
-	bool Element::is_object() {
+	bool Element::is_object() const {
 		return is(Type::Object);
 	}
 
-	bool Element::is(Type type) {
+	bool Element::is(Type type) const {
 		return (type_ == type);
 	}
 
@@ -277,7 +277,7 @@ namespace Maze {
 		}
 	}
 
-	std::string Element::to_json(int spacing) {
+	std::string Element::to_json(int spacing) const {
 		return Helpers::Element::to_json_element(this).dump(spacing);
 	}
 

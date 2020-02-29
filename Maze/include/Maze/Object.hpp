@@ -49,10 +49,10 @@ namespace Maze {
 		Object* insert(std::string index, Object* value);
 		Object* insert_null(std::string index);
 
-		Element get(std::string index, Type type);
-		Element get(std::string index);
-		Element operator[](std::string index);
-		Element operator[](int index);
+		Element get(std::string index, Type type) const;
+		Element get(std::string index) const;
+		Element operator[](std::string index) const;
+		Element operator[](int index) const;
 
 		int remove(std::string index);
 		void clear();
@@ -60,24 +60,24 @@ namespace Maze {
 		std::vector<std::pair<std::string, Element>>::iterator begin();
 		std::vector<std::pair<std::string, Element>>::iterator end();
 
-		std::vector<std::pair<std::string, Element>> get_mazes();
+		std::vector<std::pair<std::string, Element>> get_mazes() const;
 
-		int index_of(std::string index);
-		int first_index_of(std::string index);
-		bool exists(std::string index);
-		size_t size();
-		bool is_empty();
+		int index_of(std::string index) const;
+		int first_index_of(std::string index) const;
+		bool exists(std::string index) const;
+		size_t size() const;
+		bool is_empty() const;
 
-		bool is_string(std::string index);
-		bool is_int(std::string index);
-		bool is_double(std::string index);
-		bool is_bool(std::string index);
-		bool is_array(std::string index);
-		bool is_object(std::string index);
+		bool is_string(std::string index) const;
+		bool is_int(std::string index) const;
+		bool is_double(std::string index) const;
+		bool is_bool(std::string index) const;
+		bool is_array(std::string index) const;
+		bool is_object(std::string index) const;
 
 		void apply(Object new_obj);
 
-		std::string to_json(int indentation_spacing = 2);
+		std::string to_json(int indentation_spacing = 2) const;
 
 		static Object from_json(const std::string& json_string);
 	};

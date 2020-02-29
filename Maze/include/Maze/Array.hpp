@@ -32,22 +32,22 @@ namespace Maze {
 		Array* push(Object* value);
 		Array operator<<(Object* value);
 
-		Element get(int index, Type type);
-		Element get(int index);
-		Element operator[](int index);
+		Element get(int index, Type type) const;
+		Element get(int index) const;
+		Element operator[](int index) const;
 
 		std::vector<Element>::iterator begin();
 		std::vector<Element>::iterator end();
 
-		std::vector<Element> get_mazes();
+		std::vector<Element> get_mazes() const;
 
 		int remove(int index);
 		void clear();
-		size_t size();
+		size_t size() const;
 
-		bool is_empty();
+		bool is_empty() const;
 
-		std::string to_json(int indentation_spacing = 2);
+		std::string to_json(int indentation_spacing = 2) const;
 
 		static Array from_json(std::string json_string);
 	};

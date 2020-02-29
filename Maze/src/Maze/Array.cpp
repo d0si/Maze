@@ -113,7 +113,7 @@ namespace Maze {
 		return *this;
 	}
 
-	Element Array::get(int index, Type type) {
+	Element Array::get(int index, Type type) const {
 		if ((unsigned int)index >= size()) {
 			return Element();
 		}
@@ -121,11 +121,11 @@ namespace Maze {
 		return mazes_[index];
 	}
 
-	Element Array::get(int index) {
+	Element Array::get(int index) const {
 		return get(index, Type::Bool);
 	}
 
-	Element Array::operator[](int index) {
+	Element Array::operator[](int index) const {
 		return get(index);
 	}
 
@@ -137,7 +137,7 @@ namespace Maze {
 		return mazes_.end();
 	}
 
-	std::vector<Element> Array::get_mazes() {
+	std::vector<Element> Array::get_mazes() const {
 		return mazes_;
 	}
 
@@ -150,15 +150,15 @@ namespace Maze {
 		mazes_.clear();
 	}
 
-	size_t Array::size() {
+	size_t Array::size() const {
 		return mazes_.size();
 	}
 
-	bool Array::is_empty() {
+	bool Array::is_empty() const {
 		return mazes_.empty();
 	}
 
-	std::string Array::to_json(int indentation_spacing) {
+	std::string Array::to_json(int indentation_spacing) const {
 		return Helpers::Array::to_json_array(this).dump(indentation_spacing);
 	}
 

@@ -177,7 +177,7 @@ namespace Maze {
 		return insert_maze(index, Element(value));
 	}
 
-	Element Object::get(std::string index, Type type) {
+	Element Object::get(std::string index, Type type) const {
 		int i = index_of(index);
 		if (i < 0) {
 			return Element();
@@ -186,15 +186,15 @@ namespace Maze {
 		return mazes_[i].second;
 	}
 
-	Element Object::get(std::string index) {
+	Element Object::get(std::string index) const {
 		return get(index, Type::Bool);
 	}
 
-	Element Object::operator[](std::string index) {
+	Element Object::operator[](std::string index) const {
 		return get(index);
 	}
 
-	Element Object::operator[](int index) {
+	Element Object::operator[](int index) const {
 		if (index >= mazes_.size()) {
 			return Element();
 		}
@@ -218,11 +218,11 @@ namespace Maze {
 		mazes_.clear();
 	}
 
-	size_t Object::size() {
+	size_t Object::size() const {
 		return (unsigned int)mazes_.size();
 	}
 
-	bool Object::is_empty() {
+	bool Object::is_empty() const {
 		return mazes_.empty();
 	}
 
@@ -234,11 +234,11 @@ namespace Maze {
 		return mazes_.end();
 	}
 
-	std::vector<std::pair<std::string, Element>> Object::get_mazes() {
+	std::vector<std::pair<std::string, Element>> Object::get_mazes() const {
 		return mazes_;
 	}
 
-	int Object::index_of(std::string index) {
+	int Object::index_of(std::string index) const {
 		if (mazes_.size() > 0) {
 			for (size_t i = mazes_.size() - 1; i >= 0; --i) {
 				if (mazes_[i].first == index) {
@@ -250,7 +250,7 @@ namespace Maze {
 		return -1;
 	}
 
-	int Object::first_index_of(std::string index) {
+	int Object::first_index_of(std::string index) const {
 		for (unsigned int i = 0; i < mazes_.size(); ++i) {
 			if (mazes_[i].first == index) {
 				return i;
@@ -260,31 +260,31 @@ namespace Maze {
 		return -1;
 	}
 
-	bool Object::exists(std::string index) {
+	bool Object::exists(std::string index) const {
 		return index_of(index) >= 0;
 	}
 
-	bool Object::is_string(std::string index) {
+	bool Object::is_string(std::string index) const {
 		return (exists(index) && get(index).is_string());
 	}
 
-	bool Object::is_int(std::string index) {
+	bool Object::is_int(std::string index) const {
 		return (exists(index) && get(index).is_int());
 	}
 
-	bool Object::is_double(std::string index) {
+	bool Object::is_double(std::string index) const {
 		return (exists(index) && get(index).is_double());
 	}
 
-	bool Object::is_bool(std::string index) {
+	bool Object::is_bool(std::string index) const {
 		return (exists(index) && get(index).is_bool());
 	}
 
-	bool Object::is_array(std::string index) {
+	bool Object::is_array(std::string index) const {
 		return (exists(index) && get(index).is_array());
 	}
 
-	bool Object::is_object(std::string index) {
+	bool Object::is_object(std::string index) const {
 		return (exists(index) && get(index).is_object());
 	}
 
@@ -299,7 +299,7 @@ namespace Maze {
 		}
 	}
 
-	std::string Object::to_json(int indentation_spacing) {
+	std::string Object::to_json(int indentation_spacing) const {
 		return Helpers::Object::to_json_object(this).dump(indentation_spacing);
 	}
 
