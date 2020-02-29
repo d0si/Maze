@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace maze {
+namespace Maze {
 
 enum class Type {
   Null = 0,
@@ -17,6 +17,6 @@ enum class Type {
 
 const std::string to_string(const Type& type);
 
-}  // namespace maze
+}  // namespace Maze
 
 #endif  // MAZE_TYPE_HPP

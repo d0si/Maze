@@ -1,9 +1,9 @@
-#include "arraytest.hpp"
-#include <maze/array.hpp>
-#include <maze/maze.hpp>
+#include "ArrayTest.hpp"
+#include <Maze/Array.hpp>
+#include <Maze/Maze.hpp>
 
-using maze::Array;
-using maze::Element;
+using Maze::Array;
+using Maze::Element;
 
 ArrayTest::ArrayTest() {
 
@@ -26,9 +26,9 @@ TEST_F(ArrayTest, PushIntegerElements) {
   array.push(el3);
 
   EXPECT_EQ(array.size(), 3);
-  EXPECT_EQ(maze::to_string(array.get(0).get_type()), "int");
-  EXPECT_EQ(maze::to_string(array.get(1).get_type()), "int");
-  EXPECT_EQ(maze::to_string(array.get(2).get_type()), "int");
+  EXPECT_EQ(Maze::to_string(array.get(0).get_type()), "int");
+  EXPECT_EQ(Maze::to_string(array.get(1).get_type()), "int");
+  EXPECT_EQ(Maze::to_string(array.get(2).get_type()), "int");
   EXPECT_EQ(array.get(0).get_int(), el1.get_int());
   EXPECT_EQ(array.get(1).get_int(), el2.get_int());
   EXPECT_EQ(array.get(2).get_int(), el3.get_int());
@@ -39,9 +39,9 @@ TEST_F(ArrayTest, PushIntegerElements) {
   array2 << el3;
 
   EXPECT_EQ(array2.size(), 3);
-  EXPECT_EQ(maze::to_string(array2.get(0).get_type()), "int");
-  EXPECT_EQ(maze::to_string(array2.get(1).get_type()), "int");
-  EXPECT_EQ(maze::to_string(array2.get(2).get_type()), "int");
+  EXPECT_EQ(Maze::to_string(array2.get(0).get_type()), "int");
+  EXPECT_EQ(Maze::to_string(array2.get(1).get_type()), "int");
+  EXPECT_EQ(Maze::to_string(array2.get(2).get_type()), "int");
   EXPECT_EQ(array2.get(0).get_int(), el1.get_int());
   EXPECT_EQ(array2.get(1).get_int(), el2.get_int());
   EXPECT_EQ(array2.get(2).get_int(), el3.get_int());
@@ -55,5 +55,5 @@ TEST_F(ArrayTest, ConstructIsEmpty) {
 }
 
 TEST_F(ArrayTest, Version) {
-  EXPECT_EQ(maze::get_version(), "0.0.1");
+  EXPECT_EQ(Maze::get_version(), "0.0.1");
 }

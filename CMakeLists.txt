@@ -16,7 +16,7 @@ if(MAZE_BUILD_TESTS AND MAZE_CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES GNU
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
-add_subdirectory(maze)
+add_subdirectory(Maze)
 
 if(MAZE_BUILD_TESTS AND NOT WIN32)
 enable_testing()

@@ -7,7 +7,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:msvcrtd")
 endif()
 
 add_executable(testmaze
-    arraytest.cpp
+    ArrayTest.cpp
     main.cpp
 )
 
@@ -19,7 +19,7 @@ target_link_libraries(testmaze
 
 target_include_directories(testmaze
     PRIVATE
-        "${CMAKE_SOURCE_DIR}/maze/include"
+        "${CMAKE_SOURCE_DIR}/Maze/include"
 )
 
 add_test(NAME testmaze
