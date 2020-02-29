@@ -43,24 +43,24 @@ add_library(maze ${MAZE_LIBRARY_TYPE}
 
 # Add include directories
 target_include_directories(maze
-    INTERFACE
-         $<INSTALL_INTERFACE:include>
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    PRIVATE
+#    INTERFACE
+#         $<INSTALL_INTERFACE:include>
+#         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${PROJECT_BINARY_DIR}/Maze
+        ${CMAKE_CURRENT_BINARY_DIR}
         ${PROJECT_SOURCE_DIR}/thirdparty/nlohmann/json/include
 )
 
 # Install library
-install(TARGETS maze
-    EXPORT MazeExport
-    RUNTIME DESTINATION "bin" COMPONENT bin
-    LIBRARY DESTINATION "lib" COMPONENT shlib
-    ARCHIVE DESTINATION "lib" COMPONENT stlib
-    COMPONENT dev
-)
+#install(TARGETS maze
+#    EXPORT MazeExport
+#    RUNTIME DESTINATION "bin" COMPONENT bin
+#    LIBRARY DESTINATION "lib" COMPONENT shlib
+#    ARCHIVE DESTINATION "lib" COMPONENT stlib
+#    COMPONENT dev
+#)
 
 # Create Maze/Version.hpp
 configure_file(src/Maze/Version.hpp.in
@@ -72,6 +72,6 @@ set(MAZE_HEADERS
 )
 
 # Install header files
-install(FILES ${MAZE_HEADERS}
-    DESTINATION "include/Maze"
-)
+#install(FILES ${MAZE_HEADERS}
+#    DESTINATION "include/Maze"
+#)
