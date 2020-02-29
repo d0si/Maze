@@ -2,10 +2,10 @@
 
 class ArrayTest : public ::testing::Test {
 protected:
-  ArrayTest();
+	ArrayTest();
 
-  virtual ~ArrayTest();
+	virtual ~ArrayTest();
 
-  virtual void SetUp();
-  virtual void TearDown();
+	virtual void SetUp();
+	virtual void TearDown();
 };
