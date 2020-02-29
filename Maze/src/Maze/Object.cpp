@@ -257,7 +257,7 @@ namespace Maze {
 
 	int Object::index_of(std::string index) const {
 		if (mazes_.size() > 0) {
-			for (size_t i = mazes_.size() - 1; i >= 0; --i) {
+			for (int i = mazes_.size() - 1; i >= 0; --i) {
 				if (mazes_[i].first == index) {
 					return i;
 				}
