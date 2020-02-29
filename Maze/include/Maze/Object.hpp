@@ -49,6 +49,8 @@ namespace Maze {
 		Object* insert(std::string index, Object* value);
 		Object* insert_null(std::string index);
 
+		Element* get_ptr(std::string index);
+		Element* get_ptr(int index);
 		Element get(std::string index, Type type) const;
 		Element get(std::string index) const;
 		Element operator[](std::string index) const;

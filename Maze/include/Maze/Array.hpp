@@ -32,6 +32,7 @@ namespace Maze {
 		Array* push(Object* value);
 		Array operator<<(Object* value);
 
+		Element* get_ptr(int index);
 		Element get(int index, Type type) const;
 		Element get(int index) const;
 		Element operator[](int index) const;

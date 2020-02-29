@@ -113,6 +113,14 @@ namespace Maze {
 		return *this;
 	}
 
+	Element* Array::get_ptr(int index) {
+		if ((unsigned int)index >= size()) {
+			return nullptr;
+		}
+
+		return &mazes_.at(index);
+	}
+
 	Element Array::get(int index, Type type) const {
 		if ((unsigned int)index >= size()) {
 			return Element();

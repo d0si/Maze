@@ -177,6 +177,23 @@ namespace Maze {
 		return insert_maze(index, Element(value));
 	}
 
+	Element* Object::get_ptr(std::string index) {
+		int i = index_of(index);
+		if (i < 0) {
+			return nullptr;
+		}
+
+		return &mazes_[i].second;
+	}
+
+	Element* Object::get_ptr(int index) {
+		if (index >= mazes_.size()) {
+			return nullptr;
+		}
+
+		return &mazes_[index].second;
+	}
+
 	Element Object::get(std::string index, Type type) const {
 		int i = index_of(index);
 		if (i < 0) {
