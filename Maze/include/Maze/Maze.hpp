@@ -7,10 +7,10 @@
 #include <Maze/Object.hpp>
 #include <Maze/Type.hpp>
 
-namespace maze {
+namespace Maze {
 
 std::string get_version();
 
-}  // namespace maze
+}  // namespace Maze
 
 #endif  // MAZE_MAZE_HPP

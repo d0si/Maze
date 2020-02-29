@@ -4,7 +4,7 @@
 #include <Maze/Helpers.hpp>
 #include <nlohmann/json.hpp>
 
-namespace maze {
+namespace Maze {
 
 Element::Element() {
 
@@ -279,15 +279,15 @@ void Element::apply(Element new_element) {
 }
 
 std::string Element::to_json(int spacing) {
-  return helpers::element::to_json_element(this).dump(spacing);
+  return Helpers::Element::to_json_element(this).dump(spacing);
 }
 
 void Element::apply_json(std::string json_string) {
-  helpers::element::apply_json(this, nlohmann::json::parse(json_string));
+  Helpers::Element::apply_json(this, nlohmann::json::parse(json_string));
 }
 
 Element Element::from_json(std::string json_string) {
-  return helpers::element::from_json(nlohmann::json::parse(json_string));
+  return Helpers::Element::from_json(nlohmann::json::parse(json_string));
 }
 
 Element Element::get_null() {
@@ -296,4 +296,4 @@ Element Element::get_null() {
   return el;
 }
 
-}  // namespace maze
+}  // namespace Maze

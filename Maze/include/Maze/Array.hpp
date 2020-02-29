@@ -5,7 +5,7 @@
 #include <vector>
 #include <Maze/Element.hpp>
 
-namespace maze {
+namespace Maze {
 
 class Array {
  private:
@@ -53,6 +53,6 @@ class Array {
   static Array from_json(std::string json_string);
 };
 
-}  // namespace maze
+}  // namespace Maze
 
 #endif  // MAZE_ARRAY_HPP

@@ -2,8 +2,8 @@
 #include <Maze/Array.hpp>
 #include <Maze/Maze.hpp>
 
-using maze::Array;
-using maze::Element;
+using Maze::Array;
+using Maze::Element;
 
 ArrayTest::ArrayTest() {
 

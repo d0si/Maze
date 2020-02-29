@@ -3,34 +3,34 @@
 
 #include <nlohmann/json.hpp>
 
-namespace maze {
+namespace Maze {
 
 class Element;
 class Array;
 class Object;
 using Json = nlohmann::json;
 
-namespace helpers {
-namespace element {
+namespace Helpers {
+namespace Element {
 
-Json to_json_element(Element* el);
-void apply_json(Element* el, Json json);
-Element from_json(Json json);
+Json to_json_element(Maze::Element* el);
+void apply_json(Maze::Element* el, Json json);
+Maze::Element from_json(Json json);
 
-}  // namespace element
-namespace array {
+}  // namespace Element
+namespace Array {
 
-Json to_json_array(Array* arr);
-Array from_json(Json json_array);
+Json to_json_array(Maze::Array* arr);
+Maze::Array from_json(Json json_array);
 
-}  // namespace array
-namespace object {
+}  // namespace Array
+namespace Object {
 
-Json to_json_object(Object* obj);
-Object from_json(Json json_object);
+Json to_json_object(Maze::Object* obj);
+Maze::Object from_json(Json json_object);
 
-}  // namespace object
-}  // namespace helpers
-}  // namespace maze
+}  // namespace Object
+}  // namespace Helpers
+}  // namespace Maze
 
 #endif  // MAZE_HELPERS_HPP

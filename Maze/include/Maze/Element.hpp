@@ -5,7 +5,7 @@
 #include <memory>
 #include <Maze/Type.hpp>
 
-namespace maze {
+namespace Maze {
 
 class Array;
 class Object;
@@ -93,6 +93,6 @@ class Element {
   static Element get_null();
 };
 
-}  // namespace maze
+}  // namespace Maze
 
 #endif  // MAZE_ELEMENT_HPP

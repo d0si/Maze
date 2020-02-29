@@ -4,7 +4,7 @@
 #include <Maze/Helpers.hpp>
 #include <nlohmann/json.hpp>
 
-namespace maze {
+namespace Maze {
 
 Object::Object() {
 
@@ -299,11 +299,11 @@ void Object::apply(Object new_obj) {
 }
 
 std::string Object::to_json(int indentation_spacing) {
-  return helpers::object::to_json_object(this).dump(indentation_spacing);
+  return Helpers::Object::to_json_object(this).dump(indentation_spacing);
 }
 
 Object Object::from_json(const std::string& json_string) {
-  return helpers::object::from_json(nlohmann::json::parse(json_string));
+  return Helpers::Object::from_json(nlohmann::json::parse(json_string));
 }
 
-}  // namespace maze
+}  // namespace Maze

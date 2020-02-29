@@ -4,7 +4,7 @@
 #include <Maze/Helpers.hpp>
 #include <nlohmann/json.hpp>
 
-namespace maze {
+namespace Maze {
 
 Array* Array::push(Element &maze) {
   mazes_.push_back(maze);
@@ -160,11 +160,11 @@ bool Array::is_empty() {
 }
 
 std::string Array::to_json(int indentation_spacing) {
-  return helpers::array::to_json_array(this).dump(indentation_spacing);
+  return Helpers::Array::to_json_array(this).dump(indentation_spacing);
 }
 
 Array Array::from_json(std::string json_string) {
-  return helpers::array::from_json(nlohmann::json::parse(json_string));
+  return Helpers::Array::from_json(nlohmann::json::parse(json_string));
 }
 
-}  // namespace maze
+}  // namespace Maze

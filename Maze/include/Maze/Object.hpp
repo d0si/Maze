@@ -5,7 +5,7 @@
 #include <vector>
 #include <Maze/Element.hpp>
 
-namespace maze {
+namespace Maze {
 
 class Object {
  private:
@@ -83,6 +83,6 @@ class Object {
   static Object from_json(const std::string& json_string);
 };
 
-}  // namespace maze
+}  // namespace Maze
 
 #endif  // MAZE_OBJECT_HPP

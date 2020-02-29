@@ -1,10 +1,10 @@
 #include <Maze/Version.hpp>
 #include <string>
 
-namespace maze {
+namespace Maze {
 
 std::string get_version() {
   return MAZE_VERSION;
 }
 
-}  // namespace maze
+}  // namespace Maze

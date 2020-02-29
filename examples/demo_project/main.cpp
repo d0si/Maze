@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main() {
-    maze::Object obj;
+    Maze::Object obj;
     obj.set("test", "works");
 
     std::cout << obj.to_json(2) << std::endl;

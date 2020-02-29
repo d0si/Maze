@@ -1,6 +1,6 @@
 #include <Maze/Type.hpp>
 
-namespace maze {
+namespace Maze {
 
 const std::string to_string(const Type& type) {
   switch (type) {
@@ -23,4 +23,4 @@ const std::string to_string(const Type& type) {
   }
 }
 
-}  // namespace maze
+}  // namespace Maze
