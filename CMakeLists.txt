@@ -23,4 +23,4 @@ enable_testing()
 add_subdirectory(test)
 endif()
 
-include(${CMAKE_SOURCE_DIR}/cmake/InstallConfig.cmake)
+#include(${CMAKE_SOURCE_DIR}/cmake/InstallConfig.cmake)
