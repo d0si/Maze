@@ -8,9 +8,7 @@
 #include <Maze/Type.hpp>
 
 namespace Maze {
-
-std::string get_version();
-
+	std::string get_version();
 }  // namespace Maze
 
 #endif  // MAZE_MAZE_HPP

@@ -6,93 +6,91 @@
 #include <Maze/Type.hpp>
 
 namespace Maze {
+	class Array;
+	class Object;
 
-class Array;
-class Object;
+	class Element {
+	private:
+		Type type_ = Type::Null;
 
-class Element {
- private:
-  Type type_ = Type::Null;
+		bool val_bool_;
+		int val_int_;
+		std::shared_ptr<double> ptr_double_;
+		std::shared_ptr<std::string> ptr_string_;
+		std::shared_ptr<Array> ptr_array_;
+		std::shared_ptr<Object> ptr_object_;
 
-  bool val_bool_;
-  int val_int_;
-  std::shared_ptr<double> ptr_double_;
-  std::shared_ptr<std::string> ptr_string_;
-  std::shared_ptr<Array> ptr_array_;
-  std::shared_ptr<Object> ptr_object_;
+		std::shared_ptr<std::string> ptr_key_;
+	public:
+		Element();
+		Element(bool val);
+		Element(int val);
+		Element(double val);
+		Element(std::string& val);
+		Element(const char* val);
+		Element(Array val);
+		Element(Object val);
+		Element(Type val);
+		~Element();
 
-  std::shared_ptr<std::string> ptr_key_;
- public:
-  Element();
-  Element(bool val);
-  Element(int val);
-  Element(double val);
-  Element(std::string& val);
-  Element(const char* val);
-  Element(Array val);
-  Element(Object val);
-  Element(Type val);
-  ~Element();
+		void set_type(Type type);
+		Type get_type() const;
 
-  void set_type(Type type);
-  Type get_type();
+		void set_key(std::string key);
+		std::string get_key() const;
 
-  void set_key(std::string key);
-  std::string get_key();
+		void set_null();
 
-  void set_null();
+		void set_bool(bool val);
+		void operator=(bool val);
+		bool get_bool() const;
+		operator bool() const;
 
-  void set_bool(bool val);
-  void operator=(bool val);
-  bool get_bool();
-  operator bool();
+		void set_int(int val);
+		void operator=(int val);
+		int get_int() const;
+		operator int() const;
 
-  void set_int(int val);
-  void operator=(int val);
-  int get_int();
-  operator int();
+		void set_double(double val);
+		void operator=(double val);
+		double get_double() const;
+		operator double() const;
 
-  void set_double(double val);
-  void operator=(double val);
-  double get_double();
-  operator double();
+		void set_string(std::string val);
+		void operator=(std::string val);
+		void operator=(const char* val);
+		std::string get_string() const;
+		operator std::string() const;
 
-  void set_string(std::string val);
-  void operator=(std::string val);
-  void operator=(const char* val);
-  std::string get_string();
-  operator std::string();
+		void set_array(Array value);
+		void operator=(Array value);
+		Array get_array() const;
+		operator Array() const;
 
-  void set_array(Array value);
-  void operator=(Array value);
-  Array get_array();
-  operator Array();
+		void set_object(Object value);
+		void operator=(Object value);
+		Object get_object() const;
+		operator Object() const;
 
-  void set_object(Object value);
-  void operator=(Object value);
-  Object get_object();
-  operator Object();
+		bool is_null() const;
+		bool is_bool() const;
+		bool is_int() const;
+		bool is_double() const;
+		bool is_string() const;
+		bool is_array() const;
+		bool is_object() const;
+		bool is(Type type) const;
 
-  bool is_null();
-  bool is_bool();
-  bool is_int();
-  bool is_double();
-  bool is_string();
-  bool is_array();
-  bool is_object();
-  bool is(Type type);
+		void apply(Element new_element);
 
-  void apply(Element new_element);
+		std::string to_json(int indentation_spacing = 2) const;
 
-  std::string to_json(int indentation_spacing = 2);
+		void apply_json(std::string json_string);
 
-  void apply_json(std::string json_string);
+		static Element from_json(std::string json_string);
 
-  static Element from_json(std::string json_string);
-
-  static Element get_null();
-};
-
+		static Element get_null();
+	};
 }  // namespace Maze
 
 #endif  // MAZE_ELEMENT_HPP
