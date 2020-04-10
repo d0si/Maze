@@ -21,7 +21,7 @@ namespace Maze {
 		set_double(val);
 	}
 
-	Element::Element(std::string& val) {
+	Element::Element(const std::string& val) {
 		set_string(val);
 	}
 
@@ -29,11 +29,11 @@ namespace Maze {
 		set_string(val);
 	}
 
-	Element::Element(Array val) {
+	Element::Element(const Array& val) {
 		set_array(val);
 	}
 
-	Element::Element(Object val) {
+	Element::Element(const Object& val) {
 		set_object(val);
 	}
 
@@ -154,12 +154,12 @@ namespace Maze {
 		return get_double();
 	}
 
-	void Element::set_string(std::string val) {
+	void Element::set_string(const std::string& val) {
 		ptr_string_ = std::make_shared<std::string>(val);
 		type_ = Type::String;
 	}
 
-	void Element::operator=(std::string val) {
+	void Element::operator=(const std::string& val) {
 		set_string(val);
 	}
 
@@ -179,12 +179,12 @@ namespace Maze {
 		return get_string();
 	}
 
-	void Element::set_array(Array val) {
+	void Element::set_array(const Array& val) {
 		ptr_array_ = std::make_shared<Array>(val);
 		type_ = Type::Array;
 	}
 
-	void Element::operator=(Array val) {
+	void Element::operator=(const Array& val) {
 		set_array(val);
 	}
 
@@ -199,12 +199,12 @@ namespace Maze {
 		return get_array();
 	}
 
-	void Element::set_object(Object val) {
+	void Element::set_object(const Object& val) {
 		ptr_object_ = std::make_shared<Object>(val);
 		type_ = Type::Object;
 	}
 
-	void Element::operator=(Object val) {
+	void Element::operator=(const Object& val) {
 		set_object(val);
 	}
 
@@ -251,7 +251,7 @@ namespace Maze {
 		return (type_ == type);
 	}
 
-	void Element::apply(Element new_element) {
+	void Element::apply(const Element& new_element) {
 		switch (new_element.get_type()) {
 		case Type::Null:
 			set_null();
@@ -281,11 +281,11 @@ namespace Maze {
 		return Helpers::Element::to_json_element(this).dump(spacing);
 	}
 
-	void Element::apply_json(std::string json_string) {
+	void Element::apply_json(const std::string& json_string) {
 		Helpers::Element::apply_json(this, nlohmann::json::parse(json_string));
 	}
 
-	Element Element::from_json(std::string json_string) {
+	Element Element::from_json(const std::string& json_string) {
 		return Helpers::Element::from_json(nlohmann::json::parse(json_string));
 	}
 

@@ -26,10 +26,10 @@ namespace Maze {
 		Element(bool val);
 		Element(int val);
 		Element(double val);
-		Element(std::string& val);
+		Element(const std::string& val);
 		Element(const char* val);
-		Element(Array val);
-		Element(Object val);
+		Element(const Array& val);
+		Element(const Object& val);
 		Element(Type val);
 		~Element();
 
@@ -56,19 +56,19 @@ namespace Maze {
 		double get_double() const;
 		operator double() const;
 
-		void set_string(std::string val);
-		void operator=(std::string val);
+		void set_string(const std::string& val);
+		void operator=(const std::string& val);
 		void operator=(const char* val);
 		std::string get_string() const;
 		operator std::string() const;
 
-		void set_array(Array value);
-		void operator=(Array value);
+		void set_array(const Array& value);
+		void operator=(const Array& value);
 		Array get_array() const;
 		operator Array() const;
 
-		void set_object(Object value);
-		void operator=(Object value);
+		void set_object(const Object& value);
+		void operator=(const Object& value);
 		Object get_object() const;
 		operator Object() const;
 
@@ -81,13 +81,13 @@ namespace Maze {
 		bool is_object() const;
 		bool is(Type type) const;
 
-		void apply(Element new_element);
+		void apply(const Element& new_element);
 
 		std::string to_json(int indentation_spacing = 2) const;
 
-		void apply_json(std::string json_string);
+		void apply_json(const std::string& json_string);
 
-		static Element from_json(std::string json_string);
+		static Element from_json(const std::string& json_string);
 
 		static Element get_null();
 	};
