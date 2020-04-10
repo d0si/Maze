@@ -316,7 +316,7 @@ namespace Maze {
 	void Object::apply(const Object& new_obj) {
 		for (auto maze : new_obj.mazes_) {
 			if (exists(maze.first)) {
-				get(maze.first).apply(maze.second);
+				get_ptr(maze.first)->apply(maze.second);
 			}
 			else {
 				insert(maze.first, maze.second);
