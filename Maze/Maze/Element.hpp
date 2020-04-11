@@ -44,32 +44,40 @@ namespace Maze {
 		void set_bool(bool val);
 		void operator=(bool val);
 		bool get_bool() const;
+		bool b() const;
 		operator bool() const;
 
 		void set_int(int val);
 		void operator=(int val);
 		int get_int() const;
+		int i() const;
 		operator int() const;
 
 		void set_double(double val);
 		void operator=(double val);
 		double get_double() const;
+		double d() const;
 		operator double() const;
 
 		void set_string(const std::string& val);
 		void operator=(const std::string& val);
 		void operator=(const char* val);
 		std::string get_string() const;
+		std::string s() const;
 		operator std::string() const;
 
 		void set_array(const Array& value);
 		void operator=(const Array& value);
 		Array get_array() const;
+		Array a() const;
+		std::shared_ptr<Array> a_ptr() const;
 		operator Array() const;
 
 		void set_object(const Object& value);
 		void operator=(const Object& value);
 		Object get_object() const;
+		Object o() const;
+		std::shared_ptr<Object> o_ptr() const;
 		operator Object() const;
 
 		bool is_null() const;

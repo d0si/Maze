@@ -108,6 +108,10 @@ namespace Maze {
 		return false;
 	}
 
+	bool Element::b() const {
+		return get_bool();
+	}
+
 	Element::operator bool() const {
 		return get_bool();
 	}
@@ -129,6 +133,10 @@ namespace Maze {
 		return 0;
 	}
 
+	int Element::i() const {
+		return get_int();
+	}
+
 	Element::operator int() const {
 		return get_int();
 	}
@@ -148,6 +156,10 @@ namespace Maze {
 		}
 
 		return 0;
+	}
+
+	double Element::d() const {
+		return get_double();
 	}
 
 	Element::operator double() const {
@@ -175,6 +187,10 @@ namespace Maze {
 		return "";
 	}
 
+	std::string Element::s() const {
+		return get_string();
+	}
+
 	Element::operator std::string() const {
 		return get_string();
 	}
@@ -195,6 +211,14 @@ namespace Maze {
 		return Array();
 	}
 
+	Array Element::a() const {
+		return get_array();
+	}
+
+	std::shared_ptr<Array> Element::a_ptr() const {
+		return ptr_array_;
+	}
+
 	Element::operator Array() const {
 		return get_array();
 	}
@@ -213,6 +237,14 @@ namespace Maze {
 			return *ptr_object_;
 		}
 		return Object();
+	}
+
+	Object Element::o() const {
+		return get_object();
+	}
+
+	std::shared_ptr<Object> Element::o_ptr() const {
+		return ptr_object_;
 	}
 
 	Element::operator Object() const {
