@@ -21,7 +21,7 @@ namespace Maze {
 		set_double(val);
 	}
 
-	Element::Element(std::string& val) {
+	Element::Element(const std::string& val) {
 		set_string(val);
 	}
 
@@ -29,11 +29,11 @@ namespace Maze {
 		set_string(val);
 	}
 
-	Element::Element(Array val) {
+	Element::Element(const Array& val) {
 		set_array(val);
 	}
 
-	Element::Element(Object val) {
+	Element::Element(const Object& val) {
 		set_object(val);
 	}
 
@@ -108,6 +108,10 @@ namespace Maze {
 		return false;
 	}
 
+	bool Element::b() const {
+		return get_bool();
+	}
+
 	Element::operator bool() const {
 		return get_bool();
 	}
@@ -127,6 +131,10 @@ namespace Maze {
 		}
 
 		return 0;
+	}
+
+	int Element::i() const {
+		return get_int();
 	}
 
 	Element::operator int() const {
@@ -150,16 +158,20 @@ namespace Maze {
 		return 0;
 	}
 
+	double Element::d() const {
+		return get_double();
+	}
+
 	Element::operator double() const {
 		return get_double();
 	}
 
-	void Element::set_string(std::string val) {
+	void Element::set_string(const std::string& val) {
 		ptr_string_ = std::make_shared<std::string>(val);
 		type_ = Type::String;
 	}
 
-	void Element::operator=(std::string val) {
+	void Element::operator=(const std::string& val) {
 		set_string(val);
 	}
 
@@ -175,16 +187,20 @@ namespace Maze {
 		return "";
 	}
 
+	std::string Element::s() const {
+		return get_string();
+	}
+
 	Element::operator std::string() const {
 		return get_string();
 	}
 
-	void Element::set_array(Array val) {
+	void Element::set_array(const Array& val) {
 		ptr_array_ = std::make_shared<Array>(val);
 		type_ = Type::Array;
 	}
 
-	void Element::operator=(Array val) {
+	void Element::operator=(const Array& val) {
 		set_array(val);
 	}
 
@@ -195,16 +211,24 @@ namespace Maze {
 		return Array();
 	}
 
+	Array Element::a() const {
+		return get_array();
+	}
+
+	std::shared_ptr<Array> Element::a_ptr() const {
+		return ptr_array_;
+	}
+
 	Element::operator Array() const {
 		return get_array();
 	}
 
-	void Element::set_object(Object val) {
+	void Element::set_object(const Object& val) {
 		ptr_object_ = std::make_shared<Object>(val);
 		type_ = Type::Object;
 	}
 
-	void Element::operator=(Object val) {
+	void Element::operator=(const Object& val) {
 		set_object(val);
 	}
 
@@ -213,6 +237,14 @@ namespace Maze {
 			return *ptr_object_;
 		}
 		return Object();
+	}
+
+	Object Element::o() const {
+		return get_object();
+	}
+
+	std::shared_ptr<Object> Element::o_ptr() const {
+		return ptr_object_;
 	}
 
 	Element::operator Object() const {
@@ -251,7 +283,7 @@ namespace Maze {
 		return (type_ == type);
 	}
 
-	void Element::apply(Element new_element) {
+	void Element::apply(const Element& new_element) {
 		switch (new_element.get_type()) {
 		case Type::Null:
 			set_null();
@@ -281,11 +313,11 @@ namespace Maze {
 		return Helpers::Element::to_json_element(this).dump(spacing);
 	}
 
-	void Element::apply_json(std::string json_string) {
+	void Element::apply_json(const std::string& json_string) {
 		Helpers::Element::apply_json(this, nlohmann::json::parse(json_string));
 	}
 
-	Element Element::from_json(std::string json_string) {
+	Element Element::from_json(const std::string& json_string) {
 		return Helpers::Element::from_json(nlohmann::json::parse(json_string));
 	}
 

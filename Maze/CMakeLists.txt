@@ -1,21 +1,21 @@
 # Set cpp sources
 set(MAZE_SOURCES
-    src/Maze/Array.cpp
-    src/Maze/Version.cpp
-    src/Maze/Element.cpp
-    src/Maze/Object.cpp
-    src/Maze/Type.cpp
-    src/Maze/Helpers.cpp
+    Maze/Array.cpp
+    Maze/Version.cpp
+    Maze/Element.cpp
+    Maze/Object.cpp
+    Maze/Type.cpp
+    Maze/Helpers.cpp
 )
 
 # Set headers
 set(MAZE_HEADERS
-    include/Maze/Array.hpp
-    include/Maze/Element.hpp
-    include/Maze/Helpers.hpp
-    include/Maze/Maze.hpp
-    include/Maze/Object.hpp
-    include/Maze/Type.hpp
+    Maze/Array.hpp
+    Maze/Element.hpp
+    Maze/Helpers.hpp
+    Maze/Maze.hpp
+    Maze/Object.hpp
+    Maze/Type.hpp
 )
 
 # Fallback to Release build if nothing else was chosen
@@ -47,8 +47,7 @@ target_include_directories(maze
 #         $<INSTALL_INTERFACE:include>
 #         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
         ${PROJECT_SOURCE_DIR}/thirdparty/nlohmann/json/include
 )
@@ -63,7 +62,7 @@ target_include_directories(maze
 #)
 
 # Create Maze/Version.hpp
-configure_file(src/Maze/Version.hpp.in
+configure_file(Maze/Version.hpp.in
     "${CMAKE_CURRENT_BINARY_DIR}/Maze/Version.hpp" @ONLY
 )
 set(MAZE_HEADERS

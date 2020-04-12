@@ -11,23 +11,23 @@ namespace Maze {
 		return this;
 	}
 
-	Array* Array::push_maze(Element maze) {
+	Array* Array::push_maze(const Element& maze) {
 		mazes_.push_back(maze);
 
 		return this;
 	}
 
-	Array Array::operator<<(Element maze) {
+	Array Array::operator<<(const Element& maze) {
 		push_maze(maze);
 
 		return *this;
 	}
 
-	Array* Array::push(std::string value) {
+	Array* Array::push(const std::string& value) {
 		return push_maze(std::move(Element(value)));
 	}
 
-	Array Array::operator<<(std::string value) {
+	Array Array::operator<<(const std::string& value) {
 		push(value);
 
 		return *this;
@@ -73,11 +73,11 @@ namespace Maze {
 		return *this;
 	}
 
-	Array* Array::push(Array value) {
+	Array* Array::push(const Array& value) {
 		return push_maze(std::move(Element(value)));
 	}
 
-	Array Array::operator<<(Array value) {
+	Array Array::operator<<(const Array& value) {
 		push(value);
 
 		return *this;
@@ -93,11 +93,11 @@ namespace Maze {
 		return *this;
 	}
 
-	Array* Array::push(Object value) {
+	Array* Array::push(const Object& value) {
 		return push_maze(std::move(Element(value)));
 	}
 
-	Array Array::operator<<(Object value) {
+	Array Array::operator<<(const Object& value) {
 		push(value);
 
 		return *this;
@@ -170,7 +170,7 @@ namespace Maze {
 		return Helpers::Array::to_json_array(this).dump(indentation_spacing);
 	}
 
-	Array Array::from_json(std::string json_string) {
+	Array Array::from_json(const std::string& json_string) {
 		return Helpers::Array::from_json(nlohmann::json::parse(json_string));
 	}
 }  // namespace Maze

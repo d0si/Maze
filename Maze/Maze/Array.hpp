@@ -11,10 +11,10 @@ namespace Maze {
 		std::vector<Element> mazes_;
 	public:
 		Array* push(Element& maze);
-		Array* push_maze(Element maze);
-		Array operator<<(Element maze);
-		Array* push(std::string value);
-		Array operator<<(std::string value);
+		Array* push_maze(const Element& maze);
+		Array operator<<(const Element& maze);
+		Array* push(const std::string& value);
+		Array operator<<(const std::string& value);
 		Array* push(const char* value);
 		Array operator<<(const char* value);
 		Array* push(int value);
@@ -23,12 +23,12 @@ namespace Maze {
 		Array operator<<(double value);
 		Array* push(bool value);
 		Array operator<<(bool value);
-		Array* push(Array value);
-		Array operator<<(Array value);
+		Array* push(const Array& value);
+		Array operator<<(const Array& value);
 		Array* push(Array* value);
 		Array operator<<(Array* value);
-		Array* push(Object value);
-		Array operator<<(Object value);
+		Array* push(const Object& value);
+		Array operator<<(const Object& value);
 		Array* push(Object* value);
 		Array operator<<(Object* value);
 
@@ -50,7 +50,7 @@ namespace Maze {
 
 		std::string to_json(int indentation_spacing = 2) const;
 
-		static Array from_json(std::string json_string);
+		static Array from_json(const std::string& json_string);
 	};
 }  // namespace Maze
 
