@@ -304,7 +304,7 @@ namespace Maze {
 			set_array(new_element.get_array());
 			break;
 		case Type::Object:
-			get_object().apply(new_element.get_object());
+			ptr_object_->apply(new_element.get_object());
 			break;
 		}
 	}
