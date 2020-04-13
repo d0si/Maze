@@ -34,6 +34,9 @@ namespace Maze {
 		Element(Type val);
 		~Element();
 
+		void set_element(const Element& val);
+		void operator=(const Element& val);
+
 		void set_type(Type type);
 		Type get_type() const;
 

@@ -10,31 +10,7 @@ namespace Maze {
 	}
 
 	Element::Element(const Element& val) {
-		switch (val.get_type()) {
-		case Type::Null:
-			set_null();
-			break;
-		case Type::Bool:
-			set_bool(val.get_bool());
-			break;
-		case Type::Int:
-			set_int(val.get_int());
-			break;
-		case Type::Double:
-			set_double(val.get_double());
-			break;
-		case Type::String:
-			set_string(val.get_string());
-			break;
-		case Type::Array:
-			set_array(val.get_array());
-			break;
-		case Type::Object:
-			set_object(val.get_object());
-			break;
-		default:
-			set_null();
-		}
+		set_element(val);
 	}
 
 	Element::Element(bool val) {
@@ -70,6 +46,39 @@ namespace Maze {
 	}
 
 	Element::~Element() {
+
+	}
+	
+	void Element::set_element(const Element& val) {
+		switch (val.get_type()) {
+		case Type::Null:
+			set_null();
+			break;
+		case Type::Bool:
+			set_bool(val.get_bool());
+			break;
+		case Type::Int:
+			set_int(val.get_int());
+			break;
+		case Type::Double:
+			set_double(val.get_double());
+			break;
+		case Type::String:
+			set_string(val.get_string());
+			break;
+		case Type::Array:
+			set_array(val.get_array());
+			break;
+		case Type::Object:
+			set_object(val.get_object());
+			break;
+		default:
+			set_null();
+		}
+	}
+
+	void Element::operator=(const Element& val) {
+		set_element(val);
 	}
 
 	void Element::set_type(Type type) {
