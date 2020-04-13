@@ -15,14 +15,15 @@ namespace Maze {
 
 		bool val_bool_;
 		int val_int_;
-		std::shared_ptr<double> ptr_double_;
-		std::shared_ptr<std::string> ptr_string_;
-		std::shared_ptr<Array> ptr_array_;
-		std::shared_ptr<Object> ptr_object_;
+		double val_double_;
+		std::string val_string_;
+		std::unique_ptr<Array> ptr_array_;
+		std::unique_ptr<Object> ptr_object_;
 
-		std::shared_ptr<std::string> ptr_key_;
+		std::string val_key_;
 	public:
 		Element();
+		Element(const Element& val);
 		Element(bool val);
 		Element(int val);
 		Element(double val);
@@ -70,14 +71,14 @@ namespace Maze {
 		void operator=(const Array& value);
 		Array get_array() const;
 		Array a() const;
-		std::shared_ptr<Array> a_ptr() const;
+		Array* a_ptr() const;
 		operator Array() const;
 
 		void set_object(const Object& value);
 		void operator=(const Object& value);
 		Object get_object() const;
 		Object o() const;
-		std::shared_ptr<Object> o_ptr() const;
+		Object* o_ptr() const;
 		operator Object() const;
 
 		bool is_null() const;
