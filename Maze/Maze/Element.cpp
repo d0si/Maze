@@ -9,6 +9,10 @@ namespace Maze {
 
 	}
 
+	Element::Element(const Element& val) {
+		set_element(val);
+	}
+
 	Element::Element(bool val) {
 		set_bool(val);
 	}
@@ -42,6 +46,39 @@ namespace Maze {
 	}
 
 	Element::~Element() {
+
+	}
+	
+	void Element::set_element(const Element& val) {
+		switch (val.get_type()) {
+		case Type::Null:
+			set_null();
+			break;
+		case Type::Bool:
+			set_bool(val.get_bool());
+			break;
+		case Type::Int:
+			set_int(val.get_int());
+			break;
+		case Type::Double:
+			set_double(val.get_double());
+			break;
+		case Type::String:
+			set_string(val.get_string());
+			break;
+		case Type::Array:
+			set_array(val.get_array());
+			break;
+		case Type::Object:
+			set_object(val.get_object());
+			break;
+		default:
+			set_null();
+		}
+	}
+
+	void Element::operator=(const Element& val) {
+		set_element(val);
 	}
 
 	void Element::set_type(Type type) {
@@ -77,11 +114,11 @@ namespace Maze {
 	}
 
 	void Element::set_key(std::string key) {
-		ptr_key_ = std::make_shared<std::string>(key);
+		val_key_ = key;
 	}
 
 	std::string Element::get_key() const {
-		return *ptr_key_;
+		return val_key_;
 	}
 
 	void Element::set_null() {
@@ -142,7 +179,7 @@ namespace Maze {
 	}
 
 	void Element::set_double(double val) {
-		ptr_double_ = std::make_shared<double>(val);
+		val_double_ = val;
 		type_ = Type::Double;
 	}
 
@@ -152,7 +189,7 @@ namespace Maze {
 
 	double Element::get_double() const {
 		if (type_ == Type::Double) {
-			return *ptr_double_;
+			return val_double_;
 		}
 
 		return 0;
@@ -167,7 +204,7 @@ namespace Maze {
 	}
 
 	void Element::set_string(const std::string& val) {
-		ptr_string_ = std::make_shared<std::string>(val);
+		val_string_ = val;
 		type_ = Type::String;
 	}
 
@@ -181,7 +218,7 @@ namespace Maze {
 
 	std::string Element::get_string() const {
 		if (type_ == Type::String) {
-			return *ptr_string_;
+			return val_string_;
 		}
 
 		return "";
@@ -196,7 +233,7 @@ namespace Maze {
 	}
 
 	void Element::set_array(const Array& val) {
-		ptr_array_ = std::make_shared<Array>(val);
+		ptr_array_ = std::make_unique<Array>(val);
 		type_ = Type::Array;
 	}
 
@@ -215,8 +252,8 @@ namespace Maze {
 		return get_array();
 	}
 
-	std::shared_ptr<Array> Element::a_ptr() const {
-		return ptr_array_;
+	Array* Element::a_ptr() const {
+		return ptr_array_.get();
 	}
 
 	Element::operator Array() const {
@@ -224,7 +261,7 @@ namespace Maze {
 	}
 
 	void Element::set_object(const Object& val) {
-		ptr_object_ = std::make_shared<Object>(val);
+		ptr_object_ = std::make_unique<Object>(val);
 		type_ = Type::Object;
 	}
 
@@ -243,8 +280,8 @@ namespace Maze {
 		return get_object();
 	}
 
-	std::shared_ptr<Object> Element::o_ptr() const {
-		return ptr_object_;
+	Object* Element::o_ptr() const {
+		return ptr_object_.get();
 	}
 
 	Element::operator Object() const {
@@ -304,7 +341,7 @@ namespace Maze {
 			set_array(new_element.get_array());
 			break;
 		case Type::Object:
-			get_object().apply(new_element.get_object());
+			ptr_object_->apply(new_element.get_object());
 			break;
 		}
 	}
