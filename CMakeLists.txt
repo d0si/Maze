@@ -8,7 +8,7 @@ option(MAZE_BUILD_SHARED_LIBS "Build shared libs when enabled otherwise static" 
 option(MAZE_BUILD_TESTS "Build tests when enabled" ON)
 option(MAZE_CODE_COVERAGE "Adds code coverage symbols" OFF)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Calculate CodeCoverage on GNU based compilers
