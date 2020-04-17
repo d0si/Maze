@@ -86,12 +86,31 @@ set(MAZE_PUBLIC_HEADERS
     "${CMAKE_CURRENT_BINARY_DIR}/Maze/Version.hpp"
 )
 
+
 #
 # Unit testing
 #
 if(MAZE_BUILD_TESTS)
     enable_testing()
-    add_subdirectory(test)
-endif()
+    
+    set(INSTALL_GTEST OFF)
+    set(gtest_force_shared_crt ON)
+    add_subdirectory(dependencies/googletest)
 
-#include(${CMAKE_SOURCE_DIR}/cmake/InstallConfig.cmake)
+    set(MAZE_TEST_SOURCES
+        MazeTest/ArrayTest.cpp
+        MazeTest/main.cpp
+    )
+
+    add_executable(MazeTest
+        ${MAZE_TEST_SOURCES}
+    )
+
+    add_test(NAME MazeTest COMMAND MazeTest)
+
+    target_link_libraries(MazeTest
+        PUBLIC
+            Maze
+            gtest
+    )
+endif()
