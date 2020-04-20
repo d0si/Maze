@@ -100,6 +100,7 @@ if(MAZE_BUILD_TESTS)
     set(MAZE_TEST_SOURCES
         MazeTest/ArrayTest.cpp
         MazeTest/ObjectTest.cpp
+        MazeTest/HelpersTest.cpp
         MazeTest/main.cpp
     )
 

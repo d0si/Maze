@@ -110,7 +110,7 @@ Object ObjectTest::get_demo_object() {
 
 	obj.set("obj1", Object());
 	obj.set("arr1", Array());
-	obj.set("str1", "");
+	obj.set("str1", "test_string");
 	obj.set("null1", Maze::Element::get_null());
 	obj.set("int1", 54321);
 	obj.set("double1", 9876.54321);
