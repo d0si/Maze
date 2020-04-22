@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <Maze/Array.hpp>
 #include <Maze/Maze.hpp>
 
 using Maze::Array;

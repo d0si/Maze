@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
+#include <Maze/Maze.hpp>
 #include <Maze/Object.hpp>
-#include <Maze/Array.hpp>
 
 using Maze::Object;
 using Maze::Array;

@@ -2,7 +2,6 @@
 #include <Maze/Maze.hpp>
 #include <Maze/Helpers.hpp>
 #include <Maze/Object.hpp>
-#include <Maze/Array.hpp>
 
 using Maze::Element;
 using Maze::Object;

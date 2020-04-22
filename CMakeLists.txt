@@ -36,10 +36,8 @@ set(MAZE_SOURCES
     Maze/Version.cpp
 )
 set(MAZE_PUBLIC_HEADERS
-    Maze/Element.hpp
+    Maze/Maze.hpp
     Maze/Object.hpp
-    Maze/Array.hpp
-    Maze/Type.hpp
     Maze/Helpers.hpp
 )
 
@@ -100,6 +98,7 @@ if(MAZE_BUILD_TESTS)
     set(MAZE_TEST_SOURCES
         MazeTest/ArrayTest.cpp
         MazeTest/ObjectTest.cpp
+        MazeTest/TypeTest.cpp
         MazeTest/HelpersTest.cpp
         MazeTest/main.cpp
     )
