@@ -1,5 +1,5 @@
+#include <Maze/Maze.hpp>
 #include <Maze/Object.hpp>
-#include <Maze/Element.hpp>
 #include <Maze/Array.hpp>
 #include <Maze/Helpers.hpp>
 #include <nlohmann/json.hpp>

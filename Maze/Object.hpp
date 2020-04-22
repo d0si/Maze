@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <Maze/Element.hpp>
+#include <Maze/Maze.hpp>
 
 namespace Maze {
 	class Object {
