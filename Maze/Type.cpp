@@ -1,7 +1,7 @@
-#include <Maze/Type.hpp>
+#include <Maze/Maze.hpp>
 
 namespace Maze {
-	const std::string to_string(const Type& type) {
+	std::string to_string(const Type& type) {
 		switch (type) {
 		case Type::Null:
 			return "null";

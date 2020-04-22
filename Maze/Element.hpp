@@ -3,7 +3,7 @@
 
 #include <string>
 #include <memory>
-#include <Maze/Type.hpp>
+#include <Maze/Maze.hpp>
 
 namespace Maze {
 	class Array;

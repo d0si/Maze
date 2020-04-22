@@ -2,13 +2,21 @@
 #define MAZE_MAZE_HPP
 
 #include <string>
-#include <Maze/Array.hpp>
-#include <Maze/Element.hpp>
-#include <Maze/Object.hpp>
-#include <Maze/Type.hpp>
 
 namespace Maze {
 	std::string get_version();
+
+	enum class Type {
+		Null = 0,
+		Bool = 1,
+		Int = 2,
+		Double = 3,
+		String = 4,
+		Array = 5,
+		Object = 6
+	};
+
+	std::string to_string(const Type& type);
 }  // namespace Maze
 
 #endif  // MAZE_MAZE_HPP
