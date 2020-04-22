@@ -37,7 +37,6 @@ set(MAZE_SOURCES
 )
 set(MAZE_PUBLIC_HEADERS
     Maze/Maze.hpp
-    Maze/Object.hpp
     Maze/Helpers.hpp
 )
 

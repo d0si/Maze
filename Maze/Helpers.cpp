@@ -1,6 +1,5 @@
 #include <Maze/Helpers.hpp>
 #include <Maze/Maze.hpp>
-#include <Maze/Object.hpp>
 
 namespace Maze {
 	namespace Helpers {
