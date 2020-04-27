@@ -18,10 +18,6 @@ option(MAZE_CODE_COVERAGE "Adds code coverage symbols" OFF)
 #
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-# Calculate CodeCoverage on GNU based compilers
-if(MAZE_BUILD_TESTS AND MAZE_CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES GNU)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-endif()
 
 
 #
@@ -97,6 +93,7 @@ if(MAZE_BUILD_TESTS)
     set(MAZE_TEST_SOURCES
         MazeTest/ArrayTest.cpp
         MazeTest/ObjectTest.cpp
+        MazeTest/ElementTest.cpp
         MazeTest/TypeTest.cpp
         MazeTest/HelpersTest.cpp
         MazeTest/main.cpp
@@ -113,4 +110,23 @@ if(MAZE_BUILD_TESTS)
             Maze
             gtest
     )
+
+    # Calculate CodeCoverage on GNU based compilers
+    if(MAZE_CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES GNU)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage  -fprofile-arcs -ftest-coverage")
+        set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage  -fprofile-arcs -ftest-coverage")
+        set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
+
+        add_custom_target(MazeTest_coverage
+            lcov --directory . --zerocounters
+            COMMAND MazeTest ${ARGV3}
+            COMMAND ${CMAKE_SOURCE_DIR}/cmake/fastcov/fastcov.py --lcov -o maze_test_coverage.info
+            #COMMAND lcov --directory . --capture --output-file maze_test_coverage.info
+            #COMMAND lcov --directory . --capture --output-file maze_test_coverage.info --rc lcov_branch_coverage=1
+            #COMMAND lcov --remove maze_test_coverage.info 'build/*' 'MazeTest/*' '/usr/*' -- output-file maze_test_coverage.info.cleaned
+            COMMAND genhtml -o coverage_info maze_test_coverage.info
+        )
+
+
+    endif()
 endif()
