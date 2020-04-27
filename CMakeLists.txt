@@ -118,15 +118,10 @@ if(MAZE_BUILD_TESTS)
         set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
 
         add_custom_target(MazeTest_coverage
-            lcov --directory . --zerocounters
             COMMAND MazeTest ${ARGV3}
-            COMMAND ${CMAKE_SOURCE_DIR}/cmake/fastcov/fastcov.py --lcov -o maze_test_coverage.info
-            #COMMAND lcov --directory . --capture --output-file maze_test_coverage.info
-            #COMMAND lcov --directory . --capture --output-file maze_test_coverage.info --rc lcov_branch_coverage=1
-            #COMMAND lcov --remove maze_test_coverage.info 'build/*' 'MazeTest/*' '/usr/*' -- output-file maze_test_coverage.info.cleaned
+            COMMAND ${CMAKE_SOURCE_DIR}/cmake/fastcov/fastcov.py --lcov -o maze_test_coverage.info --include Maze/Maze/
             COMMAND genhtml -o coverage_info maze_test_coverage.info
         )
-
 
     endif()
 endif()
