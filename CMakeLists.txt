@@ -93,7 +93,6 @@ if(MAZE_BUILD_TESTS)
     set(MAZE_TEST_SOURCES
         MazeTest/ArrayTest.cpp
         MazeTest/ObjectTest.cpp
-        MazeTest/ElementTest.cpp
         MazeTest/TypeTest.cpp
         MazeTest/HelpersTest.cpp
         MazeTest/main.cpp

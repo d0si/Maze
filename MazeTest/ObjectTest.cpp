@@ -94,3 +94,21 @@ TEST_F(ObjectTest, IsObject) {
 	EXPECT_FALSE(test_object.is_object("double1"));
 	EXPECT_FALSE(test_object.is_object("bool1"));
 }
+
+TEST_F(ObjectTest, Get_NonexistentElement) {
+	auto el = test_object.get("nonexistent_key");
+	
+	EXPECT_TRUE(el.is_null());
+}
+
+TEST_F(ObjectTest, Get_ExistingElement) {
+	auto el = test_object.get("str1");
+
+	EXPECT_EQ(el.get_string(), "test_string");
+}
+
+TEST_F(ObjectTest, SetNull) {
+	test_object.set_null("str1");
+
+	EXPECT_TRUE(test_object.get("str1").is_null());
+}
