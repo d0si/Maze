@@ -3,8 +3,6 @@
 namespace Maze {
 	std::string to_string(const Type& type) {
 		switch (type) {
-		case Type::Null:
-			return "null";
 		case Type::Bool:
 			return "bool";
 		case Type::Int:
@@ -18,7 +16,7 @@ namespace Maze {
 		case Type::Object:
 			return "object";
 		default:
-			return "unknown";
+			return "null";
 		}
 	}
 }  // namespace Maze
