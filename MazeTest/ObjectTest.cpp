@@ -112,3 +112,28 @@ TEST_F(ObjectTest, SetNull) {
 
 	EXPECT_TRUE(test_object.get("str1").is_null());
 }
+
+TEST_F(ObjectTest, Remove) {
+	test_object.remove("str1");
+
+	EXPECT_FALSE(test_object.exists("str1"));
+}
+
+TEST_F(ObjectTest, Clear) {
+	test_object.clear();
+
+	EXPECT_TRUE(test_object.is_empty());
+}
+
+TEST_F(ObjectTest, ApplyObject) {
+	Object obj2;
+	obj2["val1"] = "test";
+	obj2["str1"] = "overriden value";
+
+	test_object.apply(obj2);
+
+	EXPECT_TRUE(test_object.is_string("val1"));
+	EXPECT_TRUE(test_object.is_string("str1"));
+	EXPECT_EQ(test_object["val1"].s(), "test");
+	EXPECT_EQ(test_object["str1"].s(), "overriden value");
+}
