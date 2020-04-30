@@ -203,7 +203,7 @@ namespace Maze {
 	Element Object::get(const std::string& index, Type type) const {
 		int i = index_of(index);
 		if (i < 0) {
-			return Element();
+			return Element(type);
 		}
 
 		return mazes_[i].second;
@@ -213,11 +213,15 @@ namespace Maze {
 		return get(index, Type::Bool);
 	}
 
-	Element Object::operator[](const std::string& index) const {
-		return get(index);
+	Element& Object::operator[](const std::string& index) {
+		if (exists(index)) {
+			set(index, Element());
+		}
+
+		return mazes_[index_of(index)].second;
 	}
 
-	Element Object::operator[](int index) const {
+	Element& Object::operator[](int index) {
 		if (index >= mazes_.size()) {
 			return Element();
 		}

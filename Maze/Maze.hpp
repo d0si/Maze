@@ -212,8 +212,8 @@ namespace Maze {
 		Element* get_ptr(int index);
 		Element get(const std::string& index, Type type) const;
 		Element get(const std::string& index) const;
-		Element operator[](const std::string& index) const;
-		Element operator[](int index) const;
+		Element& operator[](const std::string& index);
+		Element& operator[](int index);
 
 		int remove(const std::string& index);
 		void clear();
