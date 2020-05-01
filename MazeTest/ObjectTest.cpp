@@ -12,7 +12,7 @@ protected:
 		test_object.set("obj1", Object());
 		test_object.set("arr1", Array());
 		test_object.set("str1", "test_string");
-		test_object.set("null1", Maze::Element::get_null());
+		test_object.set("null1", Maze::Element::get_null_element());
 		test_object.set("int1", 54321);
 		test_object.set("double1", 9876.54321);
 		test_object.set("bool1", true);

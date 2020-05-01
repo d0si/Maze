@@ -63,7 +63,7 @@ namespace Maze {
 					el = Helpers::Object::from_json(json);
 				}
 				else if (json.is_null()) {
-					el.set_null();
+					el.set_as_null();
 				}
 
 				return el;

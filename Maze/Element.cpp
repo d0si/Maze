@@ -4,11 +4,11 @@
 
 namespace Maze {
 	Element::Element() {
-
+		set_as_null();
 	}
 
 	Element::Element(const Element& val) {
-		set_element(val);
+		copy_from_element(val);
 	}
 
 	Element::Element(bool val) {
@@ -47,11 +47,8 @@ namespace Maze {
 
 	}
 	
-	void Element::set_element(const Element& val) {
+	void Element::copy_from_element(const Element& val) {
 		switch (val.get_type()) {
-		case Type::Null:
-			set_null();
-			break;
 		case Type::Bool:
 			set_bool(val.get_bool());
 			break;
@@ -71,19 +68,16 @@ namespace Maze {
 			set_object(val.get_object());
 			break;
 		default:
-			set_null();
+			set_as_null();
 		}
 	}
 
 	void Element::operator=(const Element& val) {
-		set_element(val);
+		copy_from_element(val);
 	}
 
 	void Element::set_type(Type type) {
 		switch (type) {
-		case Type::Null:
-			set_null();
-			break;
 		case Type::Bool:
 			set_bool(false);
 			break;
@@ -103,7 +97,7 @@ namespace Maze {
 			set_object(Object());
 			break;
 		default:
-			set_null();
+			set_as_null();
 		}
 	}
 
@@ -111,20 +105,53 @@ namespace Maze {
 		return type_;
 	}
 
-	void Element::set_key(std::string key) {
+	void Element::set_key(const std::string& key) {
 		val_key_ = key;
 	}
 
-	std::string Element::get_key() const {
+	const std::string& Element::get_key() const {
 		return val_key_;
 	}
 
-	void Element::set_null() {
-		if (type_ != Type::Null) {
+	void Element::set_as_null(bool clear_existing_values) {
+		type_ = Type::Null;
+
+		if (clear_existing_values) {
 			val_bool_ = false;
 			val_int_ = 0;
-			type_ = Type::Null;
+			val_double_ = 0;
+			val_string_ = "";
+			ptr_array_.reset();
+			ptr_object_.reset();
 		}
+	}
+
+	// Boolean
+
+	const bool& Element::get_bool() const {
+		if (type_ == Type::Bool) {
+			return val_bool_;
+		}
+
+		static const bool false_constant = false;
+
+		return false_constant;
+	}
+
+	const bool& Element::b() const {
+		return get_bool();
+	}
+	
+	bool& Element::b() {
+		if (type_ != Type::Bool) {
+			throw MazeException("Cannot get reference to bool value from a non-bool element. Use set_bool instead to set value and change type.");
+		}
+
+		return val_bool_;
+	}
+
+	Element::operator bool() const {
+		return get_bool();
 	}
 
 	void Element::set_bool(bool val) {
@@ -136,19 +163,36 @@ namespace Maze {
 		set_bool(val);
 	}
 
-	bool Element::get_bool() const {
-		if (type_ == Type::Bool) {
-			return val_bool_;
+	void Element::b(bool val) {
+		set_bool(val);
+	}
+
+	// Integer
+
+	const int& Element::get_int() const {
+		if (type_ == Type::Int) {
+			return val_int_;
 		}
-		return false;
+
+		static const int zero_constant = 0;
+
+		return zero_constant;
 	}
 
-	bool Element::b() const {
-		return get_bool();
+	const int& Element::i() const {
+		return get_int();
 	}
 
-	Element::operator bool() const {
-		return get_bool();
+	int& Element::i() {
+		if (type_ != Type::Int) {
+			throw MazeException("Cannot get reference to int value from a non-int element. Use set_int instead to set value and change type.");
+		}
+
+		return val_int_;
+	}
+
+	Element::operator int() const {
+		return get_int();
 	}
 
 	void Element::set_int(int val) {
@@ -156,24 +200,40 @@ namespace Maze {
 		type_ = Type::Int;
 	}
 
+	void Element::i(int val) {
+		set_int(val);
+	}
+
 	void Element::operator=(int val) {
 		set_int(val);
 	}
 
-	int Element::get_int() const {
-		if (type_ == Type::Int) {
-			return val_int_;
+	// Double
+
+	const double& Element::get_double() const {
+		if (type_ == Type::Double) {
+			return val_double_;
 		}
 
-		return 0;
+		static const double zero_constant = 0;
+
+		return zero_constant;
 	}
 
-	int Element::i() const {
-		return get_int();
+	const double& Element::d() const {
+		return get_double();
 	}
 
-	Element::operator int() const {
-		return get_int();
+	double& Element::d() {
+		if (type_ != Type::Double) {
+			throw MazeException("Cannot get reference to double value from a non-double element. Use set_double instead to set value and change type.");
+		}
+
+		return val_double_;
+	}
+
+	Element::operator double() const {
+		return get_double();
 	}
 
 	void Element::set_double(double val) {
@@ -181,29 +241,49 @@ namespace Maze {
 		type_ = Type::Double;
 	}
 
+	void Element::d(double val) {
+		set_double(val);
+	}
+
 	void Element::operator=(double val) {
 		set_double(val);
 	}
 
-	double Element::get_double() const {
-		if (type_ == Type::Double) {
-			return val_double_;
+	// String
+
+	const std::string& Element::get_string() const {
+		if (type_ == Type::String) {
+			return val_string_;
 		}
 
-		return 0;
+		static const std::string empty_string_constant = "";
+
+		return empty_string_constant;
 	}
 
-	double Element::d() const {
-		return get_double();
+	const std::string& Element::s() const {
+		return get_string();
 	}
 
-	Element::operator double() const {
-		return get_double();
+	std::string& Element::s() {
+		if (type_ != Type::String) {
+			throw MazeException("Cannot get reference to string value from a non-string element. Use set_string instead to set value and change type.");
+		}
+
+		return val_string_;
+	}
+
+	Element::operator std::string() const {
+		return get_string();
 	}
 
 	void Element::set_string(const std::string& val) {
 		val_string_ = val;
 		type_ = Type::String;
+	}
+
+	void Element::s(const std::string& val) {
+		set_string(val);
 	}
 
 	void Element::operator=(const std::string& val) {
@@ -214,40 +294,28 @@ namespace Maze {
 		set_string(val);
 	}
 
-	std::string Element::get_string() const {
-		if (type_ == Type::String) {
-			return val_string_;
-		}
+	// Array
 
-		return "";
-	}
-
-	std::string Element::s() const {
-		return get_string();
-	}
-
-	Element::operator std::string() const {
-		return get_string();
-	}
-
-	void Element::set_array(const Array& val) {
-		ptr_array_ = std::make_unique<Array>(val);
-		type_ = Type::Array;
-	}
-
-	void Element::operator=(const Array& val) {
-		set_array(val);
-	}
-
-	Array Element::get_array() const {
+	const Array& Element::get_array() const {
 		if (type_ == Type::Array) {
 			return *ptr_array_;
 		}
-		return Array();
+
+		static const Array empty_array_constant = Array();
+
+		return empty_array_constant;
 	}
 
-	Array Element::a() const {
+	const Array& Element::a() const {
 		return get_array();
+	}
+
+	Array& Element::a() {
+		if (type_ != Type::Array) {
+			throw MazeException("Cannot get reference to array value from a non-arrary element. Use set_array instead to set value and change type.");
+		}
+
+		return *ptr_array_;
 	}
 
 	Array* Element::a_ptr() const {
@@ -258,24 +326,41 @@ namespace Maze {
 		return get_array();
 	}
 
-	void Element::set_object(const Object& val) {
-		ptr_object_ = std::make_unique<Object>(val);
-		type_ = Type::Object;
+	void Element::set_array(const Array& val) {
+		ptr_array_ = std::make_unique<Array>(val);
+		type_ = Type::Array;
 	}
 
-	void Element::operator=(const Object& val) {
-		set_object(val);
+	void Element::a(const Array& val) {
+		set_array(val);
 	}
 
-	Object Element::get_object() const {
+	void Element::operator=(const Array& val) {
+		set_array(val);
+	}
+
+	// Object
+
+	const Object& Element::get_object() const {
 		if (type_ == Type::Object) {
 			return *ptr_object_;
 		}
-		return Object();
+
+		static const Object empty_object_constant = Object();
+
+		return empty_object_constant;
 	}
 
-	Object Element::o() const {
+	const Object& Element::o() const {
 		return get_object();
+	}
+
+	Object& Element::o() {
+		if (type_ != Type::Object) {
+			throw MazeException("Cannot get reference to object value from a non-object element. Use set_object instead to set value and change type.");
+		}
+
+		return *ptr_object_;
 	}
 
 	Object* Element::o_ptr() const {
@@ -285,6 +370,21 @@ namespace Maze {
 	Element::operator Object() const {
 		return get_object();
 	}
+
+	void Element::set_object(const Object& val) {
+		ptr_object_ = std::make_unique<Object>(val);
+		type_ = Type::Object;
+	}
+
+	void Element::o(const Object& val) {
+		set_object(val);
+	}
+
+	void Element::operator=(const Object& val) {
+		set_object(val);
+	}
+
+	// Type checks
 
 	bool Element::is_null() const {
 		return is(Type::Null);
@@ -321,7 +421,7 @@ namespace Maze {
 	void Element::apply(const Element& new_element) {
 		switch (new_element.get_type()) {
 		case Type::Null:
-			set_null();
+			set_as_null();
 			break;
 		case Type::Bool:
 			set_bool(new_element.get_bool());
@@ -356,9 +456,9 @@ namespace Maze {
 		return Helpers::Element::from_json(nlohmann::json::parse(json_string));
 	}
 
-	Element Element::get_null() {
-		Element el;
-		el.set_null();
-		return el;
+	const Element& Element::get_null_element() {
+		static const Element null_element = Element(Type::Null);
+
+		return null_element;
 	}
 }  // namespace Maze

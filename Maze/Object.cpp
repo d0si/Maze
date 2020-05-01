@@ -101,7 +101,7 @@ namespace Maze {
 
 	Object* Object::set_null(const std::string& index) {
 		Element el;
-		el.set_null();
+		el.set_as_null();
 
 		return set_maze(index, el);
 	}
@@ -162,7 +162,7 @@ namespace Maze {
 
 	Object* Object::insert_null(const std::string& index) {
 		Element el;
-		el.set_null();
+		el.set_as_null();
 
 		return insert_maze(index, el);
 	}

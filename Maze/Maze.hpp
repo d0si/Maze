@@ -20,6 +20,15 @@ namespace Maze {
 
 	std::string to_string(const Type& type);
 
+	class MazeException : public std::exception {
+	public:
+		std::string message;
+
+		MazeException(const std::string& message) : message(message) {
+
+		}
+	};
+
 	class Array;
 	class Object;
 
@@ -48,56 +57,87 @@ namespace Maze {
 		Element(Type val);
 		~Element();
 
-		void set_element(const Element& val);
+		void copy_from_element(const Element& val);
 		void operator=(const Element& val);
 
 		void set_type(Type type);
 		Type get_type() const;
 
-		void set_key(std::string key);
-		std::string get_key() const;
+		void set_key(const std::string& key);
+		const std::string& get_key() const;
 
-		void set_null();
+		void set_as_null(bool clear_existing_values = true);
 
-		void set_bool(bool val);
-		void operator=(bool val);
-		bool get_bool() const;
-		bool b() const;
+		// Boolean
+		//   Getters
+		const bool& get_bool() const;
+		const bool& b() const;
+		bool& b();
 		operator bool() const;
+		//   Setters
+		void set_bool(bool val);
+		void b(bool val);
+		void operator=(bool val);
 
-		void set_int(int val);
-		void operator=(int val);
-		int get_int() const;
-		int i() const;
+		// Integer
+		//   Getters
+		const int& get_int() const;
+		const int& i() const;
+		int& i();
 		operator int() const;
+		//   Setters
+		void set_int(int val);
+		void i(int val);
+		void operator=(int val);
 
-		void set_double(double val);
-		void operator=(double val);
-		double get_double() const;
-		double d() const;
+		// Double
+		//   Getters
+		const double& get_double() const;
+		const double& d() const;
+		double& d();
 		operator double() const;
+		//   Setters
+		void set_double(double val);
+		void d(double val);
+		void operator=(double val);
 
+		// String
+		//   Getters
+		const std::string& get_string() const;
+		const std::string& s() const;
+		std::string& s();
+		operator std::string() const;
+		//   Setters
 		void set_string(const std::string& val);
+		void s(const std::string& val);
 		void operator=(const std::string& val);
 		void operator=(const char* val);
-		std::string get_string() const;
-		std::string s() const;
-		operator std::string() const;
 
-		void set_array(const Array& value);
-		void operator=(const Array& value);
-		Array get_array() const;
-		Array a() const;
+		// Array
+		//   Getters
+		const Array& get_array() const;
+		const Array& a() const;
+		Array& a();
 		Array* a_ptr() const;
 		operator Array() const;
+		//   Setters
+		void set_array(const Array& value);
+		void a(const Array& value);
+		void operator=(const Array& value);
 
-		void set_object(const Object& value);
-		void operator=(const Object& value);
-		Object get_object() const;
-		Object o() const;
+		// Object
+		//   Getters
+		const Object& get_object() const;
+		const Object& o() const;
+		Object& o();
 		Object* o_ptr() const;
 		operator Object() const;
+		//   Setters
+		void set_object(const Object& value);
+		void o(const Object& value);
+		void operator=(const Object& value);
 
+		// Type checks
 		bool is_null() const;
 		bool is_bool() const;
 		bool is_int() const;
@@ -115,7 +155,7 @@ namespace Maze {
 
 		static Element from_json(const std::string& json_string);
 
-		static Element get_null();
+		static const Element& get_null_element();
 	};
 
 	class Array {

@@ -16,7 +16,7 @@ protected:
 };
 
 TEST(HelpersTest, Element_ToJsonElement_Null) {
-	Element el = Element::get_null();
+	Element el = Element::get_null_element();
 
 	auto result = Maze::Helpers::Element::to_json_element(&el);
 
