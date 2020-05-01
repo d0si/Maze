@@ -210,11 +210,11 @@ namespace Maze {
 	}
 
 	Element Object::get(const std::string& index) const {
-		return get(index, Type::Bool);
+		return get(index, Type::Null);
 	}
 
 	Element& Object::operator[](const std::string& index) {
-		if (exists(index)) {
+		if (!exists(index)) {
 			set(index, Element());
 		}
 
@@ -223,7 +223,12 @@ namespace Maze {
 
 	Element& Object::operator[](int index) {
 		if (index >= mazes_.size()) {
-			return Element();
+			static Element empty_element;
+			// TODO: This approach has massive issues as anything that was set at any point will be overriden
+			// It is only temporary placeholder value for nonexistent values, should throw out of bounds
+			empty_element = Element();
+
+			return empty_element;
 		}
 
 		return mazes_[index].second;
