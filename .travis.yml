@@ -2,6 +2,9 @@ language: cpp
 os: linux
 compiler: gcc
 
+before_install:
+    - sudo apt-get install lcov -y
+
 script:
     - mkdir -p build
     - cd build
