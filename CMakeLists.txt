@@ -91,6 +91,7 @@ if(MAZE_BUILD_TESTS)
     add_subdirectory(dependencies/googletest)
 
     set(MAZE_TEST_SOURCES
+        MazeTest/ElementTest.cpp
         MazeTest/ArrayTest.cpp
         MazeTest/ObjectTest.cpp
         MazeTest/TypeTest.cpp
