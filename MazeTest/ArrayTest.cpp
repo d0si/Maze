@@ -1,19 +1,17 @@
-#include "ArrayTest.hpp"
-#include <Maze/Array.hpp>
+#include <gtest/gtest.h>
 #include <Maze/Maze.hpp>
 
 using Maze::Array;
 using Maze::Element;
 
-ArrayTest::ArrayTest() {
+class ArrayTest : public ::testing::Test {
+protected:
+	ArrayTest() {}
+	virtual ~ArrayTest() {}
 
-}
-
-ArrayTest::~ArrayTest() {};
-
-void ArrayTest::SetUp() {};
-
-void ArrayTest::TearDown() {};
+	virtual void SetUp() {}
+	virtual void TearDown() {}
+};
 
 TEST_F(ArrayTest, PushIntegerElements) {
 	Element el1((int)1234567);

@@ -1,6 +1,4 @@
-#include <Maze/Object.hpp>
-#include <Maze/Element.hpp>
-#include <Maze/Array.hpp>
+#include <Maze/Maze.hpp>
 #include <Maze/Helpers.hpp>
 #include <nlohmann/json.hpp>
 
@@ -103,7 +101,7 @@ namespace Maze {
 
 	Object* Object::set_null(const std::string& index) {
 		Element el;
-		el.set_null();
+		el.set_as_null();
 
 		return set_maze(index, el);
 	}
@@ -164,7 +162,7 @@ namespace Maze {
 
 	Object* Object::insert_null(const std::string& index) {
 		Element el;
-		el.set_null();
+		el.set_as_null();
 
 		return insert_maze(index, el);
 	}
@@ -205,23 +203,32 @@ namespace Maze {
 	Element Object::get(const std::string& index, Type type) const {
 		int i = index_of(index);
 		if (i < 0) {
-			return Element();
+			return Element(type);
 		}
 
 		return mazes_[i].second;
 	}
 
 	Element Object::get(const std::string& index) const {
-		return get(index, Type::Bool);
+		return get(index, Type::Null);
 	}
 
-	Element Object::operator[](const std::string& index) const {
-		return get(index);
+	Element& Object::operator[](const std::string& index) {
+		if (!exists(index)) {
+			set(index, Element());
+		}
+
+		return mazes_[index_of(index)].second;
 	}
 
-	Element Object::operator[](int index) const {
+	Element& Object::operator[](int index) {
 		if (index >= mazes_.size()) {
-			return Element();
+			static Element empty_element;
+			// TODO: This approach has massive issues as anything that was set at any point will be overriden
+			// It is only temporary placeholder value for nonexistent values, should throw out of bounds
+			empty_element = Element();
+
+			return empty_element;
 		}
 
 		return mazes_[index].second;

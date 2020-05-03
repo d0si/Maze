@@ -1,7 +1,5 @@
 #include <Maze/Helpers.hpp>
-#include <Maze/Element.hpp>
-#include <Maze/Array.hpp>
-#include <Maze/Object.hpp>
+#include <Maze/Maze.hpp>
 
 namespace Maze {
 	namespace Helpers {
@@ -65,7 +63,7 @@ namespace Maze {
 					el = Helpers::Object::from_json(json);
 				}
 				else if (json.is_null()) {
-					el.set_null();
+					el.set_as_null();
 				}
 
 				return el;

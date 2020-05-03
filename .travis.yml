@@ -2,9 +2,12 @@ language: cpp
 os: linux
 compiler: gcc
 
+before_install:
+    - sudo apt-get install lcov -y
+
 script:
     - mkdir -p build
     - cd build
-    - cmake -DMAZE_BUILD_TESTS=ON ..
+    - cmake .. -DCMAKE_BUILD_TYPE=Debug -DMAZE_BUILD_TESTS=ON -DMAZE_CODE_COVERAGE=ON
     - make -j4
-    - make test
+    - make MazeTest_coverage
