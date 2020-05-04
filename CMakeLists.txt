@@ -16,7 +16,7 @@ option(MAZE_CODE_COVERAGE "Adds code coverage symbols" OFF)
 #
 # Compiler flags
 #
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
@@ -26,7 +26,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(MAZE_SOURCES
     Maze/Element.cpp
     Maze/Object.cpp
-    Maze/Array.cpp
     Maze/Type.cpp
     Maze/Helpers.cpp
     Maze/Version.cpp

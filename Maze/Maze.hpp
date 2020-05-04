@@ -29,7 +29,7 @@ namespace Maze {
 		}
 	};
 
-	class Array;
+	// class Array;
 	class Object;
 
 	class Element {
@@ -40,13 +40,12 @@ namespace Maze {
 		int val_int_;
 		double val_double_;
 		std::string val_string_;
-		std::unique_ptr<Array> ptr_array_;
 		std::unique_ptr<Object> ptr_object_;
 
-		Element* first_child;
+		/*Element* first_child;
 		Element* last_child;
 		Element* next_sibling;
-		Element* prev_sibling;
+		Element* prev_sibling;*/
 		std::vector<std::string> children_keys_;
 		std::vector<Element> children_;
 
@@ -60,7 +59,7 @@ namespace Maze {
 		Element(double val);
 		Element(const std::string& val);
 		Element(const char* val);
-		Element(const Array& val);
+		Element(const std::vector<Element>& val);
 		Element(const Object& val);
 		Element(Type val);
 		~Element();
@@ -127,27 +126,35 @@ namespace Maze {
 #pragma endregion
 
 #pragma region Array
-		//   Getters
-		const Array& get_array() const;
-		const Array& a() const;
-		Array& a();
-		Array* a_ptr() const;
-		operator Array() const;
-		//   Setters
-		void set_array(const Array& value);
-		void a(const Array& value);
-		void operator=(const Array& value);
-
 		static const char array_index_prefix_char = '~';
-		Element& push_back(const Element& value);
-		Element& operator<<(const Element& value);
+
+		//   Getters
 		const Element& get(int index) const;
 		Element& get(int index);
+		Element* get_ptr(int index);
 		const Element& operator[](int index) const;
 		Element& operator[](int index);
+
+		//   Setters
+		void set_array(const std::vector<Element>& val);
+		Element& push_back(const Element& value);
+		Element& push_back(const std::string& value);
+		Element& push_back(const char* value);
+		Element& push_back(bool value);
+		Element& push_back(int value);
+		Element& push_back(double value);
+		Element& operator<<(const Element& value);
+		Element& operator<<(const std::string& value);
+		Element& operator<<(const char* value);
+		Element& operator<<(bool value);
+		Element& operator<<(int value);
+		Element& operator<<(double value);
+
 		void remove_at(int index, bool update_string_indexes = true);
-		void remove_all_elements();
-		int count_elements() const;
+		void remove_all_children();
+		int count_children() const;
+		bool has_children() const;
+		const std::vector<Element> get_children() const;
 
 		const std::vector<Element>::const_iterator begin() const;
 		const std::vector<Element>::const_iterator end() const;
@@ -199,53 +206,6 @@ namespace Maze {
 		static const Element& get_null_element();
 	};
 
-	class Array {
-	private:
-		std::vector<Element> mazes_;
-	public:
-		Array* push(Element& maze);
-		Array* push_maze(const Element& maze);
-		Array operator<<(const Element& maze);
-		Array* push(const std::string& value);
-		Array operator<<(const std::string& value);
-		Array* push(const char* value);
-		Array operator<<(const char* value);
-		Array* push(int value);
-		Array operator<<(int value);
-		Array* push(double value);
-		Array operator<<(double value);
-		Array* push(bool value);
-		Array operator<<(bool value);
-		Array* push(const Array& value);
-		Array operator<<(const Array& value);
-		Array* push(Array* value);
-		Array operator<<(Array* value);
-		Array* push(const Object& value);
-		Array operator<<(const Object& value);
-		Array* push(Object* value);
-		Array operator<<(Object* value);
-
-		Element* get_ptr(int index);
-		Element get(int index, Type type) const;
-		Element get(int index) const;
-		Element operator[](int index) const;
-
-		std::vector<Element>::iterator begin();
-		std::vector<Element>::iterator end();
-
-		std::vector<Element> get_mazes() const;
-
-		int remove(int index);
-		void clear();
-		size_t size() const;
-
-		bool is_empty() const;
-
-		std::string to_json(int indentation_spacing = 2) const;
-
-		static Array from_json(const std::string& json_string);
-	};
-
 	class Object {
 	private:
 		std::vector<std::pair<std::string, Element>> mazes_;
@@ -258,8 +218,8 @@ namespace Maze {
 		Object(const std::string& index, int value);
 		Object(const std::string& index, double value);
 		Object(const std::string& index, bool value);
-		Object(const std::string& index, const Array& value);
-		Object(const std::string& index, Array* value);
+		// Object(const std::string& index, const Array& value);
+		// Object(const std::string& index, Array* value);
 		Object(const std::string& index, const Object& value);
 		Object(const std::string& index, Object* value);
 
@@ -270,8 +230,8 @@ namespace Maze {
 		Object* set(const std::string& index, int value);
 		Object* set(const std::string& index, double value);
 		Object* set(const std::string& index, bool value);
-		Object* set(const std::string& index, const Array& value);
-		Object* set(const std::string& index, Array* value);
+		// Object* set(const std::string& index, const Array& value);
+		// Object* set(const std::string& index, Array* value);
 		Object* set(const std::string& index, const Object& value);
 		Object* set(const std::string& index, Object* value);
 		Object* set_null(const std::string& index);
@@ -283,8 +243,8 @@ namespace Maze {
 		Object* insert(const std::string& index, int value);
 		Object* insert(const std::string& index, double value);
 		Object* insert(const std::string& index, bool value);
-		Object* insert(const std::string& index, const Array& value);
-		Object* insert(const std::string& index, Array* value);
+		// Object* insert(const std::string& index, const Array& value);
+		// Object* insert(const std::string& index, Array* value);
 		Object* insert(const std::string& index, const Object& value);
 		Object* insert(const std::string& index, Object* value);
 		Object* insert_null(const std::string& index);

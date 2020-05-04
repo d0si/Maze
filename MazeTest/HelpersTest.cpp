@@ -58,7 +58,7 @@ TEST(HelpersTest, Element_ToJsonElement_String) {
 }
 
 TEST(HelpersTest, Element_ToJsonElement_Array) {
-	Element el = Array();
+	Element el(Maze::Type::Array);
 
 	auto result = Maze::Helpers::Element::to_json_element(&el);
 

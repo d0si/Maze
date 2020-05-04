@@ -35,13 +35,13 @@ namespace Maze {
 		insert(index, value);
 	}
 
-	Object::Object(const std::string& index, const Array& value) {
+	/*Object::Object(const std::string& index, const Array& value) {
 		insert(index, value);
 	}
 
 	Object::Object(const std::string& index, Array* value) {
 		insert(index, value);
-	}
+	}*/
 
 	Object::Object(const std::string& index, const Object& value) {
 		insert(index, value);
@@ -105,7 +105,7 @@ namespace Maze {
 
 		return set_maze(index, el);
 	}
-
+	/*
 	Object* Object::set(const std::string& index, const Array& value) {
 		return set_maze(index, Element(value));
 	}
@@ -113,7 +113,7 @@ namespace Maze {
 	Object* Object::set(const std::string& index, Array* value) {
 		return set_maze(index, Element(value));
 	}
-
+	*/
 	Object* Object::set(const std::string& index, const Object& value) {
 		return set_maze(index, Element(value));
 	}
@@ -166,7 +166,7 @@ namespace Maze {
 
 		return insert_maze(index, el);
 	}
-
+	/*
 	Object* Object::insert(const std::string& index, const Array& value) {
 		return insert_maze(index, Element(value));
 	}
@@ -174,7 +174,7 @@ namespace Maze {
 	Object* Object::insert(const std::string& index, Array* value) {
 		return insert_maze(index, Element(value));
 	}
-
+	*/
 	Object* Object::insert(const std::string& index, const Object& value) {
 		return insert_maze(index, Element(value));
 	}

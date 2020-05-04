@@ -31,11 +31,11 @@ namespace Maze {
 	Element::Element(const char* val) {
 		set_string(val);
 	}
-
-	Element::Element(const Array& val) {
+	
+	Element::Element(const std::vector<Element>& val) {
 		set_array(val);
 	}
-
+	
 	Element::Element(const Object& val) {
 		set_object(val);
 	}
@@ -64,7 +64,7 @@ namespace Maze {
 			set_string(val.get_string());
 			break;
 		case Type::Array:
-			set_array(val.get_array());
+			set_array(val.get_children());
 			break;
 		case Type::Object:
 			set_object(val.get_object());
@@ -93,7 +93,7 @@ namespace Maze {
 			set_string("");
 			break;
 		case Type::Array:
-			set_array(Array());
+			set_array({});
 			break;
 		case Type::Object:
 			set_object(Object());
@@ -123,7 +123,8 @@ namespace Maze {
 			val_int_ = 0;
 			val_double_ = 0;
 			val_string_ = "";
-			ptr_array_.reset();
+			children_.clear();
+			children_keys_.clear();
 			ptr_object_.reset();
 		}
 	}
@@ -297,47 +298,55 @@ namespace Maze {
 #pragma endregion
 
 #pragma region Array
-	const Array& Element::get_array() const {
-		if (type_ == Type::Array) {
-			return *ptr_array_;
+	const Element& Element::get(int index) const {
+		if (type_ == Type::Array || type_ == Type::Object) {
+			if (index < children_.size()) {
+				return children_[index];
+			}
 		}
 
-		static const Array empty_array_constant = Array();
+		static const Element empty_element_constant = Element();
 
-		return empty_array_constant;
+		return empty_element_constant;
 	}
 
-	const Array& Element::a() const {
-		return get_array();
+	Element& Element::get(int index) {
+		return *get_ptr(index);
 	}
 
-	Array& Element::a() {
-		if (type_ != Type::Array) {
-			throw MazeException("Cannot get reference to array value from a non-arrary element. Use set_array instead to set value and change type.");
+	Element* Element::get_ptr(int index) {
+		if (type_ != Type::Array && type_ != Type::Object) {
+			throw MazeException("Cannot access array value by index on non-array or non-object element.");
 		}
 
-		return *ptr_array_;
+		if (index >= children_.size()) {
+			throw MazeException("Array index out of range.");
+		}
+
+		return &children_[index];
 	}
 
-	Array* Element::a_ptr() const {
-		return ptr_array_.get();
+	const Element& Element::operator[](int index) const {
+		return get(index);
 	}
 
-	Element::operator Array() const {
-		return get_array();
+	Element& Element::operator[](int index) {
+		return get(index);
 	}
 
-	void Element::set_array(const Array& val) {
-		ptr_array_ = std::make_unique<Array>(val);
+	void Element::set_array(const std::vector<Element>& val) {
 		type_ = Type::Array;
-	}
+		children_.clear();
+		children_keys_.clear();
 
-	void Element::a(const Array& val) {
-		set_array(val);
-	}
+		children_ = val;
+		
+		children_keys_.reserve(val.size());
+		for (int i = 0; i < val.size(); ++i) {
+			const std::string child_key = array_index_prefix_char + std::to_string(children_keys_.size());
 
-	void Element::operator=(const Array& val) {
-		set_array(val);
+			children_keys_[i] = child_key;
+		}
 	}
 
 	Element& Element::push_back(const Element& value) {
@@ -357,42 +366,48 @@ namespace Maze {
 		return *this;
 	}
 
+	Element& Element::push_back(const std::string& value) {
+		return push_back(Element(value));
+	}
+
+	Element& Element::push_back(const char* value) {
+		return push_back(Element(value));
+	}
+	
+	Element& Element::push_back(bool value) {
+		return push_back(Element(value));
+	}
+	
+	Element& Element::push_back(int value) {
+		return push_back(Element(value));
+	}
+	
+	Element& Element::push_back(double value) {
+		return push_back(Element(value));
+	}
+
 	Element& Element::operator<<(const Element& value) {
 		return push_back(value);
 	}
 
+	Element& Element::operator<<(const std::string& value) {
+		return push_back(value);
+	}
+
+	Element& Element::operator<<(const char* value) {
+		return push_back(value);
+	}
 	
-
-	const Element& Element::get(int index) const {
-		if (type_ == Type::Array || type_ == Type::Object) {
-			if (index < children_.size()) {
-				return children_[index];
-			}
-		}
-
-		static const Element empty_element_constant = Element();
-
-		return empty_element_constant;
+	Element& Element::operator<<(bool value) {
+		return push_back(value);
 	}
-
-	Element& Element::get(int index) {
-		if (type_ != Type::Array && type_ != Type::Object) {
-			throw MazeException("Cannot access array value by index on non-array or non-object element.");
-		}
-
-		if (index >= children_.size()) {
-			throw MazeException("Array index out of range.");
-		}
-
-		return children_[index];
+	
+	Element& Element::operator<<(int value) {
+		return push_back(value);
 	}
-
-	const Element& Element::operator[](int index) const {
-		return get(index);
-	}
-
-	Element& Element::operator[](int index) {
-		return get(index);
+	
+	Element& Element::operator<<(double value) {
+		return push_back(value);
 	}
 
 	void Element::remove_at(int index, bool update_string_indexes) {
@@ -418,13 +433,21 @@ namespace Maze {
 		}
 	}
 
-	void Element::remove_all_elements() {
+	void Element::remove_all_children() {
 		children_.clear();
 		children_keys_.clear();
 	}
 
-	int Element::count_elements() const {
+	int Element::count_children() const {
 		return children_keys_.size();
+	}
+
+	bool Element::has_children() const {
+		return children_keys_.size() > 0;
+	}
+
+	const std::vector<Element> Element::get_children() const {
+		return children_;
 	}
 
 	const std::vector<Element>::const_iterator Element::begin() const {
@@ -648,7 +671,7 @@ namespace Maze {
 			set_string(new_element.get_string());
 			break;
 		case Type::Array:
-			set_array(new_element.get_array());
+			set_array(new_element.get_children());
 			break;
 		case Type::Object:
 			ptr_object_->apply(new_element.get_object());
