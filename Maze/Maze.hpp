@@ -139,15 +139,20 @@ namespace Maze {
 		void operator=(const Array& value);
 
 		static const char array_index_prefix_char = '~';
-		void push_back(const Element& value);
-		// void operator<<(const Element& value);
+		Element& push_back(const Element& value);
+		Element& operator<<(const Element& value);
 		const Element& get(int index) const;
-		// Element& get(int index);
-		// const Element& operator[](int index) const;
-		// Element& operator[](int index);
+		Element& get(int index);
+		const Element& operator[](int index) const;
+		Element& operator[](int index);
 		void remove_at(int index, bool update_string_indexes = true);
 		void remove_all_elements();
 		int count_elements() const;
+
+		const std::vector<Element>::const_iterator begin() const;
+		const std::vector<Element>::const_iterator end() const;
+		std::vector<Element>::iterator begin();
+		std::vector<Element>::iterator end();
 #pragma endregion
 
 #pragma region Object
@@ -164,16 +169,12 @@ namespace Maze {
 
 		void set(const std::string& key, const Element& value);
 		const Element& get(const std::string& key) const;
-		// Element& get(const std::string& key);
-		// const Element& operator[](const std::string& key) const;
-		// Element& operator[](const std::string& key);
+		Element& get(const std::string& key);
+		const Element& operator[](const std::string& key) const;
+		Element& operator[](const std::string& key);
 		void remove(const std::string& key, bool update_string_indexes = true);
 		bool exists(const std::string& key) const;
 		int index_of(const std::string& key) const;
-		// const ElementMap::iterator begin() const;
-		// ElementMap::iterator begin();
-		// const ElementMap::iterator end() const;
-		// ElementMap::iterator end();
 #pragma endregion
 
 #pragma region Type checks

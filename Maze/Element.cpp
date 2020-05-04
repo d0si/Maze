@@ -340,7 +340,7 @@ namespace Maze {
 		set_array(val);
 	}
 
-	void Element::push_back(const Element& value) {
+	Element& Element::push_back(const Element& value) {
 		if (type_ != Type::Array && type_ != Type::Object) {
 			throw MazeException("Unable push_back element into non-array or non-object type");
 		}
@@ -353,7 +353,15 @@ namespace Maze {
 
 		children_keys_.push_back(child_key);
 		children_.push_back(value);
+
+		return *this;
 	}
+
+	Element& Element::operator<<(const Element& value) {
+		return push_back(value);
+	}
+
+	
 
 	const Element& Element::get(int index) const {
 		if (type_ == Type::Array || type_ == Type::Object) {
@@ -367,17 +375,25 @@ namespace Maze {
 		return empty_element_constant;
 	}
 
-	/*Element& Element::get(int index) {
+	Element& Element::get(int index) {
 		if (type_ != Type::Array && type_ != Type::Object) {
 			throw MazeException("Cannot access array value by index on non-array or non-object element.");
 		}
 
-		if (index < element_map_.size()) {
-			return element_map_.begin(index)->second;
+		if (index >= children_.size()) {
+			throw MazeException("Array index out of range.");
 		}
 
-		throw MazeException("Array index out of range.");
-	}*/
+		return children_[index];
+	}
+
+	const Element& Element::operator[](int index) const {
+		return get(index);
+	}
+
+	Element& Element::operator[](int index) {
+		return get(index);
+	}
 
 	void Element::remove_at(int index, bool update_string_indexes) {
 		if (index >= children_.size()) {
@@ -409,6 +425,22 @@ namespace Maze {
 
 	int Element::count_elements() const {
 		return children_keys_.size();
+	}
+
+	const std::vector<Element>::const_iterator Element::begin() const {
+		return children_.begin();
+	}
+
+	const std::vector<Element>::const_iterator Element::end() const {
+		return children_.end();
+	}
+	
+	std::vector<Element>::iterator Element::begin() {
+		return children_.begin();
+	}
+	
+	std::vector<Element>::iterator Element::end() {
+		return children_.end();
 	}
 #pragma endregion
 
@@ -487,6 +519,27 @@ namespace Maze {
 		return empty_element_constant;
 	}
 
+	Element& Element::get(const std::string& key) {
+		if (type_ != Type::Object) {
+			throw MazeException("Cannot access object value by key on non-object element.");
+		}
+
+		int value_index = index_of(key);
+		if (value_index != -1) {
+			return children_[value_index];
+		}
+
+		throw MazeException("Value associated with the key does not exist.");
+	}
+
+	const Element& Element::operator[](const std::string& key) const {
+		return get(key);
+	}
+
+	Element& Element::operator[](const std::string& key) {
+		return get(key);
+	}
+
 	void Element::remove(const std::string& key, bool update_string_indexes) {
 		if (type_ != Type::Object) {
 			throw MazeException("Cannot remove an element from non-object type.");
@@ -539,6 +592,8 @@ namespace Maze {
 
 		return -1;
 	}
+
+
 #pragma endregion
 
 #pragma region Type checks
