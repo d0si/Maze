@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <unordered_map>
 
 namespace Maze {
 	std::string get_version();
@@ -33,6 +34,8 @@ namespace Maze {
 	class Object;
 
 	class Element {
+		typedef std::unordered_map<std::string, std::unique_ptr<Element>> ElementMap;
+
 	private:
 		Type type_ = Type::Null;
 
@@ -42,9 +45,11 @@ namespace Maze {
 		std::string val_string_;
 		std::unique_ptr<Array> ptr_array_;
 		std::unique_ptr<Object> ptr_object_;
+		ElementMap element_map_;
 
 		std::string val_key_;
 	public:
+#pragma region Constructors/destructors
 		Element();
 		Element(const Element& val);
 		Element(bool val);
@@ -56,6 +61,7 @@ namespace Maze {
 		Element(const Object& val);
 		Element(Type val);
 		~Element();
+#pragma endregion
 
 		void copy_from_element(const Element& val);
 		void operator=(const Element& val);
@@ -68,7 +74,7 @@ namespace Maze {
 
 		void set_as_null(bool clear_existing_values = true);
 
-		// Boolean
+#pragma region Boolean
 		//   Getters
 		const bool& get_bool() const;
 		const bool& b() const;
@@ -78,8 +84,9 @@ namespace Maze {
 		void set_bool(bool val);
 		void b(bool val);
 		void operator=(bool val);
+#pragma endregion
 
-		// Integer
+#pragma region Integer
 		//   Getters
 		const int& get_int() const;
 		const int& i() const;
@@ -89,8 +96,9 @@ namespace Maze {
 		void set_int(int val);
 		void i(int val);
 		void operator=(int val);
+#pragma endregion
 
-		// Double
+#pragma region Double
 		//   Getters
 		const double& get_double() const;
 		const double& d() const;
@@ -100,8 +108,9 @@ namespace Maze {
 		void set_double(double val);
 		void d(double val);
 		void operator=(double val);
+#pragma endregion
 
-		// String
+#pragma region String
 		//   Getters
 		const std::string& get_string() const;
 		const std::string& s() const;
@@ -112,8 +121,9 @@ namespace Maze {
 		void s(const std::string& val);
 		void operator=(const std::string& val);
 		void operator=(const char* val);
+#pragma endregion
 
-		// Array
+#pragma region Array
 		//   Getters
 		const Array& get_array() const;
 		const Array& a() const;
@@ -125,7 +135,19 @@ namespace Maze {
 		void a(const Array& value);
 		void operator=(const Array& value);
 
-		// Object
+		// static const char array_index_prefix_char = '*';
+		void push_back(const Element& value);
+		// void operator<<(const Element& value);
+		const Element& get(int index) const;
+		// Element& get(int index);
+		// const Element& operator[](int index) const;
+		// Element& operator[](int index);
+		void remove_at(int index/*, bool update_string_indexes = true*/);
+		void remove_all_elements();
+		void count_elements();
+#pragma endregion
+
+#pragma region Object
 		//   Getters
 		const Object& get_object() const;
 		const Object& o() const;
@@ -137,7 +159,20 @@ namespace Maze {
 		void o(const Object& value);
 		void operator=(const Object& value);
 
-		// Type checks
+		void set(const std::string& key, const Element& value);
+		const Element& get(const std::string& key) const;
+		// Element& get(const std::string& key);
+		// const Element& operator[](const std::string& key) const;
+		// Element& operator[](const std::string& key);
+		void remove(const std::string& key);
+		bool exists(const std::string& key) const;
+		// const ElementMap::iterator begin() const;
+		// ElementMap::iterator begin();
+		// const ElementMap::iterator end() const;
+		// ElementMap::iterator end();
+#pragma endregion
+
+#pragma region Type checks
 		bool is_null() const;
 		bool is_bool() const;
 		bool is_int() const;
@@ -146,6 +181,7 @@ namespace Maze {
 		bool is_array() const;
 		bool is_object() const;
 		bool is(Type type) const;
+#pragma endregion
 
 		void apply(const Element& new_element);
 

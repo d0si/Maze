@@ -3,6 +3,7 @@
 #include <nlohmann/json.hpp>
 
 namespace Maze {
+#pragma region Constructors/destructors
 	Element::Element() {
 		set_as_null();
 	}
@@ -46,7 +47,8 @@ namespace Maze {
 	Element::~Element() {
 
 	}
-	
+#pragma endregion
+
 	void Element::copy_from_element(const Element& val) {
 		switch (val.get_type()) {
 		case Type::Bool:
@@ -126,8 +128,7 @@ namespace Maze {
 		}
 	}
 
-	// Boolean
-
+#pragma region Boolean
 	const bool& Element::get_bool() const {
 		if (type_ == Type::Bool) {
 			return val_bool_;
@@ -166,9 +167,9 @@ namespace Maze {
 	void Element::b(bool val) {
 		set_bool(val);
 	}
+#pragma endregion
 
-	// Integer
-
+#pragma region Integer
 	const int& Element::get_int() const {
 		if (type_ == Type::Int) {
 			return val_int_;
@@ -207,9 +208,9 @@ namespace Maze {
 	void Element::operator=(int val) {
 		set_int(val);
 	}
+#pragma endregion
 
-	// Double
-
+#pragma region Double
 	const double& Element::get_double() const {
 		if (type_ == Type::Double) {
 			return val_double_;
@@ -248,9 +249,9 @@ namespace Maze {
 	void Element::operator=(double val) {
 		set_double(val);
 	}
+#pragma endregion
 
-	// String
-
+#pragma region String
 	const std::string& Element::get_string() const {
 		if (type_ == Type::String) {
 			return val_string_;
@@ -293,9 +294,9 @@ namespace Maze {
 	void Element::operator=(const char* val) {
 		set_string(val);
 	}
+#pragma endregion
 
-	// Array
-
+#pragma region Array
 	const Array& Element::get_array() const {
 		if (type_ == Type::Array) {
 			return *ptr_array_;
@@ -339,8 +340,65 @@ namespace Maze {
 		set_array(val);
 	}
 
-	// Object
+	void Element::push_back(const Element& value) {
+		if (element_map_.find(std::to_string(element_map_.size())) != element_map_.end()) {
+			// We have a problem. An index based key was used to set the value that is not at its index.
+			throw MazeException("Unable to determine element index. Values map already contains an element with key " + std::to_string(element_map_.size()));
+		}
 
+		element_map_[/*array_index_prefix_char + */std::to_string(element_map_.size())] = std::make_unique<Element>(value);
+	}
+
+	const Element& Element::get(int index) const {
+		if (type_ == Type::Array || type_ == Type::Object) {
+			if (index < element_map_.size()) {
+				return *(element_map_.begin(index)->second);
+			}
+		}
+
+		static const Element empty_element_constant = Element();
+
+		return empty_element_constant;
+	}
+
+	/*Element& Element::get(int index) {
+		if (type_ != Type::Array && type_ != Type::Object) {
+			throw MazeException("Cannot access array value by index on non-array or non-object element.");
+		}
+
+		if (index < element_map_.size()) {
+			return element_map_.begin(index)->second;
+		}
+
+		throw MazeException("Array index out of range.");
+	}*/
+
+	void Element::remove_at(int index/*, bool update_string_indexes*/) {
+		if (index >= element_map_.size()) {
+			throw MazeException("Array index out of range.");
+		}
+
+		// TODO
+		// ElementMap::local_iterator it = element_map_.begin(index);
+		// element_map_.erase(it);
+
+		/*if (update_string_indexes) {
+			int current_index = 0;
+
+			for (auto& it : element_map_) {
+				if (it.first.length() > 0 && it.first[0] == array_index_prefix_char) {
+					auto el = element_map_.extract(it.first);
+					el.key() = array_index_prefix_char + current_index;
+					element_map_.insert(std::move(el));
+				}
+
+				++current_index;
+			}
+		}*/
+	}
+#pragma endregion
+
+#pragma region Object
 	const Object& Element::get_object() const {
 		if (type_ == Type::Object) {
 			return *ptr_object_;
@@ -384,8 +442,45 @@ namespace Maze {
 		set_object(val);
 	}
 
-	// Type checks
 
+	void Element::set(const std::string& key, const Element& value) {
+		if (type_ != Type::Object) {
+			throw MazeException("Cannot set element into non-object type.");
+		}
+
+		element_map_[key] = std::make_unique<Element>(value);
+	}
+
+	const Element& Element::get(const std::string& key) const {
+		if (type_ == Type::Object) {
+			const auto& it = element_map_.find(key);
+			if (it != element_map_.end()) {
+				return *(it->second);
+			}
+		}
+
+		static const Element empty_element_constant = Element();
+
+		return empty_element_constant;
+	}
+
+	void Element::remove(const std::string& key) {
+		if (type_ != Type::Object) {
+			throw MazeException("Cannot remove an element from non-object type.");
+		}
+
+		const auto& it = element_map_.find(key);
+		if (it != element_map_.end()) {
+			element_map_.erase(it);
+		}
+	}
+
+	bool Element::exists(const std::string& key) const {
+		return element_map_.find(key) != element_map_.end();
+	}
+#pragma endregion
+
+#pragma region Type checks
 	bool Element::is_null() const {
 		return is(Type::Null);
 	}
@@ -417,6 +512,7 @@ namespace Maze {
 	bool Element::is(Type type) const {
 		return (type_ == type);
 	}
+#pragma endregion
 
 	void Element::apply(const Element& new_element) {
 		switch (new_element.get_type()) {
