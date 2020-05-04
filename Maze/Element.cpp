@@ -341,18 +341,24 @@ namespace Maze {
 	}
 
 	void Element::push_back(const Element& value) {
-		if (element_map_.find(std::to_string(element_map_.size())) != element_map_.end()) {
-			// We have a problem. An index based key was used to set the value that is not at its index.
-			throw MazeException("Unable to determine element index. Values map already contains an element with key " + std::to_string(element_map_.size()));
+		if (type_ != Type::Array && type_ != Type::Object) {
+			throw MazeException("Unable push_back element into non-array or non-object type");
 		}
 
-		element_map_[/*array_index_prefix_char + */std::to_string(element_map_.size())] = std::make_unique<Element>(value);
+		const std::string child_key = array_index_prefix_char + std::to_string(children_keys_.size());
+
+		if (exists(child_key)) {
+			throw MazeException("Unable to determine element index. Values map already contains an element with key " + child_key);
+		}
+
+		children_keys_.push_back(child_key);
+		children_.push_back(value);
 	}
 
 	const Element& Element::get(int index) const {
 		if (type_ == Type::Array || type_ == Type::Object) {
-			if (index < element_map_.size()) {
-				return *(element_map_.begin(index)->second);
+			if (index < children_.size()) {
+				return children_[index];
 			}
 		}
 
@@ -373,28 +379,36 @@ namespace Maze {
 		throw MazeException("Array index out of range.");
 	}*/
 
-	void Element::remove_at(int index/*, bool update_string_indexes*/) {
-		if (index >= element_map_.size()) {
+	void Element::remove_at(int index, bool update_string_indexes) {
+		if (index >= children_.size()) {
 			throw MazeException("Array index out of range.");
 		}
 
-		// TODO
-		// ElementMap::local_iterator it = element_map_.begin(index);
-		// element_map_.erase(it);
+		children_.erase(children_.begin() + index);
+		children_keys_.erase(children_keys_.begin() + index);
 
-		/*if (update_string_indexes) {
-			int current_index = 0;
+		if (update_string_indexes) {
+			for (int i = children_keys_.size() - 1; i > index; --i) {
+				std::string key = children_keys_[i];
 
-			for (auto& it : element_map_) {
-				if (it.first.length() > 0 && it.first[0] == array_index_prefix_char) {
-					auto el = element_map_.extract(it.first);
-					el.key() = array_index_prefix_char + current_index;
-					element_map_.insert(std::move(el));
+				if (key.length() > 0 && key[0] == array_index_prefix_char) {
+					std::string new_key = array_index_prefix_char + std::to_string(i);
+
+					if (key != new_key) {
+						children_keys_[i] = new_key;
+					}
 				}
-
-				++current_index;
 			}
-		}*/
+		}
+	}
+
+	void Element::remove_all_elements() {
+		children_.clear();
+		children_keys_.clear();
+	}
+
+	int Element::count_elements() const {
+		return children_keys_.size();
 	}
 #pragma endregion
 
@@ -448,14 +462,23 @@ namespace Maze {
 			throw MazeException("Cannot set element into non-object type.");
 		}
 
-		element_map_[key] = std::make_unique<Element>(value);
+		int value_index = index_of(key);
+
+		if (value_index != -1) {
+			children_[value_index] = value;
+		}
+		else {
+			children_.push_back(value);
+			children_keys_.push_back(key);
+		}
 	}
 
 	const Element& Element::get(const std::string& key) const {
 		if (type_ == Type::Object) {
-			const auto& it = element_map_.find(key);
-			if (it != element_map_.end()) {
-				return *(it->second);
+			int value_index = index_of(key);
+
+			if (value_index != -1) {
+				return children_[value_index];
 			}
 		}
 
@@ -464,19 +487,57 @@ namespace Maze {
 		return empty_element_constant;
 	}
 
-	void Element::remove(const std::string& key) {
+	void Element::remove(const std::string& key, bool update_string_indexes) {
 		if (type_ != Type::Object) {
 			throw MazeException("Cannot remove an element from non-object type.");
 		}
 
-		const auto& it = element_map_.find(key);
-		if (it != element_map_.end()) {
-			element_map_.erase(it);
+		int value_index = index_of(key);
+		if (value_index != -1) {
+			children_.erase(children_.begin() + value_index);
+			children_keys_.erase(children_keys_.begin() + value_index);
+
+			if (update_string_indexes) {
+				for (int i = children_keys_.size() - 1; i > value_index; --i) {
+					std::string key = children_keys_[i];
+
+					if (key.length() > 0 && key[0] == array_index_prefix_char) {
+						std::string new_key = array_index_prefix_char + std::to_string(i);
+
+						if (key != new_key) {
+							children_keys_[i] = new_key;
+						}
+					}
+				}
+			}
 		}
+
 	}
 
 	bool Element::exists(const std::string& key) const {
-		return element_map_.find(key) != element_map_.end();
+		if (children_keys_.size() != children_.size()) {
+			throw MazeException("Element corrupted, size of keys is different than size of element vector");
+		}
+
+		for (const auto& it : children_keys_) {
+			if (it == key)
+				return true;
+		}
+
+		return false;
+	}
+
+	int Element::index_of(const std::string& key) const {
+		if (children_keys_.size() != children_keys_.size()) {
+			throw MazeException("Element corrupted, size of keys is different than size of element vector");
+		}
+
+		for (int i = 0; i < children_keys_.size(); ++i) {
+			if (children_keys_[i] == key)
+				return i;
+		}
+
+		return -1;
 	}
 #pragma endregion
 

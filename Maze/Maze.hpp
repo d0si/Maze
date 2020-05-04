@@ -4,7 +4,6 @@
 #include <string>
 #include <memory>
 #include <vector>
-#include <unordered_map>
 
 namespace Maze {
 	std::string get_version();
@@ -34,8 +33,6 @@ namespace Maze {
 	class Object;
 
 	class Element {
-		typedef std::unordered_map<std::string, std::unique_ptr<Element>> ElementMap;
-
 	private:
 		Type type_ = Type::Null;
 
@@ -45,7 +42,13 @@ namespace Maze {
 		std::string val_string_;
 		std::unique_ptr<Array> ptr_array_;
 		std::unique_ptr<Object> ptr_object_;
-		ElementMap element_map_;
+
+		Element* first_child;
+		Element* last_child;
+		Element* next_sibling;
+		Element* prev_sibling;
+		std::vector<std::string> children_keys_;
+		std::vector<Element> children_;
 
 		std::string val_key_;
 	public:
@@ -135,16 +138,16 @@ namespace Maze {
 		void a(const Array& value);
 		void operator=(const Array& value);
 
-		// static const char array_index_prefix_char = '*';
+		static const char array_index_prefix_char = '~';
 		void push_back(const Element& value);
 		// void operator<<(const Element& value);
 		const Element& get(int index) const;
 		// Element& get(int index);
 		// const Element& operator[](int index) const;
 		// Element& operator[](int index);
-		void remove_at(int index/*, bool update_string_indexes = true*/);
+		void remove_at(int index, bool update_string_indexes = true);
 		void remove_all_elements();
-		void count_elements();
+		int count_elements() const;
 #pragma endregion
 
 #pragma region Object
@@ -164,8 +167,9 @@ namespace Maze {
 		// Element& get(const std::string& key);
 		// const Element& operator[](const std::string& key) const;
 		// Element& operator[](const std::string& key);
-		void remove(const std::string& key);
+		void remove(const std::string& key, bool update_string_indexes = true);
 		bool exists(const std::string& key) const;
+		int index_of(const std::string& key) const;
 		// const ElementMap::iterator begin() const;
 		// ElementMap::iterator begin();
 		// const ElementMap::iterator end() const;
