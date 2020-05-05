@@ -446,7 +446,7 @@ namespace Maze {
 		return children_keys_.size() > 0;
 	}
 
-	const std::vector<Element> Element::get_children() const {
+	const std::vector<Element>& Element::get_children() const {
 		return children_;
 	}
 
@@ -512,6 +512,59 @@ namespace Maze {
 	}
 
 
+	const Element& Element::get(const std::string& key) const {
+		if (type_ == Type::Object) {
+			int value_index = index_of(key);
+
+			if (value_index != -1) {
+				return children_[value_index];
+			}
+		}
+
+		static const Element empty_element_constant = Element();
+
+		return empty_element_constant;
+	}
+
+	Element& Element::get(const std::string& key) {
+		return *get_ptr(key);
+	}
+
+	Element* Element::get_ptr(const std::string& key) {
+		if (type_ != Type::Object) {
+			throw MazeException("Cannot access object value by key on non-object element.");
+		}
+
+		int value_index = index_of(key);
+
+		if (value_index != -1) {
+			return &children_[value_index];
+		}
+
+		throw MazeException("Value associated with the key does not exist.");
+	}
+
+	const Element& Element::operator[](const std::string& key) const {
+		return get(key);
+	}
+
+	Element& Element::operator[](const std::string& key) {
+		return get(key);
+	}
+
+	void Element::set_object(const std::vector<std::string>& keys, const std::vector<Element>& values) {
+		if (keys.size() != values.size()) {
+			throw MazeException("Keys and values do not have the same size.");
+		}
+
+		type_ = Type::Object;
+		children_.clear();
+		children_keys_.clear();
+
+		children_ = values;
+		children_keys_ = keys;
+	}
+
 	void Element::set(const std::string& key, const Element& value) {
 		if (type_ != Type::Object) {
 			throw MazeException("Cannot set element into non-object type.");
@@ -528,39 +581,20 @@ namespace Maze {
 		}
 	}
 
-	const Element& Element::get(const std::string& key) const {
-		if (type_ == Type::Object) {
-			int value_index = index_of(key);
-
-			if (value_index != -1) {
-				return children_[value_index];
-			}
-		}
-
-		static const Element empty_element_constant = Element();
-
-		return empty_element_constant;
+	void Element::set(const std::string& key, const std::string& value) {
+		set(key, Element(value));
 	}
 
-	Element& Element::get(const std::string& key) {
-		if (type_ != Type::Object) {
-			throw MazeException("Cannot access object value by key on non-object element.");
-		}
-
-		int value_index = index_of(key);
-		if (value_index != -1) {
-			return children_[value_index];
-		}
-
-		throw MazeException("Value associated with the key does not exist.");
+	void Element::set(const std::string& key, bool value) {
+		set(key, Element(value));
 	}
 
-	const Element& Element::operator[](const std::string& key) const {
-		return get(key);
+	void Element::set(const std::string& key, int value) {
+		set(key, Element(value));
 	}
 
-	Element& Element::operator[](const std::string& key) {
-		return get(key);
+	void Element::set(const std::string& key, double value) {
+		set(key, Element(value));
 	}
 
 	void Element::remove(const std::string& key, bool update_string_indexes) {
@@ -587,7 +621,6 @@ namespace Maze {
 				}
 			}
 		}
-
 	}
 
 	bool Element::exists(const std::string& key) const {
@@ -616,7 +649,25 @@ namespace Maze {
 		return -1;
 	}
 
+	const std::vector<std::string>& Element::get_keys() const {
+		return children_keys_;
+	}
 
+	const std::vector<std::string>::const_iterator Element::keys_begin() const {
+		return children_keys_.begin();
+	}
+
+	const std::vector<std::string>::const_iterator Element::keys_end() const {
+		return children_keys_.end();
+	}
+
+	std::vector<std::string>::iterator Element::keys_begin() {
+		return children_keys_.begin();
+	}
+
+	std::vector<std::string>::iterator Element::keys_end() {
+		return children_keys_.end();
+	}
 #pragma endregion
 
 #pragma region Type checks
@@ -650,6 +701,70 @@ namespace Maze {
 
 	bool Element::is(Type type) const {
 		return (type_ == type);
+	}
+	
+	bool Element::is_null(int index) const {
+		return is(index, Type::Null);
+	}
+
+	bool Element::is_bool(int index) const {
+		return is(index, Type::Bool);
+	}
+
+	bool Element::is_int(int index) const {
+		return is(index, Type::Int);
+	}
+
+	bool Element::is_double(int index) const {
+		return is(index, Type::Double);
+	}
+
+	bool Element::is_string(int index) const {
+		return is(index, Type::String);
+	}
+
+	bool Element::is_array(int index) const {
+		return is(index, Type::Array);
+	}
+
+	bool Element::is_object(int index) const {
+		return is(index, Type::Object);
+	}
+
+	bool Element::is(int index, Type type) const {
+		return get(index).is(type);
+	}
+
+	bool Element::is_null(const std::string& key) const {
+		return is(key, Type::Null);
+	}
+
+	bool Element::is_bool(const std::string& key) const {
+		return is(key, Type::Bool);
+	}
+
+	bool Element::is_int(const std::string& key) const {
+		return is(key, Type::Int);
+	}
+
+	bool Element::is_double(const std::string& key) const {
+		return is(key, Type::Double);
+	}
+
+	bool Element::is_string(const std::string& key) const {
+		return is(key, Type::String);
+	}
+
+	bool Element::is_array(const std::string& key) const {
+		return is(key, Type::Array);
+	}
+
+	bool Element::is_object(const std::string& key) const {
+		return is(key, Type::Object);
+	}
+
+	bool Element::is(const std::string& key, Type type) const {
+		return get(key).is(type);
 	}
 #pragma endregion
 

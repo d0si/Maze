@@ -154,7 +154,7 @@ namespace Maze {
 		void remove_all_children();
 		int count_children() const;
 		bool has_children() const;
-		const std::vector<Element> get_children() const;
+		const std::vector<Element>& get_children() const;
 
 		const std::vector<Element>::const_iterator begin() const;
 		const std::vector<Element>::const_iterator end() const;
@@ -174,14 +174,32 @@ namespace Maze {
 		void o(const Object& value);
 		void operator=(const Object& value);
 
-		void set(const std::string& key, const Element& value);
+
+		//   Getters
 		const Element& get(const std::string& key) const;
 		Element& get(const std::string& key);
+		Element* get_ptr(const std::string& key);
 		const Element& operator[](const std::string& key) const;
 		Element& operator[](const std::string& key);
+
+		//   Setters
+		void set_object(const std::vector<std::string>& keys, const std::vector<Element>& values);
+		void set(const std::string& key, const Element& value);
+		void set(const std::string& key, const std::string& value);
+		void set(const std::string& key, const char* value);
+		void set(const std::string& key, bool value);
+		void set(const std::string& key, int value);
+		void set(const std::string& key, double value);
+
 		void remove(const std::string& key, bool update_string_indexes = true);
 		bool exists(const std::string& key) const;
 		int index_of(const std::string& key) const;
+		const std::vector<std::string>& get_keys() const;
+
+		const std::vector<std::string>::const_iterator keys_begin() const;
+		const std::vector<std::string>::const_iterator keys_end() const;
+		std::vector<std::string>::iterator keys_begin();
+		std::vector<std::string>::iterator keys_end();
 #pragma endregion
 
 #pragma region Type checks
@@ -193,6 +211,24 @@ namespace Maze {
 		bool is_array() const;
 		bool is_object() const;
 		bool is(Type type) const;
+
+		bool is_null(int index) const;
+		bool is_bool(int index) const;
+		bool is_int(int index) const;
+		bool is_double(int index) const;
+		bool is_string(int index) const;
+		bool is_array(int index) const;
+		bool is_object(int index) const;
+		bool is(int index, Type type) const;
+
+		bool is_null(const std::string& key) const;
+		bool is_bool(const std::string& key) const;
+		bool is_int(const std::string& key) const;
+		bool is_double(const std::string& key) const;
+		bool is_string(const std::string& key) const;
+		bool is_array(const std::string& key) const;
+		bool is_object(const std::string& key) const;
+		bool is(const std::string& key, Type type) const;
 #pragma endregion
 
 		void apply(const Element& new_element);
