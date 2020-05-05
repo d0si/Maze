@@ -40,12 +40,6 @@ namespace Maze {
 		int val_int_;
 		double val_double_;
 		std::string val_string_;
-		// std::unique_ptr<Object> ptr_object_;
-
-		/*Element* first_child;
-		Element* last_child;
-		Element* next_sibling;
-		Element* prev_sibling;*/
 		std::vector<std::string> children_keys_;
 		std::vector<Element> children_;
 
@@ -61,7 +55,6 @@ namespace Maze {
 		Element(const char* val);
 		Element(const std::vector<Element>& val);
 		Element(const std::vector<std::string>& keys, const std::vector<Element>& val);
-		// Element(const Object& val);
 		Element(Type val);
 		~Element();
 #pragma endregion
@@ -165,18 +158,6 @@ namespace Maze {
 
 #pragma region Object
 		//   Getters
-		/*const Object& get_object() const;
-		const Object& o() const;
-		Object& o();
-		Object* o_ptr() const;
-		operator Object() const;
-		//   Setters
-		void set_object(const Object& value);
-		void o(const Object& value);
-		void operator=(const Object& value);*/
-
-
-		//   Getters
 		const Element& get(const std::string& key) const;
 		Element& get(const std::string& key);
 		Element* get_ptr(const std::string& key);
@@ -244,84 +225,6 @@ namespace Maze {
 
 		static const Element& get_null_element();
 	};
-	/*
-	class Object {
-	private:
-		std::vector<std::pair<std::string, Element>> mazes_;
-	public:
-		Object();
-		Object(const std::string& index);
-		Object(const std::string& index, const Element& maze);
-		Object(const std::string& index, const std::string& value);
-		Object(const std::string& index, const char* value);
-		Object(const std::string& index, int value);
-		Object(const std::string& index, double value);
-		Object(const std::string& index, bool value);
-		// Object(const std::string& index, const Array& value);
-		// Object(const std::string& index, Array* value);
-		Object(const std::string& index, const Object& value);
-		Object(const std::string& index, Object* value);
-
-		Object* set(const std::string& index, const Element& maze);
-		Object* set_maze(const std::string& index, const Element& maze);
-		Object* set(const std::string& index, const std::string& value);
-		Object* set(const std::string& index, const char* value);
-		Object* set(const std::string& index, int value);
-		Object* set(const std::string& index, double value);
-		Object* set(const std::string& index, bool value);
-		// Object* set(const std::string& index, const Array& value);
-		// Object* set(const std::string& index, Array* value);
-		Object* set(const std::string& index, const Object& value);
-		Object* set(const std::string& index, Object* value);
-		Object* set_null(const std::string& index);
-
-		Object* insert(const std::string& index, const Element& maze);
-		Object* insert_maze(const std::string& index, const Element& maze);
-		Object* insert(const std::string& index, const std::string& value);
-		Object* insert(const std::string& index, const char* value);
-		Object* insert(const std::string& index, int value);
-		Object* insert(const std::string& index, double value);
-		Object* insert(const std::string& index, bool value);
-		// Object* insert(const std::string& index, const Array& value);
-		// Object* insert(const std::string& index, Array* value);
-		Object* insert(const std::string& index, const Object& value);
-		Object* insert(const std::string& index, Object* value);
-		Object* insert_null(const std::string& index);
-
-		Element* get_ptr(const std::string& index);
-		Element* get_ptr(int index);
-		Element get(const std::string& index, Type type) const;
-		Element get(const std::string& index) const;
-		Element& operator[](const std::string& index);
-		Element& operator[](int index);
-
-		int remove(const std::string& index);
-		void clear();
-
-		std::vector<std::pair<std::string, Element>>::iterator begin();
-		std::vector<std::pair<std::string, Element>>::iterator end();
-
-		std::vector<std::pair<std::string, Element>> get_mazes() const;
-
-		int index_of(const std::string& index) const;
-		int first_index_of(const std::string& index) const;
-		bool exists(const std::string& index) const;
-		size_t size() const;
-		bool is_empty() const;
-
-		bool is_string(const std::string& index) const;
-		bool is_int(const std::string& index) const;
-		bool is_double(const std::string& index) const;
-		bool is_bool(const std::string& index) const;
-		bool is_array(const std::string& index) const;
-		bool is_object(const std::string& index) const;
-
-		void apply(const Object& new_obj);
-
-		std::string to_json(int indentation_spacing = 2) const;
-
-		static Object from_json(const std::string& json_string);
-	};*/
 }  // namespace Maze
 
 #endif  // MAZE_MAZE_HPP

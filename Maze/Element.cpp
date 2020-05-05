@@ -125,7 +125,6 @@ namespace Maze {
 			val_string_ = "";
 			children_.clear();
 			children_keys_.clear();
-			// ptr_object_.reset();
 		}
 	}
 
@@ -468,50 +467,6 @@ namespace Maze {
 #pragma endregion
 
 #pragma region Object
-	/* const Object& Element::get_object() const {
-		if (type_ == Type::Object) {
-			return *ptr_object_;
-		}
-
-		static const Object empty_object_constant = Object();
-
-		return empty_object_constant;
-	}
-
-	const Object& Element::o() const {
-		return get_object();
-	}
-
-	Object& Element::o() {
-		if (type_ != Type::Object) {
-			throw MazeException("Cannot get reference to object value from a non-object element. Use set_object instead to set value and change type.");
-		}
-
-		return *ptr_object_;
-	}
-
-	Object* Element::o_ptr() const {
-		return ptr_object_.get();
-	}
-
-	Element::operator Object() const {
-		return get_object();
-	}
-
-	void Element::set_object(const Object& val) {
-		ptr_object_ = std::make_unique<Object>(val);
-		type_ = Type::Object;
-	}
-
-	void Element::o(const Object& val) {
-		set_object(val);
-	}
-
-	void Element::operator=(const Object& val) {
-		set_object(val);
-	}*/
-
-
 	const Element& Element::get(const std::string& key) const {
 		if (type_ == Type::Object) {
 			int value_index = index_of(key);
