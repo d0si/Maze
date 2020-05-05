@@ -492,11 +492,13 @@ namespace Maze {
 
 		int value_index = index_of(key);
 
-		if (value_index != -1) {
-			return &children_[value_index];
+		if (value_index == -1) {
+			set(key, Element(Type::Null));
+
+			value_index = index_of(key);
 		}
 
-		throw MazeException("Value associated with the key does not exist.");
+		return &children_[value_index];
 	}
 
 	const Element& Element::operator[](const std::string& key) const {
@@ -608,7 +610,7 @@ namespace Maze {
 			throw MazeException("Element corrupted, size of keys is different than size of element vector");
 		}
 
-		for (int i = 0; i < children_keys_.size(); ++i) {
+		for (int i = children_keys_.size() - 1; i >= 0; --i) {
 			if (children_keys_[i] == key)
 				return i;
 		}

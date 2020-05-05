@@ -16,7 +16,7 @@ protected:
 TEST(HelpersTest, Element_ToJsonElement_Null) {
 	Element el = Element::get_null_element();
 
-	auto result = Maze::Helpers::Element::to_json_element(&el);
+	auto result = Maze::Helpers::Element::to_json_element(el);
 
 	ASSERT_TRUE(result.is_null());
 }
@@ -24,7 +24,7 @@ TEST(HelpersTest, Element_ToJsonElement_Null) {
 TEST(HelpersTest, Element_ToJsonElement_Bool) {
 	Element el = true;
 
-	auto result = Maze::Helpers::Element::to_json_element(&el);
+	auto result = Maze::Helpers::Element::to_json_element(el);
 
 	ASSERT_TRUE(result.is_boolean());
 }
@@ -32,7 +32,7 @@ TEST(HelpersTest, Element_ToJsonElement_Bool) {
 TEST(HelpersTest, Element_ToJsonElement_Int) {
 	Element el = 54321;
 
-	auto result = Maze::Helpers::Element::to_json_element(&el);
+	auto result = Maze::Helpers::Element::to_json_element(el);
 
 	ASSERT_TRUE(result.is_number());
 	ASSERT_TRUE(result.is_number_integer());
@@ -41,7 +41,7 @@ TEST(HelpersTest, Element_ToJsonElement_Int) {
 TEST(HelpersTest, Element_ToJsonElement_Double) {
 	Element el = 9876.54321;
 
-	auto result = Maze::Helpers::Element::to_json_element(&el);
+	auto result = Maze::Helpers::Element::to_json_element(el);
 
 	ASSERT_TRUE(result.is_number());
 	ASSERT_TRUE(result.is_number_float());
@@ -50,7 +50,7 @@ TEST(HelpersTest, Element_ToJsonElement_Double) {
 TEST(HelpersTest, Element_ToJsonElement_String) {
 	Element el = "test_string";
 
-	auto result = Maze::Helpers::Element::to_json_element(&el);
+	auto result = Maze::Helpers::Element::to_json_element(el);
 
 	ASSERT_TRUE(result.is_string());
 }
@@ -58,7 +58,7 @@ TEST(HelpersTest, Element_ToJsonElement_String) {
 TEST(HelpersTest, Element_ToJsonElement_Array) {
 	Element el(Maze::Type::Array);
 
-	auto result = Maze::Helpers::Element::to_json_element(&el);
+	auto result = Maze::Helpers::Element::to_json_element(el);
 
 	ASSERT_TRUE(result.is_array());
 }
@@ -66,7 +66,7 @@ TEST(HelpersTest, Element_ToJsonElement_Array) {
 TEST(HelpersTest, Element_ToJsonElement_Object) {
 	Element el(Maze::Type::Object);
 
-	auto result = Maze::Helpers::Element::to_json_element(&el);
+	auto result = Maze::Helpers::Element::to_json_element(el);
 
 	ASSERT_TRUE(result.is_object());
 }
