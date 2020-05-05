@@ -30,7 +30,7 @@ namespace Maze {
 	};
 
 	// class Array;
-	class Object;
+	// class Object;
 
 	class Element {
 	private:
@@ -40,7 +40,7 @@ namespace Maze {
 		int val_int_;
 		double val_double_;
 		std::string val_string_;
-		std::unique_ptr<Object> ptr_object_;
+		// std::unique_ptr<Object> ptr_object_;
 
 		/*Element* first_child;
 		Element* last_child;
@@ -60,7 +60,8 @@ namespace Maze {
 		Element(const std::string& val);
 		Element(const char* val);
 		Element(const std::vector<Element>& val);
-		Element(const Object& val);
+		Element(const std::vector<std::string>& keys, const std::vector<Element>& val);
+		// Element(const Object& val);
 		Element(Type val);
 		~Element();
 #pragma endregion
@@ -152,7 +153,7 @@ namespace Maze {
 
 		void remove_at(int index, bool update_string_indexes = true);
 		void remove_all_children();
-		int count_children() const;
+		size_t count_children() const;
 		bool has_children() const;
 		const std::vector<Element>& get_children() const;
 
@@ -164,7 +165,7 @@ namespace Maze {
 
 #pragma region Object
 		//   Getters
-		const Object& get_object() const;
+		/*const Object& get_object() const;
 		const Object& o() const;
 		Object& o();
 		Object* o_ptr() const;
@@ -172,7 +173,7 @@ namespace Maze {
 		//   Setters
 		void set_object(const Object& value);
 		void o(const Object& value);
-		void operator=(const Object& value);
+		void operator=(const Object& value);*/
 
 
 		//   Getters
@@ -180,7 +181,9 @@ namespace Maze {
 		Element& get(const std::string& key);
 		Element* get_ptr(const std::string& key);
 		const Element& operator[](const std::string& key) const;
+		const Element& operator[](const char* key) const;
 		Element& operator[](const std::string& key);
+		Element& operator[](const char* key);
 
 		//   Setters
 		void set_object(const std::vector<std::string>& keys, const std::vector<Element>& values);
@@ -241,7 +244,7 @@ namespace Maze {
 
 		static const Element& get_null_element();
 	};
-
+	/*
 	class Object {
 	private:
 		std::vector<std::pair<std::string, Element>> mazes_;
@@ -318,7 +321,7 @@ namespace Maze {
 		std::string to_json(int indentation_spacing = 2) const;
 
 		static Object from_json(const std::string& json_string);
-	};
+	};*/
 }  // namespace Maze
 
 #endif  // MAZE_MAZE_HPP

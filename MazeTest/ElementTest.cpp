@@ -2,14 +2,13 @@
 #include <Maze/Maze.hpp>
 
 using Maze::Element;
-using Maze::Object;
 
 class ElementTest : public ::testing::Test {
 protected:
 	Element test_element;
 
 	void SetUp() override {
-		test_element.set_object(Object());
+		test_element = Element(Maze::Type::Object);
 	}
 };
 

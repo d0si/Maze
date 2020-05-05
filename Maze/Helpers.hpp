@@ -5,14 +5,12 @@
 
 namespace Maze {
 	class Element;
-	class Array;
-	class Object;
 	using Json = nlohmann::json;
 
 	namespace Helpers {
 		namespace Element {
-			Json to_json_element(const Maze::Element* el);
-			void apply_json(Maze::Element* el, const Json& json);
+			Json to_json_element(const Maze::Element& el);
+			void apply_json(Maze::Element& el, const Json& json);
 			Maze::Element from_json(const Json& json);
 		}  // namespace Element
 
@@ -22,8 +20,8 @@ namespace Maze {
 		}  // namespace Array
 
 		namespace Object {
-			Json to_json_object(const Maze::Object* obj);
-			Maze::Object from_json(const Json& json_object);
+			Json to_json_object(const Maze::Element& obj);
+			Maze::Element from_json(const Json& json_object);
 		}  // namespace Object
 	}  // namespace Helpers
 }  // namespace Maze

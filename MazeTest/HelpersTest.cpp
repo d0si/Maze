@@ -3,8 +3,6 @@
 #include <Maze/Helpers.hpp>
 
 using Maze::Element;
-using Maze::Object;
-using Maze::Array;
 
 class HelpersTest : public ::testing::Test {
 protected:
@@ -66,7 +64,7 @@ TEST(HelpersTest, Element_ToJsonElement_Array) {
 }
 
 TEST(HelpersTest, Element_ToJsonElement_Object) {
-	Element el = Object();
+	Element el(Maze::Type::Object);
 
 	auto result = Maze::Helpers::Element::to_json_element(&el);
 

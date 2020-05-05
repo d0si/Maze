@@ -36,8 +36,8 @@ namespace Maze {
 		set_array(val);
 	}
 	
-	Element::Element(const Object& val) {
-		set_object(val);
+	Element::Element(const std::vector<std::string>& keys, const std::vector<Element>& val) {
+		set_object(keys, val);
 	}
 
 	Element::Element(Type type) {
@@ -67,7 +67,7 @@ namespace Maze {
 			set_array(val.get_children());
 			break;
 		case Type::Object:
-			set_object(val.get_object());
+			set_object(val.get_keys(), val.get_children());
 			break;
 		default:
 			set_as_null();
@@ -96,7 +96,7 @@ namespace Maze {
 			set_array({});
 			break;
 		case Type::Object:
-			set_object(Object());
+			set_object({}, {});
 			break;
 		default:
 			set_as_null();
@@ -125,7 +125,7 @@ namespace Maze {
 			val_string_ = "";
 			children_.clear();
 			children_keys_.clear();
-			ptr_object_.reset();
+			// ptr_object_.reset();
 		}
 	}
 
@@ -438,7 +438,7 @@ namespace Maze {
 		children_keys_.clear();
 	}
 
-	int Element::count_children() const {
+	size_t Element::count_children() const {
 		return children_keys_.size();
 	}
 
@@ -468,7 +468,7 @@ namespace Maze {
 #pragma endregion
 
 #pragma region Object
-	const Object& Element::get_object() const {
+	/* const Object& Element::get_object() const {
 		if (type_ == Type::Object) {
 			return *ptr_object_;
 		}
@@ -509,7 +509,7 @@ namespace Maze {
 
 	void Element::operator=(const Object& val) {
 		set_object(val);
-	}
+	}*/
 
 
 	const Element& Element::get(const std::string& key) const {
@@ -548,7 +548,15 @@ namespace Maze {
 		return get(key);
 	}
 
+	const Element& Element::operator[](const char* key) const {
+		return get(key);
+	}
+
 	Element& Element::operator[](const std::string& key) {
+		return get(key);
+	}
+
+	Element& Element::operator[](const char* key) {
 		return get(key);
 	}
 
@@ -582,6 +590,10 @@ namespace Maze {
 	}
 
 	void Element::set(const std::string& key, const std::string& value) {
+		set(key, Element(value));
+	}
+
+	void Element::set(const std::string& key, const char* value) {
 		set(key, Element(value));
 	}
 
@@ -789,7 +801,7 @@ namespace Maze {
 			set_array(new_element.get_children());
 			break;
 		case Type::Object:
-			ptr_object_->apply(new_element.get_object());
+			set_object(new_element.get_keys(), new_element.get_children());
 			break;
 		}
 	}
@@ -799,7 +811,7 @@ namespace Maze {
 	}
 
 	void Element::apply_json(const std::string& json_string) {
-		Helpers::Element::apply_json(this, nlohmann::json::parse(json_string));
+		Helpers::Element::apply_json(*this, nlohmann::json::parse(json_string));
 	}
 
 	Element Element::from_json(const std::string& json_string) {

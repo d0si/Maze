@@ -25,7 +25,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 #
 set(MAZE_SOURCES
     Maze/Element.cpp
-    Maze/Object.cpp
+    # Maze/Object.cpp
     Maze/Type.cpp
     Maze/Helpers.cpp
     Maze/Version.cpp
