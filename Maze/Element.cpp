@@ -3,6 +3,7 @@
 #include <nlohmann/json.hpp>
 
 namespace Maze {
+#pragma region Constructors/destructors
 	Element::Element() {
 		set_as_null();
 	}
@@ -30,13 +31,13 @@ namespace Maze {
 	Element::Element(const char* val) {
 		set_string(val);
 	}
-
-	Element::Element(const Array& val) {
+	
+	Element::Element(const std::vector<Element>& val) {
 		set_array(val);
 	}
-
-	Element::Element(const Object& val) {
-		set_object(val);
+	
+	Element::Element(const std::vector<std::string>& keys, const std::vector<Element>& val) {
+		set_object(keys, val);
 	}
 
 	Element::Element(Type type) {
@@ -46,7 +47,8 @@ namespace Maze {
 	Element::~Element() {
 
 	}
-	
+#pragma endregion
+
 	void Element::copy_from_element(const Element& val) {
 		switch (val.get_type()) {
 		case Type::Bool:
@@ -62,10 +64,10 @@ namespace Maze {
 			set_string(val.get_string());
 			break;
 		case Type::Array:
-			set_array(val.get_array());
+			set_array(val.get_children());
 			break;
 		case Type::Object:
-			set_object(val.get_object());
+			set_object(val.get_keys(), val.get_children());
 			break;
 		default:
 			set_as_null();
@@ -91,10 +93,10 @@ namespace Maze {
 			set_string("");
 			break;
 		case Type::Array:
-			set_array(Array());
+			set_array({});
 			break;
 		case Type::Object:
-			set_object(Object());
+			set_object({}, {});
 			break;
 		default:
 			set_as_null();
@@ -121,13 +123,12 @@ namespace Maze {
 			val_int_ = 0;
 			val_double_ = 0;
 			val_string_ = "";
-			ptr_array_.reset();
-			ptr_object_.reset();
+			children_.clear();
+			children_keys_.clear();
 		}
 	}
 
-	// Boolean
-
+#pragma region Boolean
 	const bool& Element::get_bool() const {
 		if (type_ == Type::Bool) {
 			return val_bool_;
@@ -166,9 +167,9 @@ namespace Maze {
 	void Element::b(bool val) {
 		set_bool(val);
 	}
+#pragma endregion
 
-	// Integer
-
+#pragma region Integer
 	const int& Element::get_int() const {
 		if (type_ == Type::Int) {
 			return val_int_;
@@ -207,9 +208,9 @@ namespace Maze {
 	void Element::operator=(int val) {
 		set_int(val);
 	}
+#pragma endregion
 
-	// Double
-
+#pragma region Double
 	const double& Element::get_double() const {
 		if (type_ == Type::Double) {
 			return val_double_;
@@ -248,9 +249,9 @@ namespace Maze {
 	void Element::operator=(double val) {
 		set_double(val);
 	}
+#pragma endregion
 
-	// String
-
+#pragma region String
 	const std::string& Element::get_string() const {
 		if (type_ == Type::String) {
 			return val_string_;
@@ -293,99 +294,361 @@ namespace Maze {
 	void Element::operator=(const char* val) {
 		set_string(val);
 	}
+#pragma endregion
 
-	// Array
-
-	const Array& Element::get_array() const {
-		if (type_ == Type::Array) {
-			return *ptr_array_;
+#pragma region Array
+	const Element& Element::get(int index) const {
+		if (type_ == Type::Array || type_ == Type::Object) {
+			if (index < children_.size()) {
+				return children_[index];
+			}
 		}
 
-		static const Array empty_array_constant = Array();
+		static const Element empty_element_constant = Element();
 
-		return empty_array_constant;
+		return empty_element_constant;
 	}
 
-	const Array& Element::a() const {
-		return get_array();
+	Element& Element::get(int index) {
+		return *get_ptr(index);
 	}
 
-	Array& Element::a() {
-		if (type_ != Type::Array) {
-			throw MazeException("Cannot get reference to array value from a non-arrary element. Use set_array instead to set value and change type.");
+	Element* Element::get_ptr(int index) {
+		if (type_ != Type::Array && type_ != Type::Object) {
+			throw MazeException("Cannot access array value by index on non-array or non-object element.");
 		}
 
-		return *ptr_array_;
+		if (index >= children_.size()) {
+			throw MazeException("Array index out of range.");
+		}
+
+		return &children_[index];
 	}
 
-	Array* Element::a_ptr() const {
-		return ptr_array_.get();
+	const Element& Element::operator[](int index) const {
+		return get(index);
 	}
 
-	Element::operator Array() const {
-		return get_array();
+	Element& Element::operator[](int index) {
+		return get(index);
 	}
 
-	void Element::set_array(const Array& val) {
-		ptr_array_ = std::make_unique<Array>(val);
+	void Element::set_array(const std::vector<Element>& val) {
 		type_ = Type::Array;
+		children_.clear();
+		children_keys_.clear();
+
+		children_ = val;
+		
+		children_keys_.reserve(val.size());
+		for (int i = 0; i < val.size(); ++i) {
+			const std::string child_key = array_index_prefix_char + std::to_string(children_keys_.size());
+
+			children_[i].set_key(child_key);
+			children_keys_[i] = child_key;
+		}
 	}
 
-	void Element::a(const Array& val) {
-		set_array(val);
+	Element& Element::push_back(const Element& value) {
+		if (type_ != Type::Array && type_ != Type::Object) {
+			throw MazeException("Unable push_back element into non-array or non-object type");
+		}
+
+		const std::string child_key = array_index_prefix_char + std::to_string(children_keys_.size());
+
+		if (exists(child_key)) {
+			throw MazeException("Unable to determine element index. Values map already contains an element with key " + child_key);
+		}
+
+		Element value_copy = value;
+		value_copy.set_key(child_key);
+		children_keys_.push_back(child_key);
+		children_.push_back(value_copy);
+
+		return *this;
 	}
 
-	void Element::operator=(const Array& val) {
-		set_array(val);
+	Element& Element::push_back(const std::string& value) {
+		return push_back(Element(value));
 	}
 
-	// Object
+	Element& Element::push_back(const char* value) {
+		return push_back(Element(value));
+	}
+	
+	Element& Element::push_back(bool value) {
+		return push_back(Element(value));
+	}
+	
+	Element& Element::push_back(int value) {
+		return push_back(Element(value));
+	}
+	
+	Element& Element::push_back(double value) {
+		return push_back(Element(value));
+	}
 
-	const Object& Element::get_object() const {
+	Element& Element::operator<<(const Element& value) {
+		return push_back(value);
+	}
+
+	Element& Element::operator<<(const std::string& value) {
+		return push_back(value);
+	}
+
+	Element& Element::operator<<(const char* value) {
+		return push_back(value);
+	}
+	
+	Element& Element::operator<<(bool value) {
+		return push_back(value);
+	}
+	
+	Element& Element::operator<<(int value) {
+		return push_back(value);
+	}
+	
+	Element& Element::operator<<(double value) {
+		return push_back(value);
+	}
+
+	void Element::remove_at(int index, bool update_string_indexes) {
+		if (index >= children_.size()) {
+			throw MazeException("Array index out of range.");
+		}
+
+		children_.erase(children_.begin() + index);
+		children_keys_.erase(children_keys_.begin() + index);
+
+		if (update_string_indexes) {
+			for (int i = children_keys_.size() - 1; i > index; --i) {
+				std::string key = children_keys_[i];
+
+				if (key.length() > 0 && key[0] == array_index_prefix_char) {
+					std::string new_key = array_index_prefix_char + std::to_string(i);
+
+					if (key != new_key) {
+						children_keys_[i] = new_key;
+					}
+				}
+			}
+		}
+	}
+
+	void Element::remove_all_children() {
+		children_.clear();
+		children_keys_.clear();
+	}
+
+	size_t Element::count_children() const {
+		return children_keys_.size();
+	}
+
+	bool Element::has_children() const {
+		return children_keys_.size() > 0;
+	}
+
+	const std::vector<Element>& Element::get_children() const {
+		return children_;
+	}
+
+	const std::vector<Element>::const_iterator Element::begin() const {
+		return children_.begin();
+	}
+
+	const std::vector<Element>::const_iterator Element::end() const {
+		return children_.end();
+	}
+	
+	std::vector<Element>::iterator Element::begin() {
+		return children_.begin();
+	}
+	
+	std::vector<Element>::iterator Element::end() {
+		return children_.end();
+	}
+#pragma endregion
+
+#pragma region Object
+	const Element& Element::get(const std::string& key) const {
 		if (type_ == Type::Object) {
-			return *ptr_object_;
+			int value_index = index_of(key);
+
+			if (value_index != -1) {
+				return children_[value_index];
+			}
 		}
 
-		static const Object empty_object_constant = Object();
+		static const Element empty_element_constant = Element();
 
-		return empty_object_constant;
+		return empty_element_constant;
 	}
 
-	const Object& Element::o() const {
-		return get_object();
+	Element& Element::get(const std::string& key) {
+		return *get_ptr(key);
 	}
 
-	Object& Element::o() {
+	Element* Element::get_ptr(const std::string& key) {
 		if (type_ != Type::Object) {
-			throw MazeException("Cannot get reference to object value from a non-object element. Use set_object instead to set value and change type.");
+			throw MazeException("Cannot access object value by key on non-object element.");
 		}
 
-		return *ptr_object_;
+		int value_index = index_of(key);
+
+		if (value_index == -1) {
+			set(key, Element(Type::Null));
+
+			value_index = index_of(key);
+		}
+
+		return &children_[value_index];
 	}
 
-	Object* Element::o_ptr() const {
-		return ptr_object_.get();
+	const Element& Element::operator[](const std::string& key) const {
+		return get(key);
 	}
 
-	Element::operator Object() const {
-		return get_object();
+	const Element& Element::operator[](const char* key) const {
+		return get(key);
 	}
 
-	void Element::set_object(const Object& val) {
-		ptr_object_ = std::make_unique<Object>(val);
+	Element& Element::operator[](const std::string& key) {
+		return get(key);
+	}
+
+	Element& Element::operator[](const char* key) {
+		return get(key);
+	}
+
+	void Element::set_object(const std::vector<std::string>& keys, const std::vector<Element>& values) {
+		if (keys.size() != values.size()) {
+			throw MazeException("Keys and values do not have the same size.");
+		}
+
 		type_ = Type::Object;
+		children_.clear();
+		children_keys_.clear();
+
+		children_ = values;
+		children_keys_ = keys;
+
+		for (int i = 0; i < children_keys_.size(); ++i) {
+			children_[i].set_key(children_keys_[i]);
+		}
 	}
 
-	void Element::o(const Object& val) {
-		set_object(val);
+	void Element::set(const std::string& key, const Element& value) {
+		if (type_ != Type::Object) {
+			throw MazeException("Cannot set element into non-object type.");
+		}
+
+		int value_index = index_of(key);
+		Element value_copy = value;
+		value_copy.set_key(key);
+
+		if (value_index != -1) {
+			children_[value_index] = value_copy;
+		}
+		else {
+			children_.push_back(value_copy);
+			children_keys_.push_back(key);
+		}
 	}
 
-	void Element::operator=(const Object& val) {
-		set_object(val);
+	void Element::set(const std::string& key, const std::string& value) {
+		set(key, Element(value));
 	}
 
-	// Type checks
+	void Element::set(const std::string& key, const char* value) {
+		set(key, Element(value));
+	}
 
+	void Element::set(const std::string& key, bool value) {
+		set(key, Element(value));
+	}
+
+	void Element::set(const std::string& key, int value) {
+		set(key, Element(value));
+	}
+
+	void Element::set(const std::string& key, double value) {
+		set(key, Element(value));
+	}
+
+	void Element::remove(const std::string& key, bool update_string_indexes) {
+		if (type_ != Type::Object) {
+			throw MazeException("Cannot remove an element from non-object type.");
+		}
+
+		int value_index = index_of(key);
+		if (value_index != -1) {
+			children_.erase(children_.begin() + value_index);
+			children_keys_.erase(children_keys_.begin() + value_index);
+
+			if (update_string_indexes) {
+				for (int i = children_keys_.size() - 1; i > value_index; --i) {
+					std::string key = children_keys_[i];
+
+					if (key.length() > 0 && key[0] == array_index_prefix_char) {
+						std::string new_key = array_index_prefix_char + std::to_string(i);
+
+						if (key != new_key) {
+							children_keys_[i] = new_key;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	bool Element::exists(const std::string& key) const {
+		if (children_keys_.size() != children_.size()) {
+			throw MazeException("Element corrupted, size of keys is different than size of element vector");
+		}
+
+		for (const auto& it : children_keys_) {
+			if (it == key)
+				return true;
+		}
+
+		return false;
+	}
+
+	int Element::index_of(const std::string& key) const {
+		if (children_keys_.size() != children_keys_.size()) {
+			throw MazeException("Element corrupted, size of keys is different than size of element vector");
+		}
+
+		for (int i = children_keys_.size() - 1; i >= 0; --i) {
+			if (children_keys_[i] == key)
+				return i;
+		}
+
+		return -1;
+	}
+
+	const std::vector<std::string>& Element::get_keys() const {
+		return children_keys_;
+	}
+
+	const std::vector<std::string>::const_iterator Element::keys_begin() const {
+		return children_keys_.begin();
+	}
+
+	const std::vector<std::string>::const_iterator Element::keys_end() const {
+		return children_keys_.end();
+	}
+
+	std::vector<std::string>::iterator Element::keys_begin() {
+		return children_keys_.begin();
+	}
+
+	std::vector<std::string>::iterator Element::keys_end() {
+		return children_keys_.end();
+	}
+#pragma endregion
+
+#pragma region Type checks
 	bool Element::is_null() const {
 		return is(Type::Null);
 	}
@@ -417,6 +680,71 @@ namespace Maze {
 	bool Element::is(Type type) const {
 		return (type_ == type);
 	}
+	
+	bool Element::is_null(int index) const {
+		return is(index, Type::Null);
+	}
+
+	bool Element::is_bool(int index) const {
+		return is(index, Type::Bool);
+	}
+
+	bool Element::is_int(int index) const {
+		return is(index, Type::Int);
+	}
+
+	bool Element::is_double(int index) const {
+		return is(index, Type::Double);
+	}
+
+	bool Element::is_string(int index) const {
+		return is(index, Type::String);
+	}
+
+	bool Element::is_array(int index) const {
+		return is(index, Type::Array);
+	}
+
+	bool Element::is_object(int index) const {
+		return is(index, Type::Object);
+	}
+
+	bool Element::is(int index, Type type) const {
+		return get(index).is(type);
+	}
+
+	bool Element::is_null(const std::string& key) const {
+		return is(key, Type::Null);
+	}
+
+	bool Element::is_bool(const std::string& key) const {
+		return is(key, Type::Bool);
+	}
+
+	bool Element::is_int(const std::string& key) const {
+		return is(key, Type::Int);
+	}
+
+	bool Element::is_double(const std::string& key) const {
+		return is(key, Type::Double);
+	}
+
+	bool Element::is_string(const std::string& key) const {
+		return is(key, Type::String);
+	}
+
+	bool Element::is_array(const std::string& key) const {
+		return is(key, Type::Array);
+	}
+
+	bool Element::is_object(const std::string& key) const {
+		return is(key, Type::Object);
+	}
+
+	bool Element::is(const std::string& key, Type type) const {
+		return get(key).is(type);
+	}
+#pragma endregion
 
 	void Element::apply(const Element& new_element) {
 		switch (new_element.get_type()) {
@@ -436,10 +764,10 @@ namespace Maze {
 			set_string(new_element.get_string());
 			break;
 		case Type::Array:
-			set_array(new_element.get_array());
+			set_array(new_element.get_children());
 			break;
 		case Type::Object:
-			ptr_object_->apply(new_element.get_object());
+			set_object(new_element.get_keys(), new_element.get_children());
 			break;
 		}
 	}
@@ -449,7 +777,7 @@ namespace Maze {
 	}
 
 	void Element::apply_json(const std::string& json_string) {
-		Helpers::Element::apply_json(this, nlohmann::json::parse(json_string));
+		Helpers::Element::apply_json(*this, nlohmann::json::parse(json_string));
 	}
 
 	Element Element::from_json(const std::string& json_string) {

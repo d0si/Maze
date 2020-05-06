@@ -1,16 +1,15 @@
 #include <gtest/gtest.h>
 #include <Maze/Maze.hpp>
 
-using Maze::Object;
-using Maze::Array;
-
 class ObjectTest : public ::testing::Test {
 protected:
-	Object test_object;
+	Maze::Element test_object;
 
 	void SetUp() override {
-		test_object.set("obj1", Object());
-		test_object.set("arr1", Array());
+		test_object = Maze::Element(Maze::Type::Object);
+
+		test_object.set("obj1", Maze::Element(Maze::Type::Object));
+		test_object.set("arr1", Maze::Element(Maze::Type::Array));
 		test_object.set("str1", "test_string");
 		test_object.set("null1", Maze::Element::get_null_element());
 		test_object.set("int1", 54321);
@@ -27,10 +26,10 @@ TEST_F(ObjectTest, ConstructFromJsonString) {
 		}
 	}
 )";
+	
+	Maze::Element parsed = Maze::Element::from_json(input);
 
-	Object parsed = Object::from_json(input);
-
-	EXPECT_TRUE(parsed.size() == 1);
+	EXPECT_TRUE(parsed.count_children() == 1);
 	EXPECT_TRUE(parsed[0].is_object());
 	EXPECT_TRUE(parsed["config"].is_object());
 }
@@ -108,7 +107,7 @@ TEST_F(ObjectTest, Get_ExistingElement) {
 }
 
 TEST_F(ObjectTest, SetNull) {
-	test_object.set_null("str1");
+	test_object.set("str1", Maze::Element(Maze::Type::Null));
 
 	EXPECT_TRUE(test_object.get("str1").is_null());
 }
@@ -120,13 +119,13 @@ TEST_F(ObjectTest, Remove) {
 }
 
 TEST_F(ObjectTest, Clear) {
-	test_object.clear();
+	test_object.remove_all_children();
 
-	EXPECT_TRUE(test_object.is_empty());
+	EXPECT_FALSE(test_object.has_children());
 }
 
 TEST_F(ObjectTest, ApplyObject) {
-	Object obj2;
+	Maze::Element obj2(Maze::Type::Object);
 	obj2["val1"] = "test";
 	obj2["str1"] = "overriden value";
 
