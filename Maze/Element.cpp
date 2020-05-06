@@ -344,6 +344,7 @@ namespace Maze {
 		for (int i = 0; i < val.size(); ++i) {
 			const std::string child_key = array_index_prefix_char + std::to_string(children_keys_.size());
 
+			children_[i].set_key(child_key);
 			children_keys_[i] = child_key;
 		}
 	}
@@ -359,8 +360,10 @@ namespace Maze {
 			throw MazeException("Unable to determine element index. Values map already contains an element with key " + child_key);
 		}
 
+		Element value_copy = value;
+		value_copy.set_key(child_key);
 		children_keys_.push_back(child_key);
-		children_.push_back(value);
+		children_.push_back(value_copy);
 
 		return *this;
 	}
@@ -528,6 +531,10 @@ namespace Maze {
 
 		children_ = values;
 		children_keys_ = keys;
+
+		for (int i = 0; i < children_keys_.size(); ++i) {
+			children_[i].set_key(children_keys_[i]);
+		}
 	}
 
 	void Element::set(const std::string& key, const Element& value) {
@@ -536,12 +543,14 @@ namespace Maze {
 		}
 
 		int value_index = index_of(key);
+		Element value_copy = value;
+		value_copy.set_key(key);
 
 		if (value_index != -1) {
-			children_[value_index] = value;
+			children_[value_index] = value_copy;
 		}
 		else {
-			children_.push_back(value);
+			children_.push_back(value_copy);
 			children_keys_.push_back(key);
 		}
 	}

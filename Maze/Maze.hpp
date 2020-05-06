@@ -29,9 +29,6 @@ namespace Maze {
 		}
 	};
 
-	// class Array;
-	// class Object;
-
 	class Element {
 	private:
 		Type type_ = Type::Null;
