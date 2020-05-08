@@ -308,9 +308,29 @@ namespace Maze {
 
 		return empty_element_constant;
 	}
+	
+	const Element& Element::get(int index, const Element& fallback_value) const {
+		if (type_ == Type::Array || type_ == Type::Object) {
+			if (index < children_.size()) {
+				return children_[index];
+			}
+		}
+
+		return fallback_value;
+	}
 
 	Element& Element::get(int index) {
 		return *get_ptr(index);
+	}
+
+	Element& Element::get(int index, Element& fallback_value) {
+		if (type_ == Type::Array || type_ == Type::Object) {
+			if (index < children_.size()) {
+				return children_[index];
+			}
+		}
+
+		return fallback_value;
 	}
 
 	Element* Element::get_ptr(int index) {

@@ -121,7 +121,9 @@ namespace Maze {
 
 		//   Getters
 		const Element& get(int index) const;
+		const Element& get(int index, const Element& fallback_value) const;
 		Element& get(int index);
+		Element& get(int index, Element& fallback_value);
 		Element* get_ptr(int index);
 		const Element& operator[](int index) const;
 		Element& operator[](int index);
