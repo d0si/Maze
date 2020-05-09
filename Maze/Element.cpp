@@ -298,15 +298,9 @@ namespace Maze {
 
 #pragma region Array
 	const Element& Element::get(int index) const {
-		if (type_ == Type::Array || type_ == Type::Object) {
-			if (index < children_.size()) {
-				return children_[index];
-			}
-		}
-
 		static const Element empty_element_constant = Element();
 
-		return empty_element_constant;
+		return get(index, empty_element_constant);
 	}
 	
 	const Element& Element::get(int index, const Element& fallback_value) const {
@@ -491,17 +485,9 @@ namespace Maze {
 
 #pragma region Object
 	const Element& Element::get(const std::string& key) const {
-		if (type_ == Type::Object) {
-			int value_index = index_of(key);
-
-			if (value_index != -1) {
-				return children_[value_index];
-			}
-		}
-
 		static const Element empty_element_constant = Element();
 
-		return empty_element_constant;
+		return get(key, empty_element_constant);
 	}
 	
 	const Element& Element::get(const std::string& key, const Element& fallback_value) const {
