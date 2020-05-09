@@ -503,9 +503,33 @@ namespace Maze {
 
 		return empty_element_constant;
 	}
+	
+	const Element& Element::get(const std::string& key, const Element& fallback_value) const {
+		if (type_ == Type::Object) {
+			int value_index = index_of(key);
+
+			if (value_index != -1) {
+				return children_[value_index];
+			}
+		}
+
+		return fallback_value;
+	}
 
 	Element& Element::get(const std::string& key) {
 		return *get_ptr(key);
+	}
+
+	Element& Element::get(const std::string& key, Element& fallback_value) {
+		if (type_ == Type::Object) {
+			int value_index = index_of(key);
+
+			if (value_index != -1) {
+				return children_[value_index];
+			}
+		}
+
+		return fallback_value;
 	}
 
 	Element* Element::get_ptr(const std::string& key) {

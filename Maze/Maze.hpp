@@ -158,7 +158,9 @@ namespace Maze {
 #pragma region Object
 		//   Getters
 		const Element& get(const std::string& key) const;
+		const Element& get(const std::string& key, const Element& fallback_value) const;
 		Element& get(const std::string& key);
+		Element& get(const std::string& key, Element& fallback_value);
 		Element* get_ptr(const std::string& key);
 		const Element& operator[](const std::string& key) const;
 		const Element& operator[](const char* key) const;
