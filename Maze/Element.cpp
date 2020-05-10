@@ -175,13 +175,17 @@ namespace Maze {
 
 #pragma region Integer
 	const int& Element::get_int() const {
+		static const int zero_constant = 0;
+
+		return get_int(zero_constant);
+	}
+
+	const int& Element::get_int(const int& fallback_value) const {
 		if (type_ == Type::Int) {
 			return val_int_;
 		}
 
-		static const int zero_constant = 0;
-
-		return zero_constant;
+		return fallback_value;
 	}
 
 	const int& Element::i() const {
@@ -216,13 +220,17 @@ namespace Maze {
 
 #pragma region Double
 	const double& Element::get_double() const {
+		static const double zero_constant = 0;
+
+		return get_double(zero_constant);
+	}
+
+	const double& Element::get_double(const double& fallback_value) const {
 		if (type_ == Type::Double) {
 			return val_double_;
 		}
 
-		static const double zero_constant = 0;
-
-		return zero_constant;
+		return fallback_value;
 	}
 
 	const double& Element::d() const {
@@ -257,13 +265,17 @@ namespace Maze {
 
 #pragma region String
 	const std::string& Element::get_string() const {
+		static const std::string empty_string_constant = "";
+
+		return get_string(empty_string_constant);
+	}
+
+	const std::string& Element::get_string(const std::string& fallback_value) const {
 		if (type_ == Type::String) {
 			return val_string_;
 		}
 
-		static const std::string empty_string_constant = "";
-
-		return empty_string_constant;
+		return fallback_value;
 	}
 
 	const std::string& Element::s() const {

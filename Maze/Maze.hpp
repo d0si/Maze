@@ -83,6 +83,7 @@ namespace Maze {
 #pragma region Integer
 		//   Getters
 		const int& get_int() const;
+		const int& get_int(const int& fallback_value) const;
 		const int& i() const;
 		int& i();
 		operator int() const;
@@ -95,6 +96,7 @@ namespace Maze {
 #pragma region Double
 		//   Getters
 		const double& get_double() const;
+		const double& get_double(const double& fallback_value) const;
 		const double& d() const;
 		double& d();
 		operator double() const;
@@ -107,6 +109,7 @@ namespace Maze {
 #pragma region String
 		//   Getters
 		const std::string& get_string() const;
+		const std::string& get_string(const std::string& fallback_value) const;
 		const std::string& s() const;
 		std::string& s();
 		operator std::string() const;
