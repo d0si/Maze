@@ -94,6 +94,9 @@ if(MAZE_BUILD_TESTS)
         MazeTest/ObjectTest.cpp
         MazeTest/TypeTest.cpp
         MazeTest/HelpersTest.cpp
+
+        MazeTest/Element/Bool.cpp
+
         MazeTest/main.cpp
     )
 

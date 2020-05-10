@@ -130,13 +130,17 @@ namespace Maze {
 
 #pragma region Boolean
 	const bool& Element::get_bool() const {
+		static const bool false_constant = false;
+
+		return get_bool(false_constant);
+	}
+
+	const bool& Element::get_bool(const bool& fallback_value) const {
 		if (type_ == Type::Bool) {
 			return val_bool_;
 		}
 
-		static const bool false_constant = false;
-
-		return false_constant;
+		return fallback_value;
 	}
 
 	const bool& Element::b() const {

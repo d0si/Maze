@@ -70,6 +70,7 @@ namespace Maze {
 #pragma region Boolean
 		//   Getters
 		const bool& get_bool() const;
+		const bool& get_bool(const bool& fallback_value) const;
 		const bool& b() const;
 		bool& b();
 		operator bool() const;
