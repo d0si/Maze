@@ -70,6 +70,7 @@ namespace Maze {
 #pragma region Boolean
 		//   Getters
 		const bool& get_bool() const;
+		const bool& get_bool(const bool& fallback_value) const;
 		const bool& b() const;
 		bool& b();
 		operator bool() const;
@@ -82,6 +83,7 @@ namespace Maze {
 #pragma region Integer
 		//   Getters
 		const int& get_int() const;
+		const int& get_int(const int& fallback_value) const;
 		const int& i() const;
 		int& i();
 		operator int() const;
@@ -94,6 +96,7 @@ namespace Maze {
 #pragma region Double
 		//   Getters
 		const double& get_double() const;
+		const double& get_double(const double& fallback_value) const;
 		const double& d() const;
 		double& d();
 		operator double() const;
@@ -106,6 +109,7 @@ namespace Maze {
 #pragma region String
 		//   Getters
 		const std::string& get_string() const;
+		const std::string& get_string(const std::string& fallback_value) const;
 		const std::string& s() const;
 		std::string& s();
 		operator std::string() const;
@@ -121,7 +125,9 @@ namespace Maze {
 
 		//   Getters
 		const Element& get(int index) const;
+		const Element& get(int index, const Element& fallback_value) const;
 		Element& get(int index);
+		Element& get(int index, Element& fallback_value);
 		Element* get_ptr(int index);
 		const Element& operator[](int index) const;
 		Element& operator[](int index);
@@ -156,7 +162,9 @@ namespace Maze {
 #pragma region Object
 		//   Getters
 		const Element& get(const std::string& key) const;
+		const Element& get(const std::string& key, const Element& fallback_value) const;
 		Element& get(const std::string& key);
+		Element& get(const std::string& key, Element& fallback_value);
 		Element* get_ptr(const std::string& key);
 		const Element& operator[](const std::string& key) const;
 		const Element& operator[](const char* key) const;

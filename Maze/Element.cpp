@@ -130,13 +130,17 @@ namespace Maze {
 
 #pragma region Boolean
 	const bool& Element::get_bool() const {
+		static const bool false_constant = false;
+
+		return get_bool(false_constant);
+	}
+
+	const bool& Element::get_bool(const bool& fallback_value) const {
 		if (type_ == Type::Bool) {
 			return val_bool_;
 		}
 
-		static const bool false_constant = false;
-
-		return false_constant;
+		return fallback_value;
 	}
 
 	const bool& Element::b() const {
@@ -171,13 +175,17 @@ namespace Maze {
 
 #pragma region Integer
 	const int& Element::get_int() const {
+		static const int zero_constant = 0;
+
+		return get_int(zero_constant);
+	}
+
+	const int& Element::get_int(const int& fallback_value) const {
 		if (type_ == Type::Int) {
 			return val_int_;
 		}
 
-		static const int zero_constant = 0;
-
-		return zero_constant;
+		return fallback_value;
 	}
 
 	const int& Element::i() const {
@@ -212,13 +220,17 @@ namespace Maze {
 
 #pragma region Double
 	const double& Element::get_double() const {
+		static const double zero_constant = 0;
+
+		return get_double(zero_constant);
+	}
+
+	const double& Element::get_double(const double& fallback_value) const {
 		if (type_ == Type::Double) {
 			return val_double_;
 		}
 
-		static const double zero_constant = 0;
-
-		return zero_constant;
+		return fallback_value;
 	}
 
 	const double& Element::d() const {
@@ -253,13 +265,17 @@ namespace Maze {
 
 #pragma region String
 	const std::string& Element::get_string() const {
+		static const std::string empty_string_constant = "";
+
+		return get_string(empty_string_constant);
+	}
+
+	const std::string& Element::get_string(const std::string& fallback_value) const {
 		if (type_ == Type::String) {
 			return val_string_;
 		}
 
-		static const std::string empty_string_constant = "";
-
-		return empty_string_constant;
+		return fallback_value;
 	}
 
 	const std::string& Element::s() const {
@@ -298,19 +314,33 @@ namespace Maze {
 
 #pragma region Array
 	const Element& Element::get(int index) const {
+		static const Element empty_element_constant = Element();
+
+		return get(index, empty_element_constant);
+	}
+	
+	const Element& Element::get(int index, const Element& fallback_value) const {
 		if (type_ == Type::Array || type_ == Type::Object) {
 			if (index < children_.size()) {
 				return children_[index];
 			}
 		}
 
-		static const Element empty_element_constant = Element();
-
-		return empty_element_constant;
+		return fallback_value;
 	}
 
 	Element& Element::get(int index) {
 		return *get_ptr(index);
+	}
+
+	Element& Element::get(int index, Element& fallback_value) {
+		if (type_ == Type::Array || type_ == Type::Object) {
+			if (index < children_.size()) {
+				return children_[index];
+			}
+		}
+
+		return fallback_value;
 	}
 
 	Element* Element::get_ptr(int index) {
@@ -471,6 +501,12 @@ namespace Maze {
 
 #pragma region Object
 	const Element& Element::get(const std::string& key) const {
+		static const Element empty_element_constant = Element();
+
+		return get(key, empty_element_constant);
+	}
+	
+	const Element& Element::get(const std::string& key, const Element& fallback_value) const {
 		if (type_ == Type::Object) {
 			int value_index = index_of(key);
 
@@ -479,13 +515,23 @@ namespace Maze {
 			}
 		}
 
-		static const Element empty_element_constant = Element();
-
-		return empty_element_constant;
+		return fallback_value;
 	}
 
 	Element& Element::get(const std::string& key) {
 		return *get_ptr(key);
+	}
+
+	Element& Element::get(const std::string& key, Element& fallback_value) {
+		if (type_ == Type::Object) {
+			int value_index = index_of(key);
+
+			if (value_index != -1) {
+				return children_[value_index];
+			}
+		}
+
+		return fallback_value;
 	}
 
 	Element* Element::get_ptr(const std::string& key) {
