@@ -15,6 +15,8 @@ namespace Maze {
 			return "array";
 		case Type::Object:
 			return "object";
+		case Type::Function:
+			return "function";
 		default:
 			return "null";
 		}

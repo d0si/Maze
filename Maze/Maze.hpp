@@ -15,7 +15,8 @@ namespace Maze {
 		Double = 3,
 		String = 4,
 		Array = 5,
-		Object = 6
+		Object = 6,
+		Function = 7
 	};
 
 	std::string to_string(const Type& type);
