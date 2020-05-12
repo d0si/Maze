@@ -15,7 +15,8 @@ namespace Maze {
 		Double = 3,
 		String = 4,
 		Array = 5,
-		Object = 6
+		Object = 6,
+		Function = 7
 	};
 
 	std::string to_string(const Type& type);
@@ -29,6 +30,9 @@ namespace Maze {
 		}
 	};
 
+	class Element;
+	typedef Element(*FunctionCallback) (Element value);
+
 	class Element {
 	private:
 		Type type_ = Type::Null;
@@ -39,6 +43,7 @@ namespace Maze {
 		std::string val_string_;
 		std::vector<std::string> children_keys_;
 		std::vector<Element> children_;
+		FunctionCallback callback_;
 
 		std::string val_key_;
 	public:
@@ -52,6 +57,7 @@ namespace Maze {
 		Element(const char* val);
 		Element(const std::vector<Element>& val);
 		Element(const std::vector<std::string>& keys, const std::vector<Element>& val);
+		Element(FunctionCallback callback);
 		Element(Type val);
 		~Element();
 #pragma endregion
@@ -191,6 +197,15 @@ namespace Maze {
 		std::vector<std::string>::iterator keys_end();
 #pragma endregion
 
+#pragma region Function
+		void set_function(FunctionCallback callback);
+		
+		Element execute_function(const Element& value) const;
+		Element e(const Element& value) const;
+
+		FunctionCallback get_callback() const;
+#pragma endregion
+
 #pragma region Type checks
 		bool is_null() const;
 		bool is_bool() const;
@@ -199,6 +214,7 @@ namespace Maze {
 		bool is_string() const;
 		bool is_array() const;
 		bool is_object() const;
+		bool is_function() const;
 		bool is(Type type) const;
 
 		bool is_null(int index) const;
@@ -208,6 +224,7 @@ namespace Maze {
 		bool is_string(int index) const;
 		bool is_array(int index) const;
 		bool is_object(int index) const;
+		bool is_function(int index) const;
 		bool is(int index, Type type) const;
 
 		bool is_null(const std::string& key) const;
@@ -217,6 +234,7 @@ namespace Maze {
 		bool is_string(const std::string& key) const;
 		bool is_array(const std::string& key) const;
 		bool is_object(const std::string& key) const;
+		bool is_function(const std::string& key) const;
 		bool is(const std::string& key, Type type) const;
 #pragma endregion
 
