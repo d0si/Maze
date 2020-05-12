@@ -50,7 +50,3 @@ TEST_F(ArrayTest, ConstructIsEmpty) {
 	EXPECT_FALSE(array.has_children());
 	EXPECT_EQ(array.count_children(), 0);
 }
-
-TEST_F(ArrayTest, Version) {
-	EXPECT_EQ(Maze::get_version(), "0.0.1");
-}
