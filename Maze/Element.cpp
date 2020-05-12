@@ -40,6 +40,10 @@ namespace Maze {
 		set_object(keys, val);
 	}
 
+	Element::Element(FunctionCallback callback) {
+		set_function(callback);
+	}
+
 	Element::Element(Type type) {
 		set_type(type);
 	}
@@ -69,6 +73,8 @@ namespace Maze {
 		case Type::Object:
 			set_object(val.get_keys(), val.get_children());
 			break;
+		case Type::Function:
+			set_function(val.get_callback());
 		default:
 			set_as_null();
 		}
@@ -648,6 +654,29 @@ namespace Maze {
 	}
 #pragma endregion
 
+#pragma region Function
+	void Element::set_function(FunctionCallback callback) {
+		type_ = Type::Function;
+		callback_ = callback;
+	}
+
+	Element Element::execute_function(const Element& value) const {
+		if (type_ == Type::Function) {
+			return callback_(value);
+		}
+
+		return Element();
+	}
+
+	Element Element::e(const Element& value) const {
+		return execute_function(value);
+	}
+
+	FunctionCallback Element::get_callback() const {
+		return callback_;
+	}
+#pragma endregion
+
 #pragma region Type checks
 	bool Element::is_null() const {
 		return is(Type::Null);
@@ -675,6 +704,10 @@ namespace Maze {
 
 	bool Element::is_object() const {
 		return is(Type::Object);
+	}
+
+	bool Element::is_function() const {
+		return is(Type::Function);
 	}
 
 	bool Element::is(Type type) const {
@@ -709,6 +742,10 @@ namespace Maze {
 		return is(index, Type::Object);
 	}
 
+	bool Element::is_function(int index) const {
+		return is(index, Type::Function);
+	}
+
 	bool Element::is(int index, Type type) const {
 		return get(index).is(type);
 	}
@@ -741,6 +778,10 @@ namespace Maze {
 		return is(key, Type::Object);
 	}
 
+	bool Element::is_function(const std::string& key) const {
+		return is(key, Type::Function);
+	}
+
 	bool Element::is(const std::string& key, Type type) const {
 		return get(key).is(type);
 	}
@@ -748,9 +789,6 @@ namespace Maze {
 
 	void Element::apply(const Element& new_element) {
 		switch (new_element.get_type()) {
-		case Type::Null:
-			set_as_null();
-			break;
 		case Type::Bool:
 			set_bool(new_element.get_bool());
 			break;
@@ -769,6 +807,11 @@ namespace Maze {
 		case Type::Object:
 			set_object(new_element.get_keys(), new_element.get_children());
 			break;
+		case Type::Function:
+			set_function(new_element.get_callback());
+			break;
+		default:
+			set_as_null();
 		}
 	}
 
