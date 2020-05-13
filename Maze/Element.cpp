@@ -381,7 +381,7 @@ namespace Maze {
 			const std::string child_key = array_index_prefix_char + std::to_string(children_keys_.size());
 
 			children_[i].set_key(child_key);
-			children_keys_[i] = child_key;
+			children_keys_.push_back(child_key);
 		}
 	}
 
@@ -862,7 +862,7 @@ namespace Maze {
 	}
 
 	std::string Element::to_json(int spacing) const {
-		return Helpers::Element::to_json_element(this).dump(spacing);
+		return Helpers::Element::to_json_element(*this).dump(spacing);
 	}
 
 	void Element::apply_json(const std::string& json_string) {
