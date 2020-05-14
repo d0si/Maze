@@ -72,7 +72,7 @@ namespace Maze {
 
 				auto children = array_el.get_children();
 				for (const auto& it : children) {
-					json_arr.push_back(Element::to_json_element(&it));
+					json_arr.push_back(Element::to_json_element(it));
 				}
 
 				return json_arr;

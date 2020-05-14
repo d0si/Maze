@@ -851,7 +851,19 @@ namespace Maze {
 			set_array(new_element.get_children());
 			break;
 		case Type::Object:
-			set_object(new_element.get_keys(), new_element.get_children());
+			if (type_ == Type::Object) {
+				for (auto it = new_element.keys_begin(); it != new_element.keys_end(); ++it) {
+					if (exists(*it)) {
+						get(*it).apply(new_element.get(*it));
+					}
+					else {
+						set(*it, new_element.get(*it));
+					}
+				}
+			}
+			else {
+				set_object(new_element.get_keys(), new_element.get_children());
+			}
 			break;
 		case Type::Function:
 			set_function(new_element.get_callback());
