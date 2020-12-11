@@ -34,7 +34,7 @@ namespace Maze {
 	typedef Element(*FunctionCallback) (Element value);
 
 	class Element {
-	private:
+	protected:
 		Type type_ = Type::Null;
 
 		bool val_bool_;
