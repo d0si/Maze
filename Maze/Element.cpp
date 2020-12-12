@@ -457,7 +457,7 @@ namespace Maze {
 		children_keys_.erase(children_keys_.begin() + index);
 
 		if (update_string_indexes) {
-			for (int i = children_keys_.size() - 1; i > index; --i) {
+			for (int i = (int)children_keys_.size() - 1; i > index; --i) {
 				std::string key = children_keys_[i];
 
 				if (key.length() > 0 && key[0] == array_index_prefix_char) {
@@ -638,7 +638,7 @@ namespace Maze {
 			children_keys_.erase(children_keys_.begin() + value_index);
 
 			if (update_string_indexes) {
-				for (int i = children_keys_.size() - 1; i > value_index; --i) {
+				for (int i = (int)children_keys_.size() - 1; i > value_index; --i) {
 					std::string key = children_keys_[i];
 
 					if (key.length() > 0 && key[0] == array_index_prefix_char) {
@@ -671,7 +671,7 @@ namespace Maze {
 			throw MazeException("Element corrupted, size of keys is different than size of element vector");
 		}
 
-		for (int i = children_keys_.size() - 1; i >= 0; --i) {
+		for (int i = (int)children_keys_.size() - 1; i >= 0; --i) {
 			if (children_keys_[i] == key)
 				return i;
 		}

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 project(Maze
     LANGUAGES CXX
     VERSION 1.0.0
@@ -21,7 +21,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
 #
-# Maze library
+# Maze library sources
 #
 set(MAZE_SOURCES
     Maze/Element.cpp
@@ -56,6 +56,8 @@ add_library(Maze ${MAZE_LIBRARY_TYPE}
     ${MAZE_SOURCES}
     ${MAZE_PUBLIC_HEADERS}
 )
+add_library(Maze::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
 
 target_include_directories(Maze
     PUBLIC
