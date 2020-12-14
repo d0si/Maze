@@ -13,12 +13,11 @@ addons:
       - g++-7
       - cmake
       - lcov
-  snaps:
-    - name: cmake
-      confinement: classic
-      channel: latest/stable
   
 before_script:
+  - sudo apt remove --purge cmake
+  - sudo snap install cmake --classic --channel=latest/stable
+  - cmake --version
   - export CC=gcc-7
   - export CXX=g++-7
   - mkdir -p build
