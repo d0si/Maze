@@ -13,13 +13,18 @@ addons:
       - g++-7
       - cmake
       - lcov
-
-script:
+  snaps:
+    - name: cmake
+      confinement: classic
+      channel: latest/stable
+  
+before_script:
   - export CC=gcc-7
   - export CXX=g++-7
-  - cmake --version
   - mkdir -p build
   - cd build
   - cmake .. -DCMAKE_BUILD_TYPE=Debug -DMAZE_BUILD_TESTS=ON -DMAZE_CODE_COVERAGE=ON
+
+script:
   - make -j4
   - make Maze_tests_coverage
