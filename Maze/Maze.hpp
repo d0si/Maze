@@ -29,7 +29,7 @@ namespace Maze {
 	public:
 		MazeException(const std::string& message);
 
-		virtual const char* what() const override;
+		virtual const char* what() const noexcept override;
 
 	protected:
 		const std::string _message;

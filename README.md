@@ -1,2 +1,2 @@
-# Maze System [![Build Status](https://travis-ci.com/d0si/maze.svg?branch=master)](https://travis-ci.com/d0si/maze)
+# Maze System ![Build Maze](https://github.com/d0si/Maze/workflows/Build%20Maze/badge.svg?branch=master)
 Maze C++ system that allows dynamic JavaScript like objects to provide dynamic objects
