@@ -2,7 +2,11 @@
 #include <string>
 
 namespace Maze {
-	std::string get_version() {
-		return MAZE_VERSION;
+
+	const std::string version = MAZE_VERSION;
+
+	const std::string& get_version() {
+		return version;
 	}
+
 }  // namespace Maze

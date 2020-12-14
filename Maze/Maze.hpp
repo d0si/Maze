@@ -1,12 +1,15 @@
-#ifndef MAZE_MAZE_HPP
-#define MAZE_MAZE_HPP
+#pragma once
 
 #include <string>
 #include <memory>
 #include <vector>
 
+#define MAZE_ARRAY_INDEX_PREFIX_CHAR '~'
+
 namespace Maze {
-	std::string get_version();
+
+	const std::string& get_version();
+
 
 	enum class Type {
 		Null = 0,
@@ -19,35 +22,28 @@ namespace Maze {
 		Function = 7
 	};
 
-	std::string to_string(const Type& type);
+	const std::string& to_string(const Type& type);
+
 
 	class MazeException : public std::exception {
 	public:
-		std::string message;
+		MazeException(const std::string& message);
 
-		MazeException(const std::string& message) : message(message) {
+		virtual const char* what() const override;
 
-		}
+	protected:
+		const std::string _message;
 	};
+
 
 	class Element;
 	typedef Element(*FunctionCallback) (Element value);
 
+
 	class Element {
-	protected:
-		Type type_ = Type::Null;
-
-		bool val_bool_;
-		int val_int_;
-		double val_double_;
-		std::string val_string_;
-		std::vector<std::string> children_keys_;
-		std::vector<Element> children_;
-		FunctionCallback callback_;
-
-		std::string val_key_;
 	public:
 #pragma region Constructors/destructors
+
 		Element();
 		Element(const Element& val);
 		Element(bool val);
@@ -60,98 +56,120 @@ namespace Maze {
 		Element(FunctionCallback callback);
 		Element(Type val);
 		~Element();
+
 #pragma endregion
+
 
 		void copy_from_element(const Element& val);
 		void operator=(const Element& val);
 
-		void set_type(Type type);
-		Type get_type() const;
+		void set_type(const Type& type);
+		const Type& get_type() const;
+		Type& get_type_ref();
 
 		void set_key(const std::string& key);
 		const std::string& get_key() const;
+		std::string& get_key_ref();
 
 		void set_as_null(bool clear_existing_values = true);
 
+
 #pragma region Boolean
+
 		//   Getters
-		const bool& get_bool() const;
-		const bool& get_bool(const bool& fallback_value) const;
-		const bool& b() const;
-		bool& b();
+		bool b() const;
 		operator bool() const;
+		bool get_bool() const;
+		bool get_bool(bool fallback_value) const;
+		bool& get_bool_ref();
+
 		//   Setters
-		void set_bool(bool val);
 		void b(bool val);
 		void operator=(bool val);
+		void set_bool(bool val);
+
 #pragma endregion
 
+
 #pragma region Integer
+
 		//   Getters
-		const int& get_int() const;
-		const int& get_int(const int& fallback_value) const;
-		const int& i() const;
-		int& i();
+		int i() const;
 		operator int() const;
+		int get_int() const;
+		int get_int(int fallback_value) const;
+		int& get_int_ref();
+		
 		//   Setters
-		void set_int(int val);
 		void i(int val);
 		void operator=(int val);
+		void set_int(int val);
+
 #pragma endregion
 
 #pragma region Double
+
 		//   Getters
-		const double& get_double() const;
-		const double& get_double(const double& fallback_value) const;
-		const double& d() const;
-		double& d();
+		double d() const;
 		operator double() const;
+		double get_double() const;
+		double get_double(double fallback_value) const;
+		double& get_double_ref();
+
 		//   Setters
-		void set_double(double val);
 		void d(double val);
 		void operator=(double val);
+		void set_double(double val);
+
 #pragma endregion
 
+
 #pragma region String
+		
 		//   Getters
-		const std::string& get_string() const;
-		const std::string& get_string(const std::string& fallback_value) const;
 		const std::string& s() const;
-		std::string& s();
-		operator std::string() const;
+		operator const std::string&() const;
+		const std::string& get_string() const;
+		const std::string& get_string_const_ref(const std::string& fallback_value) const;
+		std::string get_string(const std::string& fallback_value) const;
+		std::string& get_string_ref();
+
 		//   Setters
-		void set_string(const std::string& val);
 		void s(const std::string& val);
 		void operator=(const std::string& val);
 		void operator=(const char* val);
+		void set_string(const std::string& val);
+
 #pragma endregion
 
+
 #pragma region Array
-		static const char array_index_prefix_char = '~';
+
+		static const char array_index_prefix_char = MAZE_ARRAY_INDEX_PREFIX_CHAR;
 
 		//   Getters
-		const Element& get(int index) const;
-		const Element& get(int index, const Element& fallback_value) const;
-		Element& get(int index);
-		Element& get(int index, Element& fallback_value);
-		Element* get_ptr(int index);
 		const Element& operator[](int index) const;
+		const Element& get(int index) const;
+		const Element& get_const_ref(int index, const Element& fallback_value) const;
+		Element get(int index, const Element& fallback_value) const;
 		Element& operator[](int index);
+		Element& get_ref(int index);
+		Element* get_ptr(int index);
 
 		//   Setters
 		void set_array(const std::vector<Element>& val);
-		Element& push_back(const Element& value);
 		Element& push_back(const std::string& value);
 		Element& push_back(const char* value);
 		Element& push_back(bool value);
 		Element& push_back(int value);
 		Element& push_back(double value);
-		Element& operator<<(const Element& value);
 		Element& operator<<(const std::string& value);
 		Element& operator<<(const char* value);
 		Element& operator<<(bool value);
 		Element& operator<<(int value);
 		Element& operator<<(double value);
+		Element& operator<<(const Element& value);
+		Element& push_back(const Element& value);
 
 		void remove_at(int index, bool update_string_indexes = true);
 		void remove_all_children();
@@ -163,28 +181,31 @@ namespace Maze {
 		const std::vector<Element>::const_iterator end() const;
 		std::vector<Element>::iterator begin();
 		std::vector<Element>::iterator end();
+
 #pragma endregion
 
+
 #pragma region Object
+
 		//   Getters
-		const Element& get(const std::string& key) const;
-		const Element& get(const std::string& key, const Element& fallback_value) const;
-		Element& get(const std::string& key);
-		Element& get(const std::string& key, Element& fallback_value);
-		Element* get_ptr(const std::string& key);
 		const Element& operator[](const std::string& key) const;
 		const Element& operator[](const char* key) const;
+		const Element& get(const std::string& key) const;
+		const Element& get_const_ref(const std::string& key, const Element& fallback_value) const;
+		Element get(const std::string& key, const Element& fallback_value) const;
 		Element& operator[](const std::string& key);
 		Element& operator[](const char* key);
+		Element& get_ref(const std::string& key);
+		Element* get_ptr(const std::string& key);
 
 		//   Setters
 		void set_object(const std::vector<std::string>& keys, const std::vector<Element>& values);
-		void set(const std::string& key, const Element& value);
 		void set(const std::string& key, const std::string& value);
 		void set(const std::string& key, const char* value);
 		void set(const std::string& key, bool value);
 		void set(const std::string& key, int value);
 		void set(const std::string& key, double value);
+		void set(const std::string& key, const Element& value);
 
 		void remove(const std::string& key, bool update_string_indexes = true);
 		bool exists(const std::string& key) const;
@@ -195,18 +216,23 @@ namespace Maze {
 		const std::vector<std::string>::const_iterator keys_end() const;
 		std::vector<std::string>::iterator keys_begin();
 		std::vector<std::string>::iterator keys_end();
+
 #pragma endregion
 
+
 #pragma region Function
+		
 		void set_function(FunctionCallback callback);
 		
 		Element execute_function(const Element& value) const;
 		Element e(const Element& value) const;
 
 		FunctionCallback get_callback() const;
+
 #pragma endregion
 
 #pragma region Type checks
+
 		bool is_null() const;
 		bool is_bool() const;
 		bool is_int() const;
@@ -236,7 +262,9 @@ namespace Maze {
 		bool is_object(const std::string& key) const;
 		bool is_function(const std::string& key) const;
 		bool is(const std::string& key, Type type) const;
+
 #pragma endregion
+
 
 		void apply(const Element& new_element);
 
@@ -247,7 +275,19 @@ namespace Maze {
 		static Element from_json(const std::string& json_string);
 
 		static const Element& get_null_element();
-	};
-}  // namespace Maze
 
-#endif  // MAZE_MAZE_HPP
+	protected:
+		Type _type = Type::Null;
+
+		bool _val_bool;
+		int _val_int;
+		double _val_double;
+		std::string _val_string;
+		std::vector<std::string> _children_keys;
+		std::vector<Element> _children;
+		FunctionCallback _callback;
+
+		std::string _val_key;
+	};
+
+}  // namespace Maze

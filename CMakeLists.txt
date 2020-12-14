@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(Maze
     LANGUAGES CXX
-    VERSION 1.0.0
+    VERSION 1.1.0
 )
 
 
@@ -28,6 +28,7 @@ set(MAZE_SOURCES
     Maze/Type.cpp
     Maze/Helpers.cpp
     Maze/Version.cpp
+    Maze/MazeException.cpp
 )
 set(MAZE_PUBLIC_HEADERS
     Maze/Maze.hpp
