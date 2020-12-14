@@ -1,4 +1,4 @@
-dist: trusty
+dist: bionic
 sudo: require
 
 language: cpp
@@ -20,6 +20,6 @@ script:
   - cmake --version
   - mkdir -p build
   - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=Release -DMAZE_BUILD_TESTS=ON -DMAZE_CODE_COVERAGE=ON
+  - cmake .. -DCMAKE_BUILD_TYPE=Debug -DMAZE_BUILD_TESTS=ON -DMAZE_CODE_COVERAGE=ON
   - make -j4
   - make Maze_tests_coverage
