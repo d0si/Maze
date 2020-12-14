@@ -1,0 +1,16 @@
+name: Build Maze
+
+on: [push]
+
+jobs:
+  build:
+	runs-on: ubuntu-latest
+	steps:
+    - name: Checkout project
+	  uses: actions/checkout@v2
+    - name: Build project
+      uses: nicledomaS/cmake_build_action@v1.2
+      with:
+        submodule_update: ON
+        run_tests: ON
+        unit_test_build: -DMAZE_BUILD_TESTS=ON
