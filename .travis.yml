@@ -1,13 +1,25 @@
+dist: trusty
+sudo: require
+
 language: cpp
-os: linux
 compiler: gcc
 
-before_install:
-    - sudo apt-get install lcov -y
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-7
+      - g++-7
+      - cmake
+      - lcov
 
 script:
-    - mkdir -p build
-    - cd build
-    - cmake .. -DCMAKE_BUILD_TYPE=Debug -DMAZE_BUILD_TESTS=ON -DMAZE_CODE_COVERAGE=ON
-    - make -j4
-    - make MazeTest_coverage
+  - export CC=gcc-7
+  - export CXX=g++-7
+  - cmake --version
+  - mkdir -p build
+  - cd build
+  - cmake .. -DCMAKE_BUILD_TYPE=Release -DMAZE_BUILD_TESTS=ON -DMAZE_CODE_COVERAGE=ON
+  - make -j4
+  - make Maze_tests_coverage

@@ -16,7 +16,7 @@ option(MAZE_CODE_COVERAGE "Adds code coverage symbols" OFF)
 #
 # Compiler flags
 #
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
@@ -91,24 +91,24 @@ if(MAZE_BUILD_TESTS)
     add_subdirectory(dependencies/googletest)
 
     set(MAZE_TEST_SOURCES
-        MazeTest/ElementTest.cpp
-        MazeTest/ArrayTest.cpp
-        MazeTest/ObjectTest.cpp
-        MazeTest/TypeTest.cpp
-        MazeTest/HelpersTest.cpp
+        tests/ElementTest.cpp
+        tests/ArrayTest.cpp
+        tests/ObjectTest.cpp
+        tests/TypeTest.cpp
+        tests/HelpersTest.cpp
 
-        MazeTest/Element/Bool.cpp
+        tests/Element/Bool.cpp
 
-        MazeTest/main.cpp
+        tests/main.cpp
     )
 
-    add_executable(MazeTest
+    add_executable(Maze_tests
         ${MAZE_TEST_SOURCES}
     )
 
-    add_test(NAME MazeTest COMMAND MazeTest)
+    add_test(NAME Maze_tests COMMAND Maze_tests)
 
-    target_link_libraries(MazeTest
+    target_link_libraries(Maze_tests
         PUBLIC
             Maze
             gtest
@@ -121,15 +121,15 @@ if(MAZE_BUILD_TESTS)
         set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
 
         if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 9.0)
-            add_custom_target(MazeTest_coverage
-                COMMAND MazeTest ${ARGV3}
+            add_custom_target(Maze_tests_coverage
+                COMMAND Maze_tests ${ARGV3}
                 COMMAND ${CMAKE_SOURCE_DIR}/cmake/fastcov/fastcov.py --lcov -o maze_test_coverage.info --include Maze/Maze/
                 COMMAND genhtml -o coverage_info maze_test_coverage.info
             )
         else()
-            add_custom_target(MazeTest_coverage
+            add_custom_target(Maze_tests_coverage
                 COMMAND lcov --zerocounters --directory .
-                COMMAND MazeTest ${ARGV3}
+                COMMAND Maze_tests ${ARGV3}
                 COMMAND lcov --capture --directory . --output-file maze_test_coverage.info
                 COMMAND genhtml -o coverage_info maze_test_coverage.info
             )
