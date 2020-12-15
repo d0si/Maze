@@ -12,7 +12,7 @@ protected:
 
         arr_1 = Maze::Element(Maze::Type::Array);
         arr_1.push_back("val1");
-        arr_1.push_back( 42);
+        arr_1.push_back(42);
         arr_1.push_back(true);
 
         arr_2 = Maze::Element(Maze::Type::Array);
@@ -34,7 +34,7 @@ TEST_F(ElementArrayTest, Constructor) {
     EXPECT_TRUE(arr_2.is_array());
     EXPECT_EQ(arr_2.count_children(), 7);
 
-    Maze::Element el({ Maze::Element("el1"), Maze::Element(23) });
+    Maze::Element el(std::vector<Maze::Element> { Maze::Element("el1"), Maze::Element(23) });
     EXPECT_TRUE(el.is_array());
     EXPECT_EQ(el.count_children(), 2);
 
@@ -63,7 +63,7 @@ TEST_F(ElementArrayTest, Getter) {
     EXPECT_EQ(arr_1.get(0).s(), "val1");
     EXPECT_EQ(arr_1.get(1).i(), 42);
     EXPECT_EQ(arr_1.get(2).b(), true);
-    
+
     EXPECT_TRUE(arr_1.get(99).is_null());
 }
 
