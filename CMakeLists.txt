@@ -130,7 +130,7 @@ if(MAZE_BUILD_TESTS)
         if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 9.0)
             add_custom_target(Maze_tests_coverage
                 COMMAND Maze_tests ${ARGV3}
-                COMMAND ${CMAKE_SOURCE_DIR}/cmake/fastcov/fastcov.py --lcov -o maze_test_coverage.info --include Maze/Maze/
+                COMMAND ${CMAKE_SOURCE_DIR}/dependencies/fastcov/fastcov.py --lcov -o maze_test_coverage.info --include include/Maze/Maze/
                 COMMAND genhtml -o coverage_info maze_test_coverage.info
             )
         else()
