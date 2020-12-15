@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.13)
 project(Maze
     LANGUAGES CXX
-    VERSION 1.1.0
+    VERSION 1.1.1
 )
 
 
 #
 # Build configuration options
 #
+cmake_policy(SET CMP0077 NEW) # This allows new policy to override option variables using normal variables
 option(MAZE_BUILD_SHARED_LIBS "Build shared libs when enabled otherwise static" OFF)
 option(MAZE_BUILD_TESTS "Build tests when enabled" ON)
 option(MAZE_CODE_COVERAGE "Adds code coverage symbols" OFF)
@@ -24,15 +25,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Maze library sources
 #
 set(MAZE_SOURCES
-    Maze/Element.cpp
-    Maze/Type.cpp
-    Maze/Helpers.cpp
-    Maze/Version.cpp
-    Maze/MazeException.cpp
+    src/Maze/Element.cpp
+    src/Maze/Type.cpp
+    src/Maze/Helpers.cpp
+    src/Maze/Version.cpp
 )
 set(MAZE_PUBLIC_HEADERS
-    Maze/Maze.hpp
-    Maze/Helpers.hpp
+    include/Maze/Maze.hpp
+    include/Maze/Helpers.hpp
 )
 
 # If configuration was not set in CMAKE_BUILD_TYPE default to Release
@@ -62,8 +62,8 @@ add_library(Maze::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(Maze
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_BINARY_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/nlohmann/json/include
 )
 
@@ -72,12 +72,12 @@ set_target_properties(Maze PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(Maze PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
 # Configure version file
-configure_file(Maze/Version.hpp.in
-    "${CMAKE_CURRENT_BINARY_DIR}/Maze/Version.hpp" @ONLY
+configure_file(include/Maze/Version.hpp.in
+    "${CMAKE_CURRENT_BINARY_DIR}/include/Maze/Version.hpp" @ONLY
 )
 set(MAZE_PUBLIC_HEADERS
     ${MAZE_PUBLIC_HEADERS}
-    "${CMAKE_CURRENT_BINARY_DIR}/Maze/Version.hpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/include/Maze/Version.hpp"
 )
 
 

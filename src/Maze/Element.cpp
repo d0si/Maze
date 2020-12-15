@@ -4,57 +4,6 @@
 
 namespace Maze {
 
-#pragma region Constructors/destructors
-
-    Element::Element() {
-        set_as_null();
-    }
-
-    Element::Element(const Element& val) {
-        copy_from_element(val);
-    }
-
-    Element::Element(bool val) {
-        set_bool(val);
-    }
-
-    Element::Element(int val) {
-        set_int(val);
-    }
-
-    Element::Element(double val) {
-        set_double(val);
-    }
-
-    Element::Element(const std::string& val) {
-        set_string(val);
-    }
-
-    Element::Element(const char* val) {
-        set_string(val);
-    }
-
-    Element::Element(const std::vector<Element>& val) {
-        set_array(val);
-    }
-
-    Element::Element(const std::vector<std::string>& keys, const std::vector<Element>& val) {
-        set_object(keys, val);
-    }
-
-    Element::Element(FunctionCallback callback) {
-        set_function(callback);
-    }
-
-    Element::Element(Type type) {
-        set_type(type);
-    }
-
-    Element::~Element() {}
-
-#pragma endregion
-
-
     void Element::copy_from_element(const Element& val) {
         switch (val.get_type()) {
         case Type::Bool:
@@ -84,10 +33,6 @@ namespace Maze {
         }
     }
 
-    void Element::operator=(const Element& val) {
-        copy_from_element(val);
-    }
-
     void Element::set_type(const Type& type) {
         switch (type) {
         case Type::Bool:
@@ -113,26 +58,6 @@ namespace Maze {
         }
     }
 
-    const Type& Element::get_type() const {
-        return _type;
-    }
-
-    Type& Element::get_type_ref() {
-        return _type;
-    }
-
-    void Element::set_key(const std::string& key) {
-        _val_key = key;
-    }
-
-    const std::string& Element::get_key() const {
-        return _val_key;
-    }
-
-    std::string& Element::get_key_ref() {
-        return _val_key;
-    }
-
     void Element::set_as_null(bool clear_existing_values) {
         _type = Type::Null;
 
@@ -148,18 +73,6 @@ namespace Maze {
 
 #pragma region Boolean
 
-    bool Element::b() const {
-        return get_bool();
-    }
-
-    Element::operator bool() const {
-        return get_bool();
-    }
-
-    bool Element::get_bool() const {
-        return get_bool(false);
-    }
-
     bool Element::get_bool(bool fallback_value) const {
         if (_type == Type::Bool)
             return _val_bool;
@@ -174,37 +87,10 @@ namespace Maze {
         return _val_bool;
     }
 
-
-    void Element::b(bool val) {
-        set_bool(val);
-    }
-
-    void Element::operator=(bool val) {
-        set_bool(val);
-    }
-
-    void Element::set_bool(bool val) {
-        _val_bool = val;
-        _type = Type::Bool;
-    }
-
-
 #pragma endregion
 
 
 #pragma region Integer
-
-    int Element::i() const {
-        return get_int();
-    }
-
-    Element::operator int() const {
-        return get_int();
-    }
-
-    int Element::get_int() const {
-        return get_int(0);
-    }
 
     int Element::get_int(int fallback_value) const {
         if (_type == Type::Int)
@@ -220,36 +106,10 @@ namespace Maze {
         return _val_int;
     }
 
-
-    void Element::i(int val) {
-        set_int(val);
-    }
-
-    void Element::operator=(int val) {
-        set_int(val);
-    }
-
-    void Element::set_int(int val) {
-        _val_int = val;
-        _type = Type::Int;
-    }
-
 #pragma endregion
 
 
 #pragma region Double
-
-    double Element::d() const {
-        return get_double();
-    }
-
-    double Element::get_double() const {
-        return get_double(0);
-    }
-
-    Element::operator double() const {
-        return get_double();
-    }
 
     double Element::get_double(double fallback_value) const {
         if (_type == Type::Double)
@@ -265,32 +125,10 @@ namespace Maze {
         return _val_double;
     }
 
-
-    void Element::d(double val) {
-        set_double(val);
-    }
-
-    void Element::operator=(double val) {
-        set_double(val);
-    }
-
-    void Element::set_double(double val) {
-        _val_double = val;
-        _type = Type::Double;
-    }
-
 #pragma endregion
 
 
 #pragma region String
-
-    const std::string& Element::s() const {
-        return get_string();
-    }
-
-    Element::operator const std::string& () const {
-        return get_string();
-    }
 
     const std::string& Element::get_string() const {
         static const std::string empty_string_constant = "";
@@ -319,31 +157,9 @@ namespace Maze {
         return _val_string;
     }
 
-
-    void Element::s(const std::string& val) {
-        set_string(val);
-    }
-
-    void Element::operator=(const std::string& val) {
-        set_string(val);
-    }
-
-    void Element::operator=(const char* val) {
-        set_string(val);
-    }
-
-    void Element::set_string(const std::string& val) {
-        _val_string = val;
-        _type = Type::String;
-    }
-
 #pragma endregion
 
 #pragma region Array
-
-    const Element& Element::operator[](int index) const {
-        return get(index);
-    }
 
     const Element& Element::get(int index) const {
         static const Element empty_element_constant = Element();
@@ -363,14 +179,6 @@ namespace Maze {
             return _children[index];
 
         return fallback_value;
-    }
-
-    Element& Element::operator[](int index) {
-        return get_ref(index);
-    }
-
-    Element& Element::get_ref(int index) {
-        return *get_ptr(index);
     }
 
     Element* Element::get_ptr(int index) {
@@ -398,50 +206,6 @@ namespace Maze {
             _children[i].set_key(child_key);
             _children_keys.push_back(child_key);
         }
-    }
-
-    Element& Element::operator<<(const std::string& value) {
-        return push_back(value);
-    }
-
-    Element& Element::operator<<(const char* value) {
-        return push_back(value);
-    }
-
-    Element& Element::operator<<(bool value) {
-        return push_back(value);
-    }
-
-    Element& Element::operator<<(int value) {
-        return push_back(value);
-    }
-
-    Element& Element::operator<<(double value) {
-        return push_back(value);
-    }
-
-    Element& Element::operator<<(const Element& value) {
-        return push_back(value);
-    }
-
-    Element& Element::push_back(const std::string& value) {
-        return push_back(Element(value));
-    }
-
-    Element& Element::push_back(const char* value) {
-        return push_back(Element(value));
-    }
-
-    Element& Element::push_back(bool value) {
-        return push_back(Element(value));
-    }
-
-    Element& Element::push_back(int value) {
-        return push_back(Element(value));
-    }
-
-    Element& Element::push_back(double value) {
-        return push_back(Element(value));
     }
 
     Element& Element::push_back(const Element& value) {
@@ -484,51 +248,10 @@ namespace Maze {
         }
     }
 
-    void Element::remove_all_children() {
-        _children.clear();
-        _children_keys.clear();
-    }
-
-    size_t Element::count_children() const {
-        return _children_keys.size();
-    }
-
-    bool Element::has_children() const {
-        return _children_keys.size() > 0;
-    }
-
-    const std::vector<Element>& Element::get_children() const {
-        return _children;
-    }
-
-    const std::vector<Element>::const_iterator Element::begin() const {
-        return _children.begin();
-    }
-
-    const std::vector<Element>::const_iterator Element::end() const {
-        return _children.end();
-    }
-
-    std::vector<Element>::iterator Element::begin() {
-        return _children.begin();
-    }
-
-    std::vector<Element>::iterator Element::end() {
-        return _children.end();
-    }
-
 #pragma endregion
 
 
 #pragma region Object
-
-    const Element& Element::operator[](const std::string& key) const {
-        return get(key);
-    }
-
-    const Element& Element::operator[](const char* key) const {
-        return get(key);
-    }
 
     const Element& Element::get(const std::string& key) const {
         static const Element empty_element_constant = Element();
@@ -557,18 +280,6 @@ namespace Maze {
         }
 
         return fallback_value;
-    }
-
-    Element& Element::operator[](const std::string& key) {
-        return get_ref(key);
-    }
-
-    Element& Element::operator[](const char* key) {
-        return get_ref(key);
-    }
-
-    Element& Element::get_ref(const std::string& key) {
-        return *get_ptr(key);
     }
 
     Element* Element::get_ptr(const std::string& key) {
@@ -601,26 +312,6 @@ namespace Maze {
         for (int i = 0; i < _children_keys.size(); ++i) {
             _children[i].set_key(_children_keys[i]);
         }
-    }
-
-    void Element::set(const std::string& key, const std::string& value) {
-        set(key, Element(value));
-    }
-
-    void Element::set(const std::string& key, const char* value) {
-        set(key, Element(value));
-    }
-
-    void Element::set(const std::string& key, bool value) {
-        set(key, Element(value));
-    }
-
-    void Element::set(const std::string& key, int value) {
-        set(key, Element(value));
-    }
-
-    void Element::set(const std::string& key, double value) {
-        set(key, Element(value));
     }
 
     void Element::set(const std::string& key, const Element& value) {
@@ -690,35 +381,10 @@ namespace Maze {
         return -1;
     }
 
-    const std::vector<std::string>& Element::get_keys() const {
-        return _children_keys;
-    }
-
-    const std::vector<std::string>::const_iterator Element::keys_begin() const {
-        return _children_keys.begin();
-    }
-
-    const std::vector<std::string>::const_iterator Element::keys_end() const {
-        return _children_keys.end();
-    }
-
-    std::vector<std::string>::iterator Element::keys_begin() {
-        return _children_keys.begin();
-    }
-
-    std::vector<std::string>::iterator Element::keys_end() {
-        return _children_keys.end();
-    }
-
 #pragma endregion
 
 
 #pragma region Function
-
-    void Element::set_function(FunctionCallback callback) {
-        _type = Type::Function;
-        _callback = callback;
-    }
 
     Element Element::execute_function(const Element& value) const {
         if (_type == Type::Function)
@@ -727,125 +393,6 @@ namespace Maze {
         return Element();
     }
 
-    Element Element::e(const Element& value) const {
-        return execute_function(value);
-    }
-
-    FunctionCallback Element::get_callback() const {
-        return _callback;
-    }
-
-#pragma endregion
-
-#pragma region Type checks
-
-    bool Element::is_null() const {
-        return is(Type::Null);
-    }
-
-    bool Element::is_bool() const {
-        return is(Type::Bool);
-    }
-
-    bool Element::is_int() const {
-        return is(Type::Int);
-    }
-
-    bool Element::is_double() const {
-        return is(Type::Double);
-    }
-
-    bool Element::is_string() const {
-        return is(Type::String);
-    }
-
-    bool Element::is_array() const {
-        return is(Type::Array);
-    }
-
-    bool Element::is_object() const {
-        return is(Type::Object);
-    }
-
-    bool Element::is_function() const {
-        return is(Type::Function);
-    }
-
-    bool Element::is(Type type) const {
-        return (_type == type);
-    }
-
-    bool Element::is_null(int index) const {
-        return is(index, Type::Null);
-    }
-
-    bool Element::is_bool(int index) const {
-        return is(index, Type::Bool);
-    }
-
-    bool Element::is_int(int index) const {
-        return is(index, Type::Int);
-    }
-
-    bool Element::is_double(int index) const {
-        return is(index, Type::Double);
-    }
-
-    bool Element::is_string(int index) const {
-        return is(index, Type::String);
-    }
-
-    bool Element::is_array(int index) const {
-        return is(index, Type::Array);
-    }
-
-    bool Element::is_object(int index) const {
-        return is(index, Type::Object);
-    }
-
-    bool Element::is_function(int index) const {
-        return is(index, Type::Function);
-    }
-
-    bool Element::is(int index, Type type) const {
-        return get(index).is(type);
-    }
-
-    bool Element::is_null(const std::string& key) const {
-        return is(key, Type::Null);
-    }
-
-    bool Element::is_bool(const std::string& key) const {
-        return is(key, Type::Bool);
-    }
-
-    bool Element::is_int(const std::string& key) const {
-        return is(key, Type::Int);
-    }
-
-    bool Element::is_double(const std::string& key) const {
-        return is(key, Type::Double);
-    }
-
-    bool Element::is_string(const std::string& key) const {
-        return is(key, Type::String);
-    }
-
-    bool Element::is_array(const std::string& key) const {
-        return is(key, Type::Array);
-    }
-
-    bool Element::is_object(const std::string& key) const {
-        return is(key, Type::Object);
-    }
-
-    bool Element::is_function(const std::string& key) const {
-        return is(key, Type::Function);
-    }
-
-    bool Element::is(const std::string& key, Type type) const {
-        return get(key).is(type);
-    }
 #pragma endregion
 
     void Element::apply(const Element& new_element) {
