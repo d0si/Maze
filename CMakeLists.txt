@@ -92,15 +92,15 @@ if(MAZE_BUILD_TESTS)
     add_subdirectory(dependencies/googletest)
 
     set(MAZE_TEST_SOURCES
+        tests/Element/ArrayTest.cpp
         tests/Element/BoolTest.cpp
         tests/Element/DoubleTest.cpp
         tests/Element/FunctionTest.cpp
         tests/Element/IntegerTest.cpp
         tests/Element/NullTest.cpp
+        tests/Element/ObjectTest.cpp
         tests/Element/StringTest.cpp
 
-        tests/ArrayTest.cpp
-        tests/ObjectTest.cpp
         tests/TypeTest.cpp
         tests/HelpersTest.cpp
         tests/MazeExceptionTest.cpp
