@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(Maze
     LANGUAGES CXX
-    VERSION 1.1.1
+    VERSION 1.1.2
 )
 
 
@@ -92,13 +92,19 @@ if(MAZE_BUILD_TESTS)
     add_subdirectory(dependencies/googletest)
 
     set(MAZE_TEST_SOURCES
-        tests/ElementTest.cpp
+        tests/Element/BoolTest.cpp
+        tests/Element/DoubleTest.cpp
+        tests/Element/FunctionTest.cpp
+        tests/Element/IntegerTest.cpp
+        tests/Element/NullTest.cpp
+        tests/Element/StringTest.cpp
+
         tests/ArrayTest.cpp
         tests/ObjectTest.cpp
         tests/TypeTest.cpp
         tests/HelpersTest.cpp
-
-        tests/Element/Bool.cpp
+        tests/MazeExceptionTest.cpp
+        tests/VersionTest.cpp
 
         tests/main.cpp
     )

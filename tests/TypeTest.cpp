@@ -1,16 +1,9 @@
 #include <gtest/gtest.h>
 #include <Maze/Maze.hpp>
 
-class TypeTest : public ::testing::Test {
-protected:
-	TypeTest() {}
-	virtual ~TypeTest() {}
+class TypeTest : public ::testing::Test {};
 
-	virtual void SetUp() {}
-	virtual void TearDown() {}
-};
-
-TEST(TypeTest, Type_ToString) {
+TEST(TypeTest, ToString_CorrectValue) {
 	Maze::Type type = Maze::Type::Array;
 	EXPECT_EQ(Maze::to_string(type), "array");
 

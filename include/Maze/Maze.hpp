@@ -40,7 +40,7 @@ namespace Maze {
 
 
     class Element;
-    typedef Element(*FunctionCallback) (Element value);
+    typedef Element(*FunctionCallback) (const Element& value);
 
 
     class Element {
@@ -202,7 +202,7 @@ namespace Maze {
         Element* get_ptr(const std::string& key);
 
         //   Setters
-        inline void set_object(const std::vector<std::string>& keys, const std::vector<Element>& values);
+        void set_object(const std::vector<std::string>& keys, const std::vector<Element>& values);
         inline void set(const std::string& key, const std::string& value) { set(key, Element(value)); }
         inline void set(const std::string& key, const char* value) { set(key, Element(value)); }
         inline void set(const std::string& key, bool value) { set(key, Element(value)); }
