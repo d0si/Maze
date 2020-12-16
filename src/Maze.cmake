@@ -8,7 +8,7 @@ set(MAZE_SOURCES
     Maze/Version.cpp
 )
 set(MAZE_PUBLIC_HEADERS
-    ../include/Maze/DllSupport.hpp
+    ../include/Maze/DLLSupport.hpp
     ../include/Maze/Maze.hpp
     ../include/Maze/Helpers.hpp
 )
