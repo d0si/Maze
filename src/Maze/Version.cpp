@@ -1,3 +1,4 @@
+#include <Maze/Maze.hpp>
 #include <Maze/Version.hpp>
 #include <string>
 
